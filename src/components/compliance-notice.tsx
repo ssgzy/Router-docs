@@ -11,14 +11,7 @@ export function ComplianceNotice({ lang }: { lang: string }) {
         <span className="shrink-0">⚠️</span>
         <span>
           合规提示：本项目仅用于合法授权的 API
-          网关、内部管理和私有化部署场景。请遵守上游服务条款、平台规则、监管要求和内容安全要求。使用前请阅读
-          <Link
-            href="/zh/docs/legal/acceptable-use"
-            className="underline font-medium hover:text-amber-900 dark:hover:text-amber-100"
-          >
-            《合规与可接受使用政策》
-          </Link>
-          。
+          网关、内部管理和私有化部署场景。请遵守上游服务条款、平台规则、监管要求和内容安全要求。
         </span>
       </div>
     </div>
