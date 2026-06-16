@@ -1,20 +1,97 @@
 ---
 title: Pricing
-description: View model pricing and billing details for the platform
+description: Understand how Code Router displays model pricing, quotas, and usage-based billing
 ---
 
-The pricing page shows the billing multipliers for all available models. No login required.
+Code Router is an OpenAI-compatible AI gateway. The Pricing page shows the billing rate for each available model so you can estimate how much quota a request will consume before you call it.
 
-1. Click "Pricing" in the left sidebar, or visit `/pricing` directly
+<Callout type="warn">
+This is a demo deployment. The concrete prices, currency, top-up amounts, and payment methods shown in the UI are **not finalized**. Treat any numbers you see as placeholders. (定价 / 费率待补 — pricing TBD.)
+</Callout>
 
-![Pricing page overview](/assets/guide/feature-guide/pricing.png)
+## Where to find it
 
-2. The page lists all available models — each row shows the model name, input price, and output price
-3. Use the search box at the top of the page to enter a model name keyword and quickly locate a specific model's price
+<Steps>
 
-## Price Explanation
+<Step>
+Open the **Pricing** entry in the left sidebar, or visit the `/pricing` path directly. The pricing list is generally viewable without logging in.
+</Step>
 
-- **Input price**: Quota consumed per 1K input tokens
-- **Output price**: Quota consumed per 1K output tokens
-- Actual consumption = token count ÷ 1000 × unit price
-- Users in different groups may have different billing multipliers — check your balance change on the top-up page for the actual deduction
+<Step>
+The page lists the available models. Each row shows the model name along with its **input rate** and **output rate** (the per-token quota the model consumes).
+</Step>
+
+<Step>
+Use the search box at the top to filter by a model-name keyword and jump to a specific model's rate.
+</Step>
+
+</Steps>
+
+<Callout type="info">
+The model list, rates, and which models you can see depend on your **model group** and **token group**. Different groups may resolve to different billing multipliers, so the rate you see can differ from another account. Actual rates for this demo are still being decided (费率待补 — rates TBD).
+</Callout>
+
+## How billing works
+
+Code Router bills on a usage basis, measured in **quota** units. The conceptual model is the same as any OpenAI-compatible gateway:
+
+- **Input rate** — quota consumed per unit of input (prompt) tokens.
+- **Output rate** — quota consumed per unit of output (completion) tokens.
+- **Per-request cost** ≈ (input tokens × input rate) + (output tokens × output rate). Some models or endpoints may add a fixed per-call component.
+- **Group multipliers** — your model/token group can apply a multiplier on top of the base rate, so two users may pay different amounts for the same model.
+
+<Callout type="warn">
+The exact unit prices, the size of a "unit" of tokens, the multiplier values, and the currency are **TBD for this demo** (单价 / 倍率 / 货币待补). Do not rely on any displayed amount as a real charge.
+</Callout>
+
+## Quotas and balance
+
+Each key/token can carry a remaining quota, and your account carries an overall balance. When you call the API:
+
+1. The gateway resolves the requested model to a provider channel based on your group.
+2. It checks any applicable limits (per-token remaining quota, account balance, and rate/usage limits).
+3. After a successful response, it deducts the computed cost from your remaining quota/balance and records the usage.
+
+You can review consumed quota and per-request detail on your **usage / logs** page. The displayed balance change reflects the actual deduction for that request.
+
+## Top-up and payment
+
+<Callout type="warn">
+Top-up flows and payment methods are **not configured in this demo**. No specific payment provider, balance amount, or purchase tier shown here should be treated as real or available (充值方式 / 支付渠道 / 金额待补 — top-up & payment TBD).
+</Callout>
+
+When top-up is enabled, the typical flow is:
+
+<Steps>
+
+<Step>
+Go to the top-up / wallet page from your account menu.
+</Step>
+
+<Step>
+Choose an amount or package (amounts and packages: 待补 — TBD).
+</Step>
+
+<Step>
+Complete payment through the configured method (method: 待补 — TBD), after which your balance updates and the new quota becomes available to your keys.
+</Step>
+
+</Steps>
+
+## FAQ
+
+<Accordions>
+
+<Accordion title="Why is the rate I see different from someone else's?">
+Rates are resolved per **model group** and **token group**, and a group can apply a multiplier. Different accounts can therefore see different rates for the same model.
+</Accordion>
+
+<Accordion title="How do I estimate cost before calling?">
+Look up the model's input and output rates on the Pricing page and apply: (input tokens × input rate) + (output tokens × output rate). Because the demo's unit prices are TBD, use this only as a formula, not a real amount.
+</Accordion>
+
+<Accordion title="Where do I report incorrect or missing pricing?">
+Open an issue in the source repository: [github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api).
+</Accordion>
+
+</Accordions>

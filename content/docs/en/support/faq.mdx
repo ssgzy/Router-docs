@@ -1,116 +1,133 @@
 ---
 title: FAQ
+description: Frequently asked questions about Code Router — quotas, channels, connecting your client, and deployment.
 ---
 
 import { Accordions, Accordion } from 'fumadocs-ui/components/accordion';
+import { Callout } from 'fumadocs-ui/components/callout';
 
-## 💰 Quota-Related Issues
+Code Router is a unified, OpenAI-compatible AI gateway. You get one API key and one base URL to call many model providers, with model groups, token groups, quotas, and usage tracking. The questions below cover the most common topics.
+
+<Callout type="info">
+  Code Router is a brand-new demo. Anything involving prices, payment, contacts, or other operational specifics is still to be determined (TBD) and is noted as such below.
+</Callout>
+
+## Getting started
 
 <Accordions>
-  <Accordion title="What is quota? How is it calculated?">
-    The quota calculation formula is as follows:
-
-    ```
-    Quota = Group Ratio * Model Ratio * (Prompt Token Count + Completion Token Count * Completion Ratio)
-    ```
-
-    **Completion Ratio Explanation:**
-    - GPT3.5: Fixed at 1.33
-    - GPT4: Fixed at 2 (consistent with official)
-
-    **Notes:**
-    - In non-streaming mode, the official API returns the total tokens consumed, but the consumption ratios for prompt and completion are different.
-    - The default ratio of New API is consistent with the official ratio and has been adjusted.
+  <Accordion title="What is Code Router?">
+    Code Router is an OpenAI-compatible AI gateway (a relay/aggregator). Instead of integrating each model provider separately, you point your existing OpenAI-compatible client at Code Router using a single base URL and a single API key, and Code Router routes the request to the appropriate upstream provider channel.
   </Accordion>
 
-  <Accordion title="Why does it prompt insufficient quota when the account quota is sufficient?">
-    This is because token quota and account quota are separate:
+  <Accordion title="How do I get an API key?">
+    Sign in to the Code Router console, open the token/key management page, and create a new token. The generated key is what you place in your client's `Authorization: Bearer <key>` header. Keep it secret; treat it like a password.
+  </Accordion>
 
-    - Token quota is only used to set the maximum usage limit.
-    - Users can freely set the token quota.
-    - Please check if your token quota is sufficient.
+  <Accordion title="What base URL do I use?">
+    Use your Code Router deployment's base URL. For an OpenAI-compatible client, the endpoint is:
+
+    ```
+    https://api.code-router.example/v1
+    ```
+
+    Set this as the API base (sometimes called "base URL", "API host", or "endpoint") in your client, and use your Code Router token as the API key. Most clients append paths such as `/chat/completions` automatically.
+  </Accordion>
+
+  <Accordion title="Which endpoints are supported?">
+    Code Router exposes OpenAI-compatible endpoints under `/v1`, including model listing and chat completions (streaming and non-streaming). Exact endpoint coverage depends on what the configured upstream providers support. If your client speaks the OpenAI API, it should work without code changes — only the base URL and key change.
   </Accordion>
 </Accordions>
 
-## 🔧 Channel Configuration Issues
+## Quota-related questions
 
 <Accordions>
-  <Accordion title="What are Weight and Priority in Channels?">
-    Weight and Priority are two important parameters that control the order and distribution of channel usage:
+  <Accordion title="What is quota and how is it calculated?">
+    Quota is the internal unit Code Router uses to meter usage. Consumption for a request is derived from the number of prompt tokens and completion tokens, adjusted by the ratios configured for the model and group. The general shape is:
 
-    - **Priority**: A larger number indicates higher priority; channels with higher priority will be used first.
-    - **Weight**: Among channels with the same priority, requests are distributed according to the weight ratio.
+    ```
+    Quota = Group Ratio × Model Ratio × (Prompt Tokens + Completion Tokens × Completion Ratio)
+    ```
 
-    **For example:**
-    - Channels with priority 2 will be used before channels with priority 1.
-    - For two channels with the same priority 1, if the weight ratio is 2:1, requests will be distributed in a 2:1 ratio.
+    The specific ratios depend on your deployment's configuration in the operation/model settings.
+
+    <Callout type="warn">
+      Pricing, currency, and rate values are TBD for this demo. Do not treat any number here as a real price. (pricing TBD)
+    </Callout>
   </Accordion>
 
-  <Accordion title="Prompt: No available channels?">
-    Please check the following settings:
+  <Accordion title="Why do I see 'insufficient quota' when my account quota looks fine?">
+    Token quota and account quota are tracked separately:
 
-    1. User Group Settings
-    2. Channel Group Settings
-    3. Channel Model Settings
+    - **Account quota** is the balance for your whole account.
+    - **Token quota** is an optional per-token (per-key) cap you set when creating a key.
+
+    If a specific key has its own quota limit set, requests using that key can fail even when the account balance is sufficient. Check the per-token quota on the key you are using.
+  </Accordion>
+</Accordions>
+
+## Channel configuration
+
+<Accordions>
+  <Accordion title="What are Weight and Priority on a channel?">
+    These two parameters control routing among channels:
+
+    - **Priority**: A higher number means higher priority; higher-priority channels are tried first.
+    - **Weight**: Among channels that share the same priority, traffic is distributed in proportion to weight.
+
+    For example, a priority-2 channel is used before a priority-1 channel. Among two priority-1 channels with weights 2 and 1, requests are distributed roughly 2:1.
+  </Accordion>
+
+  <Accordion title="I get 'no available channels' — what should I check?">
+    Verify these settings line up:
+
+    1. The user group assigned to your account.
+    2. The group configured on the channel.
+    3. The model list enabled on the channel (the requested model must be one the channel serves).
+
+    A request only routes to a channel when the group and model both match.
   </Accordion>
 
   <Accordion title="Channel test error: invalid character '<' looking for beginning of value">
-    This error indicates that the return value is not valid JSON, but an HTML page.
-
-    The most likely reason is: Your deployment site's IP or proxy node has been blocked by CloudFlare.
+    This means the upstream returned an HTML page instead of JSON. Common causes are an upstream error page, an authentication/redirect page, or a network filter sitting between your deployment and the provider. Confirm the upstream URL, key, and network egress are correct.
   </Accordion>
 
-  <Accordion title="Channel test error: Ratio or price not configured, please contact the administrator to set it.">
-    Please check if the ratio or price has been configured in "System Settings - Operation Settings - Model Ratio Settings".
-
-    Or enable "Self-use Mode" in "System Settings - Operation Settings".
+  <Accordion title="Channel test error: ratio or price not configured">
+    Configure the model's ratio or price in the operation/model settings before using the channel, or enable the relevant self-use mode if your deployment offers one. Until a model has a configured ratio, requests for it cannot be metered.
   </Accordion>
 </Accordions>
 
-## 🌐 Deployment and Connection Issues
+## Connecting clients and deployment
 
 <Accordions>
-  <Accordion title="ChatGPT Next Web error: Failed to fetch">
-    Please check the following:
+  <Accordion title="My OpenAI-compatible client shows 'Failed to fetch'">
+    Check the following:
 
-    1. Do not set `BASE_URL` during deployment.
-    2. Confirm that the API address and API Key are filled in correctly.
-    3. Check if HTTPS is enabled (browsers will block HTTP requests under HTTPS domains).
+    1. Set the base URL to your Code Router endpoint (for example `https://api.code-router.example/v1`) and avoid leaving a conflicting base URL elsewhere in the client.
+    2. Confirm the API address and API key are entered correctly.
+    3. If your site is served over HTTPS, make sure the API endpoint is also HTTPS — browsers block plain HTTP requests made from an HTTPS page.
   </Accordion>
 
-  <Accordion title="Error: Current group load is saturated, please try again later.">
-    This indicates that an upstream channel encountered a 429 error (Too Many Requests).
-  </Accordion>
-</Accordions>
-
-## 📦 Database and Upgrade Issues
-
-<Accordions>
-  <Accordion title="Will my data be lost after upgrading?">
-    It varies depending on the database type:
-
-    - **MySQL**: Data will not be lost.
-    - **SQLite**: You need to mount a volume according to the deployment command to persist the `one-api.db` database file, otherwise data will be lost after the container restarts.
+  <Accordion title="Error: upstream returned 429 (rate limited)">
+    A 429 means an upstream provider is temporarily rate-limiting requests (too many requests). Retry after a short delay, spread traffic across additional channels, or reduce request rate. General rate-limit behavior depends on the upstream provider's limits.
   </Accordion>
 
-  <Accordion title="Does the database need to be changed before upgrading?">
-    Generally, no. The system will automatically adjust during initialization.
+  <Accordion title="Will my data be lost when I upgrade?">
+    It depends on how your database is stored:
 
-    If special handling is required, it will be explained in the update log and corresponding scripts will be provided.
-  </Accordion>
+    - **External database (e.g. MySQL/Postgres)**: Data persists across upgrades.
+    - **SQLite**: Persist the database file on a mounted volume per your deployment instructions; otherwise data is lost when the container is recreated.
 
-  <Accordion title="Error after manually modifying the database: Database consistency has been corrupted, please contact the administrator?">
-    This error indicates that invalid channel ID records were detected in the `ability` table. Common reasons:
-
-    - Invalid channels in the `ability` table were not cleaned up synchronously when deleting `channel` table records.
-    - Each model supported by a channel needs to have a corresponding record in the `ability` table.
+    Schema changes are generally applied automatically on startup. If a release needs manual steps, those will be called out in its notes.
   </Accordion>
 </Accordions>
 
-## ❓ Can't find your question?
+## Can't find your question?
 
-If your question is not answered here, you are welcome to:
+If your question isn't answered here, you can:
 
-1. Check the [Installation and Deployment Documentation](/en/docs/installation)
-2. [Submit an issue on GitHub](/en/docs/support/feedback-issues)
-3. Join the [QQ communication group for help](/en/docs/support/community-interaction)
+1. Review the rest of this documentation.
+2. Open an issue on the source repository: [github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api).
+
+<Callout type="info">
+  Support channels (community, contact details, etc.) are TBD for this demo. (contact info TBD)
+</Callout>

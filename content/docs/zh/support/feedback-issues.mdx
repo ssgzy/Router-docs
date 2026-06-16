@@ -1,24 +1,35 @@
-﻿---
+---
 title: 问题反馈
+description: 如何向 Code Router 反馈问题、提交功能请求，以及获取社区支持。
 ---
 
-我们非常重视您的反馈，它们对项目的改进至关重要。如果您在使用过程中遇到任何问题，请通过GitHub Issues向我们反馈。
+我们非常重视您的反馈，它们对 Code Router 的改进至关重要。如果您在使用过程中遇到任何问题，请通过 GitHub Issues 向我们反馈。
+
+<Callout type="info" title="支持渠道说明">
+  Code Router 目前处于早期阶段，官方支持渠道仍在搭建中。现阶段最可靠的反馈方式是源码仓库的 GitHub Issues；其他社区渠道（如交流群、邮件等）待补 / TBD。
+</Callout>
 
 ## 📝 如何提交问题
 
-请访问我们的GitHub Issues页面：[New API Issues](https://github.com/Calcium-Ion/new-api/issues)
+请访问 Code Router 源码仓库的 Issues 页面：[Code Router Issues](https://github.com/ssgzy/Router-new-api/issues)
 
-<Callout type="info" title="提交问题前的检查">
-  在提交新的issue之前，建议您：
-</Callout>
+提交新的 issue 之前，建议您：
 
-    1. 搜索是否已经存在类似的问题
-    2. 确保使用的是最新版本
-    3. 检查 [常见问题文档](/zh/docs/support/faq) 中是否已有相关解答
-
-![feedback-issues](/assets/issues.png)
+<Steps>
+<Step>
+搜索是否已经存在类似的问题或讨论。
+</Step>
+<Step>
+确认使用的是最新版本，并尽量在最小可复现环境中重现问题。
+</Step>
+<Step>
+查看 [常见问题文档](/zh/docs/support/faq) 中是否已有相关解答。
+</Step>
+</Steps>
 
 ## 💡 问题反馈模板
+
+为帮助维护者快速定位问题，请尽量按以下模板填写。
 
 ### 报告问题的格式
 
@@ -40,8 +51,13 @@ title: 问题反馈
 
 **预期结果**
 
-**相关截图**
-如果没有的话，请删除此节。
+**实际结果**
+
+**运行环境**
+（部署方式、版本、所用模型分组 / 令牌分组等）
+
+**相关日志或截图**
+如果没有的话，请删除此节。请注意脱敏，切勿粘贴真实 API Key、Base URL 凭据等敏感信息。
 ```
 
 ### 功能请求的格式
@@ -64,8 +80,8 @@ title: 问题反馈
 ```
 
 <Callout type="warn" title="注意事项">
-  - 请严格按照模板格式提交issue - 请使用清晰的标题，方便其他用户搜索 -
-  请及时关注和回复您提交的issue - 不符合规范的issue可能会被直接关闭 -
-  如果问题已解决，请及时关闭issue
-  - issue / PR / discussion 应符合项目合规政策和社区规则，维护者将按规则处理不符合要求的内容
+  - 请严格按照模板格式提交 issue，并使用清晰的标题，方便其他用户搜索。
+  - 请及时关注和回复您提交的 issue；不符合规范的 issue 可能会被直接关闭。
+  - 如果问题已解决，请及时关闭 issue。
+  - issue / PR / discussion 应符合项目合规政策和社区规则，维护者将按规则处理不符合要求的内容。
 </Callout>

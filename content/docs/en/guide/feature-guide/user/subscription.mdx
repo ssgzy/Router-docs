@@ -1,28 +1,66 @@
 ---
 title: Subscription Plans
-description: Periodic quota packages suitable for users with stable usage needs
+description: Periodic quota packages in Code Router for users with steady, recurring usage
 ---
 
-Subscriptions are periodic packages. After purchase, you enjoy the included quota or privileges for the duration. Click "Subscription" in the left sidebar, or visit `/console/subscription` directly.
+Subscriptions are periodic packages. After purchase, you enjoy the included quota or privileges for the duration of the plan's cycle. Open **Subscription** in the left sidebar of the Code Router console, or visit `/console/subscription` directly.
 
-![Subscription plans list](/assets/guide/feature-guide/subscription-plans.png)
+<Callout type="warn">
+Code Router is a brand-new demo. The concrete plans, prices, cycles, included-quota amounts, and payment methods shown here are **not finalized yet** — every amount below is a placeholder marked *(TBD / 待补)*. Do not treat any figure as a real offer.
+</Callout>
 
-The subscription list displays all available packages, including package name, price, validity period, and included quota.
+The subscription list displays the available packages. For each package you would typically see:
 
-Subscription packages offer periodic quota bundles available in daily, weekly, monthly, and other cycles.
+- **Plan name** — a label for the package.
+- **Price** — *(pricing TBD / 价格待补)*.
+- **Billing cycle / validity** — e.g. daily, weekly, or monthly *(cycles TBD / 周期待补)*.
+- **Included quota** — the amount of usage the plan grants for the cycle *(quota amounts TBD / 额度待补)*.
+
+Conceptually, a subscription bundles a recurring quota that resets or applies each cycle, as an alternative to topping up a pay-as-you-go balance. Both ultimately fund the same thing: calls you make through your API key against the OpenAI-compatible endpoint at `https://api.code-router.example/v1`.
 
 ## Purchase a Subscription
 
-1. Browse the available plans on the subscription page and review each plan's price, duration, and included quota
-2. Click "Purchase" on the plan you want
+<Steps>
 
-3. Select a payment method and click "Confirm Payment"
-4. After payment, you are redirected back automatically and the subscription status updates to active
+<Step>
+Browse the available plans on the subscription page and review each plan's price, cycle, and included quota. *(All concrete values TBD for this demo.)*
+</Step>
+
+<Step>
+Click **Purchase** on the plan you want.
+</Step>
+
+<Step>
+Select a payment method and confirm. *(Available payment methods are not finalized — payment provider TBD / 支付方式待补.)*
+</Step>
+
+<Step>
+After payment is confirmed, you are returned to the console automatically and the subscription status updates to active.
+</Step>
+
+</Steps>
+
+<Callout type="info">
+Because this is a demo build, no real payment is processed and no specific payment provider is offered yet. Treat the purchase flow above as a UI walkthrough only.
+</Callout>
 
 ## View Current Subscription Status
 
-After purchasing, the top of the subscription page shows your current plan details:
+Once a plan is active, the top of the subscription page shows your current subscription details:
 
-- Plan name and expiration date
-- Remaining quota in the plan
-- Auto-renewal toggle: set whether to renew automatically when the plan expires
+- **Plan name and expiration date** — when the current cycle ends.
+- **Remaining quota** — how much of the plan's included quota is left for the cycle.
+- **Auto-renewal toggle** — choose whether the plan renews automatically when it expires.
+
+## How quota is consumed
+
+A subscription's included quota is spent the same way as a regular balance: each call to a model group draws down quota according to that model's rate. The exact per-model rates are **TBD / 费率待补** for this demo. To inspect what each request actually consumed, use the usage and logs views in the console.
+
+<Cards>
+  <Card title="Top-up balance" href="/docs/en/guide/feature-guide/user/topup" />
+  <Card title="Usage & logs" href="/docs/en/guide/feature-guide/user/log" />
+</Cards>
+
+## Feedback
+
+Found a problem with this page or the subscription flow? Open an issue on the source repository: [github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api/issues).

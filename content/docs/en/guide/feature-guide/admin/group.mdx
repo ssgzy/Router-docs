@@ -1,20 +1,68 @@
 ---
 title: Group Management
-description: Groups isolate channel access permissions and billing multipliers for different users
+description: Groups isolate channel access and apply billing multipliers for different users in Code Router
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps, Step } from 'fumadocs-ui/components/steps';
 
-Groups isolate channel access permissions and billing multipliers for different users — users in different groups can only access channels assigned to their group. Log in with an admin account and find the "Groups" entry in System Settings or the admin panel.
+In Code Router, **groups** isolate channel access and let you apply a billing multiplier per group. Users in a given group can only reach the channels assigned to that group, so you can separate tiers of users, route premium traffic to specific upstreams, or run failover pools.
 
-The group list shows all configured group names. Both users and tokens can be assigned to a specific group, and channels can be restricted to specific groups.
+Log in with an admin account and open the **Groups** entry under System Settings (or the admin panel) to view, add, or edit groups. The group list shows every configured group name; both users and tokens can be assigned to a group, and channels can be restricted to one or more groups.
 
-## How Groups Are Used
+## How groups connect users, tokens, and channels
 
-- **User group**: Assign a group to a user when editing them in User Management
-- **Token group**: Specify the channel group a token uses when creating a token
-- **Channel group**: Enter the allowed group name(s) in the "Group" field when adding a channel
+A request is matched to a channel by comparing the **token's group** against the **channel's group**. Editing where a group is set in each of these three places controls the routing:
+
+- **User group** — assign a group to a user when editing them in User Management. This becomes the user's default group.
+- **Token group** — specify which channel group a token uses when creating the token. This is what actually drives routing at request time.
+- **Channel group** — enter the allowed group name(s) in the **Group** field when adding or editing a channel. A channel can belong to several groups.
 
 <Callout type="info">
-  When a token's group is set to `auto`, the system automatically selects an available group in priority order — useful for cross-group failover scenarios.
+  When a token's group is set to `auto`, Code Router automatically selects an available group in priority order. This is useful for cross-group failover: if the preferred group's channels are unavailable, the next eligible group is tried.
 </Callout>
+
+## Create and assign a group
+
+<Steps>
+<Step>
+**Add the group.** In **Groups**, create a group with a clear name (for example `default`, `pro`, or `internal`). Set its billing multiplier if your deployment uses per-group pricing — leave pricing values at their defaults until you have a confirmed rate (pricing TBD).
+</Step>
+<Step>
+**Tag the channels.** Open each channel that should serve this group and add the group name to the channel's **Group** field.
+</Step>
+<Step>
+**Point tokens at it.** When users create an API key, they select the group the token should use, or set it to `auto` for automatic selection.
+</Step>
+<Step>
+**Verify routing.** Send a request with the token to your Code Router base URL and confirm it lands on the expected channel.
+</Step>
+</Steps>
+
+## Billing multipliers
+
+Each group can carry a multiplier that scales the cost of requests routed through it (for example, a discounted internal group or a higher-priced premium group). Code Router multiplies the channel's per-token rate by this value when recording usage.
+
+<Callout type="warn">
+  Concrete rates and multiplier values for this deployment are not finalized yet (pricing TBD). Configure them deliberately before exposing groups to end users.
+</Callout>
+
+## Quick check with the API
+
+Once a token is assigned to a group, you can confirm access against the OpenAI-compatible endpoint. Replace the placeholder host with your real deployment host.
+
+```bash
+curl https://api.code-router.example/v1/chat/completions \
+  -H "Authorization: Bearer sk-your-token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "your-model-name",
+    "messages": [{"role": "user", "content": "ping"}]
+  }'
+```
+
+If the token's group does not include a channel that can serve the requested model, the request is rejected — review the group assignments on the token and the channel.
+
+## Feedback
+
+Found an issue with group behavior or this guide? Open an issue at the source repository: [github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api).

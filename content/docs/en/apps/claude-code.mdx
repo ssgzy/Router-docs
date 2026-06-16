@@ -1,425 +1,244 @@
 ---
 title: Claude Code
-description: Claude Code configuration guide — use Anthropic's terminal-based coding agent with New API. Supports code understanding, multi-file editing, and IDE integration.
+description: Configure Claude Code, Anthropic's terminal coding agent, to route requests through Code Router using an Anthropic-compatible base URL and your Code Router API key.
 ---
 
-<Callout type="info" title="Project Introduction">
-  Unleash Claude's raw power directly in your terminal. Search million-line codebases instantly. Turn hours-long workflows into a single command. Your tools. Your workflow. Your codebase, evolving at thought speed.
+<Callout type="info" title="What is Claude Code?">
+  Claude Code is Anthropic's terminal-based coding agent. It reads and edits files across a
+  project, runs commands, and works directly from your shell.
 
-  - Official Homepage: [https://www.anthropic.com/claude-code](https://www.anthropic.com/claude-code)
+  Because Claude Code honors standard Anthropic-compatible environment variables, you can point
+  it at **Code Router** instead of Anthropic's default endpoint. Code Router then forwards your
+  requests to whichever upstream model provider is configured behind your key.
+
+  - Official Claude Code site: [https://www.anthropic.com/claude-code](https://www.anthropic.com/claude-code)
 </Callout>
 
-## Demo
+## How it works
 
-![introduce-01.webp](/assets/claude_code/introduce-01.webp)
+Code Router exposes an OpenAI-compatible gateway (and an Anthropic-compatible surface for tools
+like Claude Code). You get **one API key** and **one base URL**; Code Router resolves the
+requested model to an upstream provider and tracks usage against your key.
 
-![introduce-02.webp](/assets/claude_code/introduce-02.webp)
+To make Claude Code use Code Router, you set two environment variables before launching it:
 
-### Features
+| Variable | Value |
+| --- | --- |
+| `ANTHROPIC_BASE_URL` | `https://api.code-router.example` |
+| `ANTHROPIC_AUTH_TOKEN` | Your Code Router API key (looks like `sk-...`) |
 
-| **Category**                       | **Feature**                                                                                                        |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| **Code Understanding**             | Deep codebase analysis, utilizing intelligent agents to search and understand project structure and dependencies |
-|                                    | Automatically generates high-level code overviews, quickly helping users understand the codebase                 |
-| **Code Editing**                   | Supports multi-file collaborative editing, suitable for complex code modifications                               |
-|                                    | Provides practical and usable code suggestions that align with project patterns and architecture                 |
-| **Integration Capabilities**       | Supports direct execution in the terminal, eliminating context switching                                         |
-|                                    | Seamless integration with VS Code and JetBrains IDEs, no copy-pasting required                                   |
-| **Code Generation & Optimization** | Automatically generates code, creates tests, fixes bugs, supporting the complete process from concept to commit  |
-|                                    | Optimized for code generation and understanding, combining advanced models like Claude Opus 4                    |
-| **Security & Flexibility**         | Changes require explicit user authorization, ensuring safer file and command operations                          |
-|                                    | Adapts to user code standards, supports custom configurations                                                    |
-| **Toolchain Integration**          | Supports integration with tools like GitHub and GitLab to achieve automated workflows                            |
-|                                    | Integrates with test suites and build systems, enhancing existing development tools                              |
-| **Cross-Platform & Extensibility** | Supports Windows, macOS, and Linux operating systems                                                             |
-|                                    | Configurable to run in SDKs or GitHub Actions, flexibly adapting to different needs                              |
-| **Key Application Scenarios**      | Codebase onboarding and understanding, quick ramp-up for new members                                             |
-|                                    | Code issue fixing and optimization processes, from problem analysis to PR submission                             |
-|                                    | Project code refactoring and new feature implementation                                                          |
-| **User Feedback Highlights**       | Improves daily development efficiency, saving time spent on routine tasks                                        |
-|                                    | Excellent performance in handling complex multi-step tasks, expanding development possibilities                  |
-
-## AI Model Configuration Method
-
-### Windows Graphical Guide
-
-#### 1. Install Node.js Environment
-
-Claude Code requires a Node.js environment to run.
-
-<Callout type="info" title="Node.js Environment Installation Steps">
-  - Open your browser and visit https://nodejs.org/
-  - Click the "LTS" version to download (Long Term Support version recommended)
-  - After downloading, double-click the .msi file
-  - Follow the installation wizard to complete the installation, keeping default settings
+<Callout type="warn" title="Where do these values come from?">
+  - The **base URL** above is a demo placeholder. Use the base URL of the Code Router deployment
+    you actually connect to.
+  - The **API key** is the key you create in your Code Router account. Treat it like a password.
+  - Which underlying models are available, and any usage limits, depend on your Code Router
+    deployment's configuration. (Available model list and limits: TBD / 待补)
 </Callout>
 
-<Callout type="warn" title="Windows Notes">
-  - It is recommended to use PowerShell instead of CMD
-  - If you encounter permission issues, try running as administrator
-  - Some antivirus software may report false positives; you may need to add an exception
-</Callout>
+## Prerequisites
 
-![windows-img-01.webp](/assets/claude_code/windows-img-01.webp)
+<Steps>
+<Step>
+### A Code Router API key
 
-![windows-img-02.webp](/assets/claude_code/windows-img-02.webp)
+Create a key in your Code Router account and copy it. It will look like `sk-...`.
+</Step>
+<Step>
+### Node.js (recommended)
 
-![windows-img-03.webp](/assets/claude_code/windows-img-03.webp)
+Claude Code runs on Node.js. Install the current LTS release from
+[https://nodejs.org/](https://nodejs.org/) if you don't already have it. Verify with:
 
-![windows-img-04.webp](/assets/claude_code/windows-img-04.webp)
+```bash
+node --version
+npm --version
+```
+</Step>
+</Steps>
 
-![windows-img-05.webp](/assets/claude_code/windows-img-05.webp)
+## Install Claude Code
 
-<Callout type="info" title="Verify Installation Success">
-  After installation, open PowerShell or CMD and enter the following commands:
+<Tabs items={["macOS / Linux", "Windows"]}>
+<Tab value="macOS / Linux">
 
-  ```bash
-  node --version
-  npm --version
-  ```
+Install via the official script:
 
-  If version numbers are displayed, the installation was successful.
-</Callout>
-
-#### 2. Install Git Bash
-
-<Callout type="warn" title="Windows Notes">
-  In a Windows environment, Git Bash is required to install Claude Code. After installation, environment variable setup and using Claude Code will still be done in regular PowerShell or CMD.
-</Callout>
-
-<Callout type="info" title="Download and Install Git for Windows">
-  - Visit https://git-scm.com/downloads/win
-  - Click "Download for Windows" to download the installer
-  - Run the downloaded .exe installation file
-  - Keep default settings during installation, and click "Next" to complete the installation
-</Callout>
-
-![windows-img-06.webp](/assets/claude_code/windows-img-06.webp)
-
-![windows-img-07.webp](/assets/claude_code/windows-img-07.webp)
-
-![windows-img-08.webp](/assets/claude_code/windows-img-08.webp)
-
-<Callout type="info" title="Verify Git Bash Installation">
-  After installation, open Git Bash and enter the following command to verify:
-
-  ```bash
-  git --version
-  ```
-
-  If a version number is displayed, the installation was successful.
-</Callout>
-
-#### 3. Install Claude Code
-
-<Callout type="info" title="Install Claude Code">
-  Open PowerShell and run the following command:
-
-  ```bash
-  npm install -g @anthropic-ai/claude-code
-  ```
-
-  This command will download and install the latest version of Claude Code from the official npm repository.
-</Callout>
-
-![windows-img-09.webp](/assets/claude_code/windows-img-09.webp)
-
-<Callout type="info" title="Add ~/.local/bin to PATH (only if prompted)">
-  ```powershell
-  [Environment]::SetEnvironmentVariable('Path', ([Environment]::GetEnvironmentVariable('Path','User') + ";$HOME\.local\bin"), 'User')
-  ```
-</Callout>
-
-<Callout type="info" title="Verify Claude Code Installation">
-  After installation, enter the following command to check if it was successfully installed:
-
-  ```bash
-  claude --version
-  ```
-
-  If a version number is displayed, congratulations! Claude Code has been successfully installed.
-</Callout>
-
-#### 4. Set Environment Variables
-
-<Callout type="info" title="One-Click Setup Command (Windows System)">
-  To allow Claude Code to connect to your relay service, you need to set multiple environment variables:
-</Callout>
-
-```powershell
-iex (irm 'https://raw.githubusercontent.com/QuantumNous/new-api-docs/refs/heads/main/helper/claude-cli-setup.ps1')
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-![windows-configure](/assets/claude_code/windows_configure.png)
+If `claude` isn't found afterward, add the install directory to your `PATH`:
 
-#### 5. Start Using Claude Code
+```bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+```
 
-You can now start using Claude Code!
+Verify the install:
 
-<Callout type="info" title="Launch Claude Code">
-  Open PowerShell and launch Claude Code directly:
+```bash
+claude --version
+```
 
-  ```bash
-  claude
-  ```
+</Tab>
+<Tab value="Windows">
 
-  To use in a specific project:
+On Windows, install Claude Code via npm in PowerShell:
 
-  ```bash
-  # Navigate to your project directory
-  cd C:\path\to\your\project
+```powershell
+npm install -g @anthropic-ai/claude-code
+```
 
-  # Launch Claude Code
-  claude
-  ```
+<Callout type="info" title="Windows notes">
+  - PowerShell is recommended over CMD.
+  - If you hit permission errors, try running the terminal as Administrator.
+  - If prompted that `~/.local/bin` is not on your `PATH`, add it:
+
+    ```powershell
+    [Environment]::SetEnvironmentVariable('Path', ([Environment]::GetEnvironmentVariable('Path','User') + ";$HOME\.local\bin"), 'User')
+    ```
 </Callout>
 
-![windows-img-11.webp](/assets/claude_code/windows-img-11.webp)
+Verify the install:
 
-![windows-img-12.webp](/assets/claude_code/windows-img-12.webp)
+```powershell
+claude --version
+```
 
-![windows-img-13.webp](/assets/claude_code/windows-img-13.webp)
+</Tab>
+</Tabs>
 
-![windows-img-14.webp](/assets/claude_code/windows-img-14.webp)
+## Point Claude Code at Code Router
 
-![windows-img-15.webp](/assets/claude_code/windows-img-15.webp)
+Set the two environment variables, then launch `claude`.
 
-<Callout type="info" title="Select Model">
-  Enter the command:
+<Tabs items={["macOS / Linux", "Windows (PowerShell)"]}>
+<Tab value="macOS / Linux">
 
-  ```bash
-  /model
-  ```
+Set the variables for your current shell session:
 
-  Press Enter to select a model; usually, the default settings are sufficient.
+```bash
+export ANTHROPIC_BASE_URL="https://api.code-router.example"
+export ANTHROPIC_AUTH_TOKEN="sk-..."   # your Code Router API key
+```
+
+To make the change permanent, append those two `export` lines to your shell profile
+(`~/.bashrc` or `~/.zshrc`), then reload it:
+
+```bash
+source ~/.bashrc   # or: source ~/.zshrc
+```
+
+</Tab>
+<Tab value="Windows (PowerShell)">
+
+Set the variables for the current session:
+
+```powershell
+$env:ANTHROPIC_BASE_URL = "https://api.code-router.example"
+$env:ANTHROPIC_AUTH_TOKEN = "sk-..."   # your Code Router API key
+```
+
+To persist them across sessions:
+
+```powershell
+[Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://api.code-router.example', 'User')
+[Environment]::SetEnvironmentVariable('ANTHROPIC_AUTH_TOKEN', 'sk-...', 'User')
+```
+
+Close and reopen PowerShell so the persisted values take effect.
+
+</Tab>
+</Tabs>
+
+<Callout type="warn" title="This redirects all requests">
+  Once `ANTHROPIC_BASE_URL` points at Code Router, Claude Code sends **all** model traffic
+  through Code Router rather than Anthropic's default endpoint. Usage is billed/accounted against
+  your Code Router key, not an Anthropic subscription.
 </Callout>
 
-![windows-img-16.webp](/assets/claude_code/windows-img-16.webp)
+## Run it
 
-![windows-img-17.webp](/assets/claude_code/windows-img-17.webp)
+```bash
+# Launch in the current directory
+claude
 
-> Note: After modifying environment variables, all models (including officially preset models) will call the custom access point instead of using official account quotas.
+# Or open a specific project
+cd /path/to/your/project
+claude
+```
 
-### macOS Graphical Guide
+To choose a model from inside the session:
 
-#### 1. Install Claude Code CLI
+```bash
+/model
+```
 
-Open Terminal
+Pick from the models your Code Router deployment exposes. The exact model names and which ones
+are available depend on your deployment's configuration (model list: TBD / 待补).
 
-![macos-img-01.webp](/assets/claude_code/macos-img-01.webp)
+## Verify the connection
 
-<Callout type="info" title="Install Claude Code">
-  Open Terminal and run the following command:
+A quick way to confirm Claude Code is talking to Code Router:
 
-  ```bash
-  curl -fsSL https://claude.ai/install.sh | bash
-  ```
+```bash
+echo $ANTHROPIC_BASE_URL   # should print your Code Router base URL
+claude --version           # confirms the CLI is installed
+```
 
-  Optional: Run the provided command when prompted
+Then start `claude` and send a short prompt. If you get a normal response, routing is working.
 
-  ```bash
-  echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
-  ```
-</Callout>
+You can also sanity-check the gateway directly with curl against the OpenAI-compatible endpoint:
 
-![macos-img-02.webp](/assets/claude_code/macos-img-02.webp)
+```bash
+curl https://api.code-router.example/v1/models \
+  -H "Authorization: Bearer sk-..."
+```
 
-#### 2. Set Environment Variables
+## Troubleshooting
 
-To allow Claude Code to connect to a third-party relay service, you need to set environment variables:
+<Accordions>
+<Accordion title="`claude` command not found">
+  The install directory isn't on your `PATH`. On macOS/Linux, add
+  `export PATH="$HOME/.local/bin:$PATH"` to your shell profile and reload it. On Windows, add
+  `~/.local/bin` to your user `Path` as shown in the install step, then reopen the terminal.
+</Accordion>
 
-<Callout type="info" title="One-Click Setup for Claude Code Environment Variables">
-  Enter the command:
+<Accordion title="Environment variables not taking effect">
+  - Confirm you edited the right profile (`.bashrc` vs `.zshrc`) and ran `source` on it, or that
+    you reopened PowerShell after persisting them.
+  - Print the value to check: `echo $ANTHROPIC_BASE_URL` (or `$env:ANTHROPIC_BASE_URL` in PowerShell).
+  - Some shells cache exported values within a running session — open a fresh terminal.
+</Accordion>
 
-  ```bash
-  curl -fsSL https://raw.githubusercontent.com/QuantumNous/new-api-docs/refs/heads/main/helper/claude-cli-setup.sh | bash
-  ```
-</Callout>
+<Accordion title="Authentication / 401 errors">
+  Make sure `ANTHROPIC_AUTH_TOKEN` holds a valid Code Router key (the `sk-...` value from your
+  account), not an Anthropic key. Regenerate the key in Code Router if you suspect it was revoked.
+</Accordion>
 
-![macos-configure](/assets/claude_code/macos_configure.png)
+<Accordion title="Requests still go to the default endpoint">
+  `ANTHROPIC_BASE_URL` may not be set in the shell where you launched `claude`. Set it in the same
+  session (or persist it) and relaunch. Remember it must point at your Code Router base URL.
+</Accordion>
 
-<Callout type="info" title="Verify Claude Code Installation">
-  After installation, enter the following command to check if it was successfully installed:
+<Accordion title="macOS blocks the binary from running">
+  Open **System Settings → Privacy & Security**, then choose **Open Anyway** / **Allow** for the
+  blocked item.
+</Accordion>
 
-  ```bash
-  claude --version
-  ```
-
-  If a version number is displayed, congratulations! Claude Code has been successfully installed.
-</Callout>
-
-#### 3. Start Using Claude Code
-
-You can now start using Claude Code!
-
-<Callout type="info" title="Launch Claude Code">
-  Launch Claude Code directly:
-
-  ```bash
-  claude
-  ```
-
-  To use in a specific project:
-
-  ```bash
-  # Navigate to your project directory
-  cd /path/to/your/project
-
-  # Launch Claude Code
-  claude
-  ```
-</Callout>
-
-![macos-img-04.webp](/assets/claude_code/macos-img-04.webp)
-
-![macos-img-05.webp](/assets/claude_code/macos-img-05.webp)
-
-![macos-img-06.webp](/assets/claude_code/macos-img-06.webp)
-
-![macos-img-07.webp](/assets/claude_code/macos-img-07.webp)
-
-![macos-img-08.webp](/assets/claude_code/macos-img-08.webp)
-
-<Callout type="info" title="Select Model (Optional)">
-  Enter the command:
-
-  ```bash
-  /model
-  ```
-
-  Press Enter to select an official model; usually, the default model is sufficient.
-</Callout>
-
-![macos-img-09.webp](/assets/claude_code/macos-img-09.webp)
-
-![macos-img-10.webp](/assets/claude_code/macos-img-10.webp)
-
-![macos-img-11.webp](/assets/claude_code/macos-img-11.webp)
-
-> Note: After modifying the `ANTHROPIC_BASE_URL` environment variable, all models (including officially preset models) will call the custom access point instead of using official account quotas.
-
-#### 4. macOS Common Issues
-
-<Callout type="info" title="macOS Security Settings Preventing Execution">
-  If the system prevents Claude Code from running:
-
-  - Open "System Preferences" → "Security & Privacy"
-  - Click "Open Anyway" or "Allow"
-  - Or run in Terminal: `sudo spctl --master-disable`
-</Callout>
-
-### Linux Graphical Guide
-
-#### 1. Install Claude Code
-
-![linux-img-01.webp](/assets/claude_code/linux-img-01.webp)
-
-<Callout type="info" title="Install Claude Code">
-  Open Terminal and run the following command:
-
-  ```bash
-  curl -fsSL https://claude.ai/install.sh | bash
-  ```
-
-  If you encounter permission issues, you can use sudo:
-
-  ```bash
-  sudo curl -fsSL https://claude.ai/install.sh | bash
-  ```
-</Callout>
-
-![linux-img-03.webp](/assets/claude_code/linux-img-03.webp)
-
-<Callout type="info" title="Verify Claude Code Installation">
-  After installation, enter the following command to check if it was successfully installed:
-
-  ```bash
-  claude --version
-  ```
-
-  If a version number is displayed, congratulations! Claude Code has been successfully installed.
-</Callout>
-
-#### 2. Set Environment Variables
-
-To allow Claude Code to connect to your relay service, you need to set two environment variables:
-
-<Callout type="info" title="One-Click Environment Variable Modification">
-  Enter the command:
-
-  ```bash
-  curl -fsSL https://raw.githubusercontent.com/QuantumNous/new-api-docs/refs/heads/main/helper/claude-cli-setup.sh | bash
-  ```
-</Callout>
-
-![macos-configure](/assets/claude_code/macos_configure.png)
-
-#### 3. Start Using Claude Code
-
-You can now start using Claude Code!
-
-<Callout type="info" title="Launch Claude Code">
-  Launch Claude Code directly:
-
-  ```bash
-  claude
-  ```
-
-  To use in a specific project:
-
-  ```bash
-  # Navigate to your project directory
-  cd /path/to/your/project
-
-  # Launch Claude Code
-  claude
-  ```
-</Callout>
-
-![linux-img-03.webp](/assets/claude_code/linux-img-03.webp)
-
-![linux-img-04.webp](/assets/claude_code/linux-img-04.webp)
-
-![linux-img-05.webp](/assets/claude_code/linux-img-05.webp)
-
-<Callout type="info" title="Select Model">
-  Enter the command:
-
-  ```bash
-  /model
-  ```
-
-  Press Enter to select an official model; usually, the default model is sufficient.
-</Callout>
-
-![linux-img-06.webp](/assets/claude_code/linux-img-06.webp)
-
-![linux-img-07.webp](/assets/claude_code/linux-img-07.webp)
-
-![linux-img-08.webp](/assets/claude_code/linux-img-08.webp)
-
-![linux-img-09.webp](/assets/claude_code/linux-img-09.webp)
-
-> Note: After modifying the `ANTHROPIC_BASE_URL` environment variable, all models (including officially preset models) will call the custom access point instead of using official account quotas.
-
-#### 4. Linux Common Issues
-
-<Callout type="info" title="Missing Dependency Libraries">
-  Some Linux distributions require additional dependencies to be installed:
+<Accordion title="Linux: missing build dependencies">
+  Some distributions need build tooling:
 
   ```bash
   # Ubuntu/Debian
   sudo apt install build-essential
 
-  # CentOS/RHEL
+  # CentOS/RHEL/Fedora
   sudo dnf groupinstall "Development Tools"
   ```
-</Callout>
+</Accordion>
+</Accordions>
 
-<Callout type="info" title="Environment Variables Not Taking Effect">
-  Check the following points:
+## Feedback
 
-  - Confirm that you modified the correct configuration file (`.bashrc` or `.zshrc`)
-  - Restart the terminal or run `source ~/.bashrc`
-  - Verify settings: `echo $ANTHROPIC_BASE_URL`
-</Callout>
+Found a problem with these instructions or with Code Router itself? Open an issue on the source
+repository: [github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api).

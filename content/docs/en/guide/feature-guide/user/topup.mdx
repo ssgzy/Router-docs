@@ -1,52 +1,84 @@
 ---
 title: Quota & Top Up
-description: Quota is the platform's internal billing unit, with multiple top-up methods supported
+description: How quota works in Code Router and how to add it to your account
 ---
 
-Quota is the platform's internal billing unit. Consumption = actual token count × model multiplier. Click "Top Up" in the left sidebar, or visit `/console/topup` directly.
+Quota is Code Router's internal billing unit. When you call the gateway, consumption is calculated as the actual token count multiplied by the model's rate (multiplier). To add quota, open **Top Up** in the left sidebar, or go to `/console/topup` directly.
 
-![Top-up page](/assets/guide/feature-guide/topup.png)
+<Callout type="info">
+Code Router is a demo deployment. Pricing, currency amounts, and payment options below are **not finalized** — concrete numbers shown in any production instance are placeholders. (定价/费率/支付方式待补 / pricing, rates, and payment methods TBD.)
+</Callout>
 
-Supports online payment and redemption codes to add quota to your account.
+> Screenshot placeholder: the top-up page in your deployment. (截图待补 / image TBD)
 
-| Method | Description |
+## How quota is consumed
+
+- Every chat/completion request deducts quota equal to `tokens used × model rate`.
+- Different models can carry different rates; the exact rate table is configured per deployment and is **not yet defined for this demo** (费率待补 / rate table TBD).
+- Your remaining quota and recent usage are visible in the console dashboard and usage logs.
+
+## Ways to add quota
+
+The top-up page can expose one or more methods, depending on how the operator configures the instance. Whether any given method is enabled, and the amounts involved, are **not finalized for this demo**.
+
+| Method | What it does |
 | --- | --- |
-| Redemption Code | Enter an admin-generated code to add quota directly |
-| EPay | Domestic aggregated payment (Alipay, WeChat Pay, etc.) |
-| Stripe | International credit card payment |
-| Creem / Waffo | International payment platforms |
+| Redemption code | Enter an operator-generated code to credit quota directly to your account |
+| Online payment | Pay through a configured payment provider, then quota is credited automatically |
 
-## Online Payment Top-Up
+<Callout type="warn">
+No specific payment provider, currency, or amount is committed for this demo. Treat any provider names, price tiers, or "X per 1M tokens" figures you see as placeholders pending configuration. (支付渠道/金额待补 / payment provider and amounts TBD.)
+</Callout>
 
-1. Select a top-up amount on the top-up page, or enter a custom amount manually
-2. Select a payment method (EPay / Stripe / Creem / Waffo)
+## Online payment top-up
 
-![Payment method selection](/assets/guide/feature-guide/topup-payment.png)
+<Steps>
+<Step>
+On the top-up page, choose a preset amount or enter a custom amount. (Available amounts are not finalized — 金额待补 / amounts TBD.)
+</Step>
+<Step>
+Select a payment method, if more than one is enabled. (Available providers are not finalized — 渠道待补 / providers TBD.)
+</Step>
+<Step>
+Click **Top Up**. The page hands off to the configured payment flow.
+</Step>
+<Step>
+Complete payment. On success you are returned to the console and your quota balance updates automatically.
+</Step>
+</Steps>
 
-3. Click "Top Up" — the page redirects to the corresponding payment platform
-4. Complete payment on the payment platform — you are redirected back automatically and your account balance updates
+## Redemption code top-up
 
-## Redemption Code Top-Up
+<Steps>
+<Step>
+Find the **Redemption Code** input on the top-up page.
+</Step>
+<Step>
+Paste or type a code provided by an operator.
+</Step>
+<Step>
+Click **Redeem**. The system validates the code.
+</Step>
+<Step>
+On success, the page shows the quota credited and your balance updates.
+</Step>
+</Steps>
 
-1. Find the "Redemption Code" input area on the top-up page
-2. Paste or type the redemption code provided by an admin
+## Referral rewards
 
-![Redemption code input area](/assets/guide/feature-guide/topup-redeem.png)
+Each account has a unique referral code. When a new user registers with your code, you can earn a referral reward. Whether referral rewards are enabled, and the reward amounts, are configured per deployment and are **not finalized for this demo** (奖励金额待补 / reward amounts TBD).
 
-3. Click "Redeem" — the system validates the code
-4. On success, the page shows the quota amount earned and your account balance updates
+### Get your referral code
 
-## Referral Rewards
+Find the **Referral** section on the top-up page or in your personal settings, and copy your unique referral code.
 
-Every account has a unique referral code. When someone registers successfully using your referral code, you will earn referral rewards.
+### How referral rewards work
 
-### Get Referral Code
+- **Reward on registration**: when a referred user registers successfully with your code, the system can credit a configured reward quota to you (amount TBD).
+- **Transfer to balance**: accumulated reward quota can be moved into your main balance using the **Transfer to Balance** button, after which it can be spent on gateway calls.
 
-Find the "Referral" section on the top-up page or in Personal Settings, and copy your unique referral code.
+## Notes
 
-![Referral code and rewards section](/assets/guide/feature-guide/topup-invite.png)
-
-### Referral Reward Mechanism
-
-1. **Immediate Rebate upon Registration**: When a referred user registers successfully using your referral code, you (the inviter) will immediately receive an "Invitation Reward Quota" configured by the system (one-time credit).
-2. **Transfer to Main Balance**: Click the "Transfer to Balance" button to move your accumulated reward quota into your main account balance for use.
+- This page describes the generic flow of an OpenAI-compatible gateway built on Code Router. Your instance may enable, disable, or relabel any of the methods above.
+- For the OpenAI-compatible endpoint and base URL used when spending quota, see the API usage docs. Example base URL: `https://api.code-router.example/v1`.
+- Found an issue with this page? Open an issue on the source repository: [github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api).

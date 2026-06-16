@@ -1,426 +1,194 @@
 ---
 title: Claude Code
-description: Claude Code 教程 — 将 Anthropic 的终端编程助手对接 New API。支持代码理解、多文件编辑，集成 VS Code 与 JetBrains IDE。
+description: 在 Claude Code(Anthropic 终端编程助手)中接入 Code Router 网关 —— 通过设置 Anthropic 兼容的 Base URL 与 API Key，即可用一套密钥调用多家模型供应商。
 ---
 
-<Callout type="info" title="项目介绍">
-  直接在你的终端中释放 Claude
-  的强大能力。瞬间搜索百万行代码库。将耗时数小时的工作流程化为一条命令。你的工具，你的工作流，你的代码库，以思维速度进化。
+<Callout type="info" title="本页说明">
+  Claude Code 是 Anthropic 推出的终端编程助手。它通过环境变量读取接入点地址与密钥，因此可以将其指向
+  **Code Router** —— 一个 OpenAI / Anthropic 兼容的统一 AI 网关。配置完成后，你只需一个 Code Router
+  API Key 和一个 Base URL，即可在 Claude Code 中调用网关后端接入的各家模型。
 
-  - 官方主页：[https://www.anthropic.com/claude-code](https://www.anthropic.com/claude-code)
+  - Claude Code 官方文档：[https://www.anthropic.com/claude-code](https://www.anthropic.com/claude-code)
+  - Code Router 源码仓库：[https://github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api)
 </Callout>
 
-## 效果演示
+## 工作原理
 
-![introduce-01.webp](/assets/claude_code/introduce-01.webp)
+Claude Code 默认调用 Anthropic 官方接口。它支持通过两个环境变量改写请求目标：
 
-![introduce-02.webp](/assets/claude_code/introduce-02.webp)
+- `ANTHROPIC_BASE_URL` —— Anthropic 兼容接口的基础地址。指向 Code Router 后即由网关接管转发。
+- `ANTHROPIC_AUTH_TOKEN` —— 鉴权令牌。填入你在 Code Router 中创建的 API Key（形如 `sk-...`）。
 
-### 特性
-
-| **功能分类**       | **特性**                                                       |
-| ------------------ | -------------------------------------------------------------- |
-| **代码理解**       | 深度代码库分析，利用智能代理搜索理解项目结构和依赖             |
-|                    | 自动生成高层次代码概述，快速帮助用户理解代码库               |
-| **代码编辑**       | 支持多文件协同编辑，适用于复杂代码修改                       |
-|                    | 提供符合项目模式和架构的实际可用代码建议                     |
-| **集成能力**       | 支持在终端中直接运行，无需切换上下文                         |
-|                    | 与VS Code和JetBrains IDE无缝集成，无需复制粘贴               |
-| **代码生成和优化** | 自动生成代码、创建测试、修复错误，支持从概念到提交的完整流程 |
-|                    | 为代码生成和理解优化，结合Claude Opus 4等先进模型            |
-| **安全与灵活性**   | 改动需获得用户明确授权，文件和命令操作更安全                 |
-|                    | 适应用户代码规范，支持自定义配置                             |
-| **工具链整合**     | 支持与GitHub、GitLab等工具结合，实现自动化工作流程           |
-|                    | 与测试套件、构建系统集成，增强现有开发工具                   |
-| **跨平台与扩展**   | 支持Windows、macOS、Linux操作系统                            |
-|                    | 可配置运行在SDK或GitHub Actions中，灵活适配不同需求          |
-| **主要应用场景**   | 代码库入门和理解、新成员快速上手                             |
-|                    | 代码问题修复与优化流程，从分析问题到提交PR                   |
-|                    | 项目代码重构与新功能实现                                     |
-| **用户反馈亮点**   | 提升日常开发效率，省去例行任务消耗的时间                     |
-|                    | 处理复杂多步骤任务表现优异，扩展开发可能性                   |
-
-## AI 模型配置方法
-
-### Windows 端图文指引
-
-#### 1.安装 Node.js 环境
-
-Claude Code 需要 Node.js 环境才能运行。
-
-<Callout type="info" title="Node.js 环境安装步骤">
-  - 打开浏览器访问 https://nodejs.org/
-  - 点击 "LTS"版本进行下载（推荐长期支持版本）
-  - 下载完成后双击 .msi 文件
-  - 按照安装向导完成安装，保持默认设置即可
+<Callout type="warn" title="重要：改写 Base URL 后的行为">
+  设置 `ANTHROPIC_BASE_URL` 后，Claude Code 的全部请求（包括其默认/预设模型）都会改走你配置的接入点，
+  而不再消耗 Anthropic 官方账号额度。用量与计费以 Code Router 一侧的记录为准。
 </Callout>
 
-<Callout type="warn" title="Windows 注意事项">
-  - 建议使用 PowerShell 而不是 CMD
-  - 如果遇到权限问题，尝试以管理员身份运行
-  - 某些杀毒软件可能会误报，需要添加白名单
-</Callout>
+## 准备工作
 
-![windows-img-01.webp](/assets/claude_code/windows-img-01.webp)
+在配置 Claude Code 之前，请先在 Code Router 控制台准备好两样东西：
 
-![windows-img-02.webp](/assets/claude_code/windows-img-02.webp)
+<Steps>
+  <Step>
+    **获取 Base URL。** 使用你的 Code Router 部署地址。本文档统一以演示占位地址
+    `https://api.code-router.example` 表示；OpenAI 兼容端点为 `https://api.code-router.example/v1`。
+    请替换为你实际的部署域名。
+  </Step>
+  <Step>
+    **创建 API Key。** 在 Code Router 控制台的令牌（Token）管理中新建一个密钥，复制形如 `sk-...`
+    的字符串。该密钥用于鉴权，并关联到对应的模型分组与配额。
+  </Step>
+</Steps>
 
-![windows-img-03.webp](/assets/claude_code/windows-img-03.webp)
+## 安装 Claude Code
 
-![windows-img-04.webp](/assets/claude_code/windows-img-04.webp)
+Claude Code 跨平台支持 Windows、macOS 与 Linux。
 
-![windows-img-05.webp](/assets/claude_code/windows-img-05.webp)
+<Tabs items={["macOS / Linux", "Windows"]}>
+  <Tab value="macOS / Linux">
+    在终端运行官方安装脚本：
 
-<Callout type="info" title="验证安装是否成功">
-  安装完成后，打开 PowerShell 或 CMD，输入以下命令：
+    ```bash
+    curl -fsSL https://claude.ai/install.sh | bash
+    ```
 
-  ```bash
-  node --version
-  npm --version
-  ```
+    如果安装后提示需要把可执行目录加入 `PATH`，按提示执行类似命令（按你的 shell 选择 `.bashrc` 或 `.zshrc`）：
 
-  如果显示版本号，说明安装成功。
-</Callout>
+    ```bash
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
+    ```
+  </Tab>
+  <Tab value="Windows">
+    Claude Code 依赖 Node.js 环境，且在 Windows 上建议通过 Git Bash 安装。
 
-#### 2.安装 Git Bash
+    1. 安装 [Node.js](https://nodejs.org/) LTS 版本（保持默认设置即可）。
+    2. 安装 [Git for Windows](https://git-scm.com/downloads/win)（提供 Git Bash）。
+    3. 打开 PowerShell，执行：
 
-<Callout type="warn" title="Windows 注意事项">
-  Windows 环境下需要使用 Git Bash 安装 Claude code。安装完成后，环境变量设置和使用 Claude Code 仍然在普通的 PowerShell 或 CMD 中进行。
-</Callout>
+       ```bash
+       npm install -g @anthropic-ai/claude-code
+       ```
 
-<Callout type="info" title="下载并安装 Git for Windows">
-  - 访问 https://git-scm.com/downloads/win
-  - 点击 "Download for Windows" 下载安装包
-  - 运行下载的 .exe 安装文件
-  - 在安装过程中保持默认设置，直接点击 "Next" 完成安装
-</Callout>
+    <Callout type="warn" title="Windows 注意事项">
+      - 建议使用 PowerShell 而非 CMD。
+      - 遇到权限问题时，尝试以管理员身份运行。
+      - 个别杀毒软件可能误报，必要时将其加入白名单。
+    </Callout>
+  </Tab>
+</Tabs>
 
-![windows-img-06.webp](/assets/claude_code/windows-img-06.webp)
+安装完成后，验证版本：
 
-![windows-img-07.webp](/assets/claude_code/windows-img-07.webp)
-
-![windows-img-08.webp](/assets/claude_code/windows-img-08.webp)
-
-<Callout type="info" title="验证 Git Bash 安装">
-  安装完成后，打开 Git Bash，输入以下命令验证：
-
-  ```bash
-  git --version
-  ```
-
-  如果显示版本号，说明安装成功。
-</Callout>
-
-#### 3.安装 Claude Code
-
-<Callout type="info" title="安装 Claude Code">
-  打开 PowerShell，运行以下命令：
-
-  ```bash
-  npm install -g @anthropic-ai/claude-code
-  ```
-
-  这个命令会从 npm 官方仓库下载并安装最新版本的 Claude Code。
-</Callout>
-
-![windows-img-09.webp](/assets/claude_code/windows-img-09.webp)
-
-<Callout type="info" title="将 ~/.local/bin 加入 PATH（仅当提示要求时）">
-  ```powershell
-  [Environment]::SetEnvironmentVariable('Path', ([Environment]::GetEnvironmentVariable('Path','User') + ";$HOME\.local\bin"), 'User')
-  ```
-</Callout>
-
-<Callout type="info" title="验证 Claude Code 安装">
-  安装完成后，输入以下命令检查是否安装成功：
-
-  ```bash
-  claude --version
-  ```
-
-  如果显示版本号，恭喜你！Claude Code 已经成功安装了。
-</Callout>
-
-#### 4.设置环境变量
-
-<Callout type="info" title="一键设置命令 (Windows 系统)">
-  为了让 Claude Code 连接到你的中转服务，需要设置多个环境变量：
-</Callout>
-
-```powershell
-iex (irm 'https://raw.githubusercontent.com/QuantumNous/new-api-docs/refs/heads/main/helper/claude-cli-setup.ps1')
+```bash
+claude --version
 ```
 
-![windows-configure](/assets/claude_code/windows_configure.png)
+显示版本号即表示安装成功。
 
-#### 5.开始使用 Claude Code
+## 接入 Code Router
 
-现在你可以开始使用 Claude Code 了！
+把 Claude Code 的接入点指向 Code Router，只需设置两个环境变量。将下面的占位值替换为你自己的 Base URL 与 API Key。
 
-<Callout type="info" title="启动 Claude Code">
-  打开 PowerShell，直接启动 Claude Code：
+<Tabs items={["macOS / Linux", "Windows (PowerShell)"]}>
+  <Tab value="macOS / Linux">
+    临时生效（仅当前终端会话）：
 
+    ```bash
+    export ANTHROPIC_BASE_URL="https://api.code-router.example"
+    export ANTHROPIC_AUTH_TOKEN="sk-..."
+    ```
+
+    持久生效（写入 shell 配置文件，按你的 shell 选择 `.zshrc` 或 `.bashrc`）：
+
+    ```bash
+    echo 'export ANTHROPIC_BASE_URL="https://api.code-router.example"' >> ~/.zshrc
+    echo 'export ANTHROPIC_AUTH_TOKEN="sk-..."' >> ~/.zshrc
+    source ~/.zshrc
+    ```
+  </Tab>
+  <Tab value="Windows (PowerShell)">
+    临时生效（仅当前 PowerShell 会话）：
+
+    ```powershell
+    $env:ANTHROPIC_BASE_URL = "https://api.code-router.example"
+    $env:ANTHROPIC_AUTH_TOKEN = "sk-..."
+    ```
+
+    持久写入用户环境变量：
+
+    ```powershell
+    [Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://api.code-router.example', 'User')
+    [Environment]::SetEnvironmentVariable('ANTHROPIC_AUTH_TOKEN', 'sk-...', 'User')
+    ```
+
+    设置后请重新打开 PowerShell，使变量生效。
+  </Tab>
+</Tabs>
+
+<Callout type="info" title="验证变量已生效">
   ```bash
-  claude
+  echo $ANTHROPIC_BASE_URL   # macOS / Linux
   ```
 
-  在特定项目中使用：
-
-  ```bash
-  # 进入你的项目目录
-  cd C:\path\to\your\project
-
-  # 启动 Claude Code
-  claude
+  ```powershell
+  $env:ANTHROPIC_BASE_URL    # Windows PowerShell
   ```
+
+  应输出你配置的 Code Router Base URL。
 </Callout>
 
-![windows-img-11.webp](/assets/claude_code/windows-img-11.webp)
-
-![windows-img-12.webp](/assets/claude_code/windows-img-12.webp)
-
-![windows-img-13.webp](/assets/claude_code/windows-img-13.webp)
-
-![windows-img-14.webp](/assets/claude_code/windows-img-14.webp)
-
-![windows-img-15.webp](/assets/claude_code/windows-img-15.webp)
-
-<Callout type="info" title="选择模型">
-  输入命令：
-
-  ```bash
-  /model
-  ```
-
-  按 Enter 进入，选择模型，通常使用默认设置即可。
-</Callout>
-
-![windows-img-16.webp](/assets/claude_code/windows-img-16.webp)
-
-![windows-img-17.webp](/assets/claude_code/windows-img-17.webp)
-
-> 注意：设置环境变量修改后，使用所有模型（包括官方预设模型）均调用自定义接入点，而不使用官方账号额度。
-
-### MacOS 端图文指引
-
-#### 1.安装 Claude Code CLI
-
-打开终端
-
-![macos-img-01.webp](/assets/claude_code/macos-img-01.webp)
-
-<Callout type="info" title="安装 Claude Code">
-  打开终端，运行以下命令：
-
-  ```bash
-  curl -fsSL https://claude.ai/install.sh | bash
-  ```
-
-  可选项：出现提示后运行提供的命令
-
-  ```bash
-  echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
-  ```
-</Callout>
-
-![macos-img-02.webp](/assets/claude_code/macos-img-02.webp)
-
-#### 2.设置环境变量
-
-为了让 Claude Code 连接到第三方中转服务，需要设置环境变量：
-
-<Callout type="info" title="一键设置 Claude Code 环境变量">
-  输入命令：
-
-  ```bash
-  curl -fsSL https://raw.githubusercontent.com/QuantumNous/new-api-docs/refs/heads/main/helper/claude-cli-setup.sh | bash
-  ```
-</Callout>
-
-![macos-configure](/assets/claude_code/macos_configure.png)
-
-<Callout type="info" title="验证 Claude Code 安装">
-  安装完成后，输入以下命令检查是否安装成功：
-
-  ```bash
-  claude --version
-  ```
-
-  如果显示版本号，恭喜你！Claude Code 已经成功安装了。
-</Callout>
-
-#### 3.开始使用 Claude Code
-
-现在你可以开始使用 Claude Code 了！
-
-<Callout type="info" title="启动 Claude Code">
-  直接启动 Claude Code：
-
-  ```bash
-  claude
-  ```
-
-  在特定项目中使用：
-
-  ```bash
-  # 进入你的项目目录
-  cd /path/to/your/project
-
-  # 启动 Claude Code
-  claude
-  ```
-</Callout>
-
-![macos-img-04.webp](/assets/claude_code/macos-img-04.webp)
-
-![macos-img-05.webp](/assets/claude_code/macos-img-05.webp)
-
-![macos-img-06.webp](/assets/claude_code/macos-img-06.webp)
-
-![macos-img-07.webp](/assets/claude_code/macos-img-07.webp)
-
-![macos-img-08.webp](/assets/claude_code/macos-img-08.webp)
-
-<Callout type="info" title="选择模型 (可选)">
-  输入命令：
-
-  ```bash
-  /model
-  ```
-
-  按 Enter 进入，选择官方模型，通常使用默认模型即可。
-</Callout>
-
-![macos-img-09.webp](/assets/claude_code/macos-img-09.webp)
-
-![macos-img-10.webp](/assets/claude_code/macos-img-10.webp)
-
-![macos-img-11.webp](/assets/claude_code/macos-img-11.webp)
-
-> 注意：设置环境变量修改 `ANTHROPIC_BASE_URL` 后，使用所有模型（包括官方预设模型）均调用自定义接入点，而不使用官方账号额度。
-
-#### 4.macOS 常见问题解决
-
-<Callout type="info" title="macOS 安全设置阻止运行">
-  如果系统阻止运行 Claude Code：
-
-  - 打开"系统偏好设置" → "安全性与隐私"
-  - 点击"仍要打开"或"允许"
-  - 或者在 Terminal 中运行：`sudo spctl --master-disable`
-</Callout>
-
-### Linux 端图文指引
-
-#### 1.安装 Claude Code
-
-![linux-img-01.webp](/assets/claude_code/linux-img-01.webp)
-
-<Callout type="info" title="安装 Claude Code">
-  打开终端，运行以下命令：
-
-  ```bash
-  curl -fsSL https://claude.ai/install.sh | bash
-  ```
-
-  如果遇到权限问题，可以使用 sudo：
-
-  ```bash
-  sudo curl -fsSL https://claude.ai/install.sh | bash
-  ```
-</Callout>
-
-![linux-img-03.webp](/assets/claude_code/linux-img-03.webp)
-
-<Callout type="info" title="验证 Claude Code 安装">
-  安装完成后，输入以下命令检查是否安装成功：
-
-  ```bash
-  claude --version
-  ```
-
-  如果显示版本号，恭喜你！Claude Code 已经成功安装了。
-</Callout>
-
-#### 2.设置环境变量
-
-为了让 Claude Code 连接到你的中转服务，需要设置两个环境变量：
-
-<Callout type="info" title="一键修改环境变量">
-  输入命令：
-
-  ```bash
-  curl -fsSL https://raw.githubusercontent.com/QuantumNous/new-api-docs/refs/heads/main/helper/claude-cli-setup.sh | bash
-  ```
-</Callout>
-
-![macos-configure](/assets/claude_code/macos_configure.png)
-
-#### 3.开始使用 Claude Code
-
-现在你可以开始使用 Claude Code 了！
-
-<Callout type="info" title="启动 Claude Code">
-  直接启动 Claude Code：
-
-  ```bash
-  claude
-  ```
-
-  在特定项目中使用：
-
-  ```bash
-  # 进入你的项目目录
-  cd /path/to/your/project
-
-  # 启动 Claude Code
-  claude
-  ```
-</Callout>
-
-![linux-img-03.webp](/assets/claude_code/linux-img-03.webp)
-
-![linux-img-04.webp](/assets/claude_code/linux-img-04.webp)
-
-![linux-img-05.webp](/assets/claude_code/linux-img-05.webp)
-
-<Callout type="info" title="选择模型">
-  输入命令：
-
-  ```bash
-  /model
-  ```
-
-  按 Enter 进入，选择官方模型，通常使用默认模型即可。
-</Callout>
-
-![linux-img-06.webp](/assets/claude_code/linux-img-06.webp)
-
-![linux-img-07.webp](/assets/claude_code/linux-img-07.webp)
-
-![linux-img-08.webp](/assets/claude_code/linux-img-08.webp)
-
-![linux-img-09.webp](/assets/claude_code/linux-img-09.webp)
-
-> 注意：设置环境变量修改 `ANTHROPIC_BASE_URL` 后，使用所有模型（包括官方预设模型）均调用自定义接入点，而不使用官方账号额度。
-
-#### 4.Linux 常见问题解决
-
-<Callout type="info" title="缺少依赖库">
-  某些 Linux 发行版需要安装额外依赖：
-
-  ```bash
-  # Ubuntu/Debian
-  sudo apt install build-essential
-
-  # CentOS/RHEL
-  sudo dnf groupinstall "Development Tools"
-  ```
-</Callout>
-
-<Callout type="info" title="环境变量不生效">
-  检查以下几点：
-
-  - 确认修改了正确的配置文件（`.bashrc` 或 `.zshrc`）
-  - 重新启动终端或运行 `source ~/.bashrc`
-  - 验证设置：`echo $ANTHROPIC_BASE_URL`
+## 开始使用
+
+在任意项目目录下启动 Claude Code：
+
+```bash
+# 进入你的项目目录
+cd /path/to/your/project
+
+# 启动
+claude
+```
+
+如需切换模型，在交互界面中输入：
+
+```bash
+/model
+```
+
+按回车进入选择列表。可用模型取决于你的 Code Router 部署所接入的供应商及当前 API Key 所属模型分组——请以控制台中的模型列表为准。
+
+## 常见问题
+
+<Accordions>
+  <Accordion title="环境变量不生效 / 请求仍走官方接口">
+    - 确认修改的是当前 shell 实际加载的配置文件（`.zshrc` 或 `.bashrc`）。
+    - 重新打开终端，或执行 `source ~/.zshrc`（Windows 则重开 PowerShell）。
+    - 用 `echo $ANTHROPIC_BASE_URL` 核对取值是否为你的 Code Router 地址。
+  </Accordion>
+  <Accordion title="鉴权失败 / 401">
+    - 检查 `ANTHROPIC_AUTH_TOKEN` 是否为有效的 Code Router API Key（形如 `sk-...`），是否被复制完整、无多余空格。
+    - 在 Code Router 控制台确认该密钥处于启用状态，且其模型分组包含你要调用的模型。
+  </Accordion>
+  <Accordion title="提示找不到 claude 命令">
+    - 安装脚本通常会把可执行文件放在 `~/.local/bin`，确认该目录已加入 `PATH`。
+    - macOS / Linux：`echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc`。
+  </Accordion>
+  <Accordion title="macOS 安全设置阻止运行">
+    打开“系统设置” → “隐私与安全性”，在被拦截的提示处点击“仍要打开 / 允许”。
+  </Accordion>
+  <Accordion title="Linux 缺少依赖库">
+    ```bash
+    # Ubuntu / Debian
+    sudo apt install build-essential
+
+    # CentOS / RHEL
+    sudo dnf groupinstall "Development Tools"
+    ```
+  </Accordion>
+</Accordions>
+
+<Callout type="info" title="反馈渠道">
+  使用中遇到问题或有改进建议，可在源码仓库提交 Issue：
+  [https://github.com/ssgzy/Router-new-api/issues](https://github.com/ssgzy/Router-new-api/issues)。
+  （其他官方联系方式与定价等信息待补 / TODO）
 </Callout>

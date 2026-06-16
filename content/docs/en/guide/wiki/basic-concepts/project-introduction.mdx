@@ -1,112 +1,99 @@
 ---
 title: Project Introduction
-description: Learn about New API, an AI API gateway and usage management system for legally authorized scenarios.
+description: An overview of Code Router, a unified, self-hostable, OpenAI-compatible AI gateway for reaching many model providers through one key and one base URL.
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
-
-<div className="my-8 text-center">
-  <img
-    src="/assets/logo.png"
-    alt="New API Logo"
-    className="mx-auto"
-    width="120"
-    height="120"
-  />
-  <h1 className="mt-4 mb-2 text-4xl font-bold">New API</h1>
-  <img
-    src="/assets/trendshift.svg"
-    alt="NewAPI Trendshift Badge"
-    className="mx-auto mt-4"
-    style={{ width: '250px', height: '55px' }}
-    width="250"
-    height="55"
-  />
-</div>
+import { Cards, Card } from 'fumadocs-ui/components/card';
 
 ## Overview
 
-New API is an AI API gateway and usage management system designed for legally authorized scenarios, providing unified infrastructure for your AI applications. It is primarily intended for personal use, internal team use, and enterprise private deployment.
+Code Router is a unified, OpenAI-compatible AI gateway (also called a relay). It puts a
+single entry point in front of many upstream model providers, so your applications can
+reach all of them through **one API key and one base URL** instead of juggling a separate
+key, SDK, and endpoint for each vendor.
+
+Because the gateway speaks the OpenAI Chat Completions protocol, most existing tools, SDKs,
+and applications work by changing only the base URL and the key — no code rewrite required.
+
+```text
+https://api.code-router.example
+```
+
+OpenAI-compatible endpoint:
+
+```text
+https://api.code-router.example/v1
+```
 
 <Callout type="info">
-  New API seamlessly integrates with leading global AI service providers, including OpenAI, Anthropic, Google
-  Gemini, DeepSeek, Midjourney, Suno, and 30+ other model services.
+  Code Router is a self-hostable gateway. The base URLs above are placeholders for this
+  demo — replace them with your own deployment's address. (Public hosted endpoint, if any:
+  TBD.)
 </Callout>
 
-### Core Features
+## What it does
 
-- **Unified Interface**: Within the scope of legally authorized upstream accounts and services, it provides a unified API entry point, compatible with OpenAI's standard format.
-- **Intelligent Routing**: Multi-channel load balancing, automatic failover, and weighted random distribution.
-- **Cost Management**: Internal cost allocation and enterprise client billing management capabilities.
-- **Security Control**: Token permission management, model access control, and API call auditing.
-- **Data Insights**: Real-time dashboards, usage statistics, and cost analysis.
-- **Multi-tenant Architecture**: Adaptable for personal use, internal team use, and enterprise private deployment.
+<Cards>
+  <Card title="One key, one base URL" description="Route requests to many model providers behind a single OpenAI-compatible endpoint." />
+  <Card title="Model groups" description="Bundle upstream models into named groups so callers request a stable name while you control what backs it." />
+  <Card title="Token groups & quotas" description="Issue API tokens, organize them into groups, and apply per-token or per-group quotas and limits." />
+  <Card title="Usage tracking" description="Record requests and token usage per key for visibility and accounting." />
+</Cards>
 
-## License
+### Core concepts
 
-New API adopts the **GNU AGPLv3** open-source license. It can be used for free as long as the open-source license is observed.
+- **Unified OpenAI-compatible interface.** A single API surface compatible with the OpenAI
+  request/response format. Point your client at the gateway's base URL and use a Code Router
+  API key.
+- **Providers & channels.** Each upstream provider is configured as a channel that holds its
+  own connection settings. Provider credentials are configured at the gateway, not embedded
+  in every client.
+- **Model groups.** Map a caller-facing model name to one or more upstream channels, which
+  lets you swap or load-balance backends without changing client code.
+- **Token groups & quotas.** Group API tokens and attach quotas/limits so usage can be scoped
+  and capped per token or per group.
+- **Usage tracking.** Per-key request and token-usage records for monitoring and accounting.
+
+<Callout type="info">
+  Specific supported providers and models depend entirely on the channels **you** configure
+  in your own deployment. The exact built-in provider list for this demo is still being
+  finalized (provider list TBD). You are responsible for legally obtaining and configuring
+  any upstream API keys you use.
+</Callout>
+
+## Who it's for
+
+Code Router suits anyone who needs to consolidate access to multiple AI model providers
+behind one consistent interface — for example personal projects, internal team tooling, or
+private self-hosted deployments. It is intended for legally authorized use of upstream
+provider accounts and services.
+
+## Built on open source
+
+Code Router is built on a mature, open-source AI-gateway codebase and is self-hostable. The source
+for this build lives in the project repository:
+
+<Cards>
+  <Card
+    title="Source repository"
+    href="https://github.com/ssgzy/Router-new-api"
+    description="Code Router source code, license, and issue tracker."
+  />
+</Cards>
+
+For licensing terms, refer to the `LICENSE` file in the
+[source repository](https://github.com/ssgzy/Router-new-api).
+
+## Status & feedback
 
 <Callout type="warn">
-  Before using New API, please read the full license terms in the [project
-  LICENSE](https://github.com/QuantumNous/new-api/blob/main/LICENSE).
+  Code Router is an early-stage demo. Operational details such as pricing, payment options,
+  availability/uptime, and official support channels are not established yet (all TBD). Do
+  not treat any example values in these docs as real commercial terms.
 </Callout>
 
-### Open-Source License (AGPLv3)
-
-Under AGPLv3, you are free to use, modify, and distribute New API.
-
-**Key Terms:**
-
-- Free to use, modify, and distribute
-- Full license text: [GNU AGPLv3](https://www.gnu.org/licenses/agpl-3.0.html)
-- **Core Obligation**: If you modify and deploy it as a network service (SaaS), you must provide the complete source code under AGPLv3.
-
-### Commercial License
-
-If your organization's policy does not permit the use of AGPLv3 licensed software, or if you wish to circumvent the open-source obligations of AGPLv3, please send an email to: [support@quantumnous.com](mailto:support@quantumnous.com)
-
-### Contributions
-
-All contributions to New API are licensed under AGPLv3.
-
-**By submitting contributions, you agree that:**
-
-- Your code is licensed under AGPLv3 to this project and all users.
-- You retain the copyright to your contributions.
-
-### Additional Terms
-
-- License policies may be updated through official channels (GitHub, website).
-- In case of dispute, please refer to the official [LICENSE](https://github.com/QuantumNous/new-api/blob/main/LICENSE) document.
-
-## Disclaimer
-
-<Callout type="error">Before using New API, please read and understand these important statements.</Callout>
-
-**1. Legal Authorization and Compliant Use**
-
-Users must legally obtain upstream API Keys, model services, and other third-party service authorizations, and comply with upstream service terms and platform rules. When using this project, ensure that relevant scenarios comply with laws and regulations, regulatory requirements, and content security requirements. For details, see the [Compliance and Acceptable Use Policy](/en/docs/legal/acceptable-use).
-
-**2. AI Provider Service Terms**
-
-Users must comply with all applicable AI provider service terms, including the [OpenAI Terms of Use](https://openai.com/policies/terms-of-use), Anthropic policies, and other relevant provider agreements.
-
-**3. Educational and Personal Use**
-
-This project is primarily intended for personal learning and research. Stability is not guaranteed, and official technical support may not be provided under the open-source license.
-
-**4. AI Regulatory Compliance**
-
-Users must comply with relevant AI regulations, including the [Interim Measures for the Management of Generative Artificial Intelligence Services](http://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm) and other applicable AI governance frameworks.
-
-**5. Public Service Obligations**
-
-If users provide generative AI services to the general public, they shall independently fulfill compliance obligations required by local laws and regulations, such as filing, content security, identity management, log retention, taxation, payment, consumer protection, and upstream authorization.
-
-**6. Local Laws and Regulations**
-
-Users are responsible for ensuring compliance with all local, national, and international laws and regulations applicable to their jurisdiction and use case.
-
-<Callout type="warn">
-  New API is provided "as is," without warranties of any kind. The developers and maintainers are not liable for any damages or legal issues arising from the use of this software.
-</Callout>
+Code Router is provided "as is," without warranties of any kind. For questions, bug reports,
+or suggestions, open an issue in the
+[source repository on GitHub](https://github.com/ssgzy/Router-new-api). Other contact methods
+are not available at this time (TBD).

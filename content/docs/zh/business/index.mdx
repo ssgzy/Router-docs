@@ -1,40 +1,89 @@
-﻿---
+---
 title: 商务合作
+description: 了解 Code Router 在企业与团队场景下的应用方式，以及合作与合规相关说明。
 ---
 
-## 💡 我们的初衷
+## 关于 Code Router
 
-New API 诞生的初衷很简单：**让更多人能够使用 AI，降低 AI 的门槛**。
+Code Router 是一个统一的、兼容 OpenAI 协议的 AI 网关 / 中转层。用户只需一个 API Key 和一个 Base URL，即可调用多家模型供应商，并借助模型分组、令牌分组、配额与用量统计来集中管理调用。
 
-我们相信，AI 不应该只是少数人的特权，而应该成为每个人都能触及的工具。无论你是独立开发者、初创团队，还是大型企业，都应该能够在合法授权和合规部署前提下，降低企业内部接入与管理复杂度。
+对企业与团队而言，这种统一接入层可以降低内部接入与治理的复杂度：无需为每个供应商分别维护凭证与计费口径，而是通过单一入口完成路由、配额控制和用量审计。
 
-## 🤝 关于商业化
-
-我们选择商业化，并非为了追求利润最大化，而是为了让项目能够**良性、可持续地发展**。
-
-服务器需要成本，维护需要精力，生态建设需要资源——适度的商业化是让 New API 持续为社区服务的必要保障。我们承诺将收益投入到产品迭代、社区建设和生态拓展中，让每一分支持都能转化为更好的服务。
-
-## 📜 君子协议
-
-New API 社区一直秉承**君子协议**的理念：
-
-- 我们信任每一位用户，提供灵活开放的使用方式
-- 我们不设置繁琐的限制，相信大家会合理使用资源
-- 我们期待用户在受益的同时，也能尊重项目的可持续发展
-- 如果您的项目因 New API 而获益，欢迎以任何形式回馈社区
-
-这是一份基于信任与尊重的约定，也是开源精神的延续。
-
-## 📬 联系方式
-
-<Callout type="info" title="商务合作邮箱">
-  [newapi@quantumnous.com](mailto:newapi@quantumnous.com)
-
-  邮件回复时间一般在 2-3 个工作日。
+<Callout type="info">
+  Code Router 是一个全新的演示项目（基于开源项目二次开发，源码见
+  [GitHub 仓库](https://github.com/ssgzy/Router-new-api)）。本页中涉及价格、套餐、SLA、联系方式等具体运营信息均尚未确定，相关位置以「待补 / TBD」标注。
 </Callout>
 
-<Callout type="info" title="企业微信（扫码联系）">
-  <img src="/assets/wechat.png" alt="企业微信二维码" width="240" />
+## 企业场景能做什么
+
+下面是任意一个兼容 OpenAI 协议的网关在企业内部通常可以承担的通用能力，供参考：
+
+<Cards>
+  <Card title="统一接入" href="https://github.com/ssgzy/Router-new-api">
+    用一个 Base URL 和一个 API Key 调用多家供应商，屏蔽上游差异。
+  </Card>
+  <Card title="分组与配额">
+    通过模型分组、令牌分组设置不同团队 / 项目的可用模型与额度上限。
+  </Card>
+  <Card title="用量可观测">
+    记录每次调用的用量，便于内部成本核算与审计。
+  </Card>
+  <Card title="集中治理">
+    在单一入口完成路由、限额与凭证管理，降低维护成本。
+  </Card>
+</Cards>
+
+## 接入方式
+
+任何兼容 OpenAI 协议的客户端或 SDK 都可以直接接入，只需替换 Base URL 与 API Key。
+
+<Steps>
+  <Step>
+    将客户端的 Base URL 指向 Code Router 的兼容端点：`https://api.code-router.example/v1`
+  </Step>
+  <Step>
+    使用在 Code Router 中创建的 API Key 作为 `Authorization: Bearer <API_KEY>`。
+  </Step>
+  <Step>
+    在 Code Router 控制台中为团队配置模型分组、令牌分组与配额。
+  </Step>
+  <Step>
+    通过用量统计核对调用情况（计费口径与单价待补）。
+  </Step>
+</Steps>
+
+示例：列出可用模型
+
+```bash
+curl https://api.code-router.example/v1/models \
+  -H "Authorization: Bearer <API_KEY>"
+```
+
+## 合规与授权
+
+Code Router 致力于为开发者与企业提供合法授权场景下的统一 API 网关与用量管理能力。使用与合作应基于以下原则：
+
+- 合作与使用应在**合法授权、合规部署和正当业务场景**下开展。
+- 需遵守上游服务条款、平台规则和监管要求。
+- 客户必须合法取得上游模型 / 服务的授权，并对自身服务资质、合规运营、内容安全和用户管理承担责任。
+
+## 价格与套餐
+
+<Callout type="warn" title="待补 / TBD">
+  Code Router 为全新演示项目，尚无正式定价、套餐、计费单价或付费方式。相关信息将在确定后补充。（价格待补 / pricing TBD）
 </Callout>
 
-New API 致力于为开发者与企业提供合法授权场景下的统一 API 网关与用量管理能力。如果您希望在产品、技术层面与我们展开深度合作，我们诚挚欢迎您的来信！合作应基于合法授权、合规部署和正当业务场景开展，并遵守上游服务条款、平台规则和监管要求。客户必须合法取得上游授权，并对自身服务资质、合规运营、内容安全和用户管理承担责任。
+## 服务等级（SLA）
+
+<Callout type="warn" title="待补 / TBD">
+  暂无可承诺的可用性 / SLA 指标，相关说明待补。(SLA TBD)
+</Callout>
+
+## 联系与反馈
+
+<Callout type="info" title="反馈渠道">
+  目前唯一对外的反馈渠道为源码仓库的 Issues：
+  [GitHub Issues](https://github.com/ssgzy/Router-new-api/issues)
+
+  商务合作邮箱、即时通讯群组等具体联系方式待补。(contact details TBD)
+</Callout>

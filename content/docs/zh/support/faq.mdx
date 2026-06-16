@@ -1,34 +1,78 @@
-﻿---
+---
 title: 常见问题
+description: 关于 Code Router（OpenAI 兼容 AI 网关）使用、额度、渠道与部署的常见问题解答
 ---
 
 import { Accordions, Accordion } from 'fumadocs-ui/components/accordion';
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Code Router 是一个统一的、与 OpenAI 协议兼容的 AI 网关/中转。你只需一个 API Key 和一个 Base URL，即可调用多家模型供应商，并通过模型分组、令牌分组、配额与用量统计进行管理。本页汇总了常见问题。
+
+## 🚀 入门问题
+
+<Accordions>
+  <Accordion title="Code Router 是什么？">
+    Code Router 是基于开源项目二次开发的 OpenAI 兼容 AI 网关。它把多家上游模型供应商聚合到一个统一入口：
+
+    - 一个 API Key、一个 Base URL，即可访问多种模型
+    - 通过「渠道」管理不同上游供应商
+    - 通过「模型分组」「令牌分组」控制可用模型与配额
+    - 内置用量统计与额度管理
+
+    源码仓库见 [GitHub](https://github.com/ssgzy/Router-new-api)。
+  </Accordion>
+
+  <Accordion title="如何获取 API Key？">
+    在登录后台后，进入「令牌（Token）」页面创建一个新令牌即可获得形如 `sk-...` 的 API Key。创建时可以为令牌设置可用模型、分组与额度上限。请妥善保管 Key，不要提交到代码仓库或公开分享。
+  </Accordion>
+
+  <Accordion title="Base URL 应该填什么？">
+    Code Router 提供与 OpenAI 兼容的接口。将客户端或 SDK 的接口地址（Base URL）指向你的部署地址即可，例如：
+
+    ```
+    https://api.code-router.example/v1
+    ```
+
+    多数 OpenAI 兼容客户端只需替换 Base URL 与 API Key 两项配置。具体部署域名以你自己的实例为准。
+  </Accordion>
+
+  <Accordion title="支持哪些接口？">
+    Code Router 遵循 OpenAI 兼容协议，常见的对话补全与模型列表等接口均可通过 `/v1` 前缀访问，例如：
+
+    ```
+    GET  https://api.code-router.example/v1/models
+    POST https://api.code-router.example/v1/chat/completions
+    ```
+
+    具体可用的接口与模型取决于你所配置的上游渠道。
+  </Accordion>
+</Accordions>
 
 ## 💰 额度相关问题
 
 <Accordions>
   <Accordion title="额度是什么？怎么计算的？">
-    额度计算公式如下：
+    额度用于按用量计费/限额。一次请求消耗的额度由分组倍率、模型倍率以及输入/输出 token 数共同决定，计算公式大致如下：
 
     ```
-    额度 = 分组倍率 * 模型倍率 * （提示 token 数 + 补全 token 数 * 补全倍率）
+    额度 = 分组倍率 × 模型倍率 ×（提示 token 数 + 补全 token 数 × 补全倍率）
     ```
 
-    **补全倍率说明：**
-    - GPT3.5：固定为 1.33
-    - GPT4：固定为 2（与官方保持一致）
+    其中各项倍率（分组倍率、模型倍率、补全倍率）均由管理员在后台配置。
 
-    **注意事项：**
-    - 非流模式下，官方接口会返回消耗的总 token，但提示和补全的消耗倍率不同
-    - New API 的默认倍率与官方倍率一致，已经过调整
+    <Callout type="warn">
+      具体的倍率与价格数值（包括各模型的补全倍率、单价等）尚未确定。（价格/倍率待补，TBD）请以你自己实例「系统设置 - 运营设置」中的配置为准。
+    </Callout>
   </Accordion>
 
-  <Accordion title="账户额度足够为什么提示额度不足？">
-    这是因为令牌额度和账户额度是分开的：
+  <Accordion title="账户额度足够，为什么提示额度不足？">
+    这是因为令牌额度和账户额度是分开计算的：
 
-    - 令牌额度仅用于设置最大使用量限制
-    - 用户可以自由设置令牌额度
-    - 请检查您的令牌额度是否充足
+    - 账户额度是你账户的总额度
+    - 令牌额度用于为单个令牌设置最大使用量上限
+    - 即使账户额度充足，若该令牌自身的额度上限已用尽，仍会提示额度不足
+
+    请检查并调整对应令牌的额度上限。
   </Accordion>
 </Accordions>
 
@@ -36,50 +80,60 @@ import { Accordions, Accordion } from 'fumadocs-ui/components/accordion';
 
 <Accordions>
   <Accordion title="渠道中的权重和优先级是什么？">
-    权重和优先级是控制渠道使用顺序和分配的两个重要参数：
+    权重和优先级是控制渠道使用顺序和请求分配的两个参数：
 
-    - **优先级（Priority）**：数字越大优先级越高，优先级高的渠道会优先被使用
-    - **权重（Weight）**：在同优先级的渠道中，按权重比例分配请求
+    - **优先级（Priority）**：数字越大优先级越高，优先级高的渠道会被优先使用
+    - **权重（Weight）**：在同一优先级的多个渠道之间，按权重比例分配请求
 
     **例如：**
     - 优先级为 2 的渠道会优先于优先级为 1 的渠道被使用
-    - 同为优先级 1 的两个渠道，权重比为 2:1 时，请求会按照 2:1 的比例分配
+    - 同为优先级 1 的两个渠道，权重比为 2:1 时，请求会按 2:1 的比例分配
   </Accordion>
 
-  <Accordion title="提示无可用渠道？">
-    请检查以下设置：
+  <Accordion title="提示「无可用渠道」？">
+    请依次检查以下设置是否匹配：
 
     1. 用户分组设置
     2. 渠道分组设置
-    3. 渠道的模型设置
+    3. 渠道支持的模型设置（请求的模型是否在某个渠道的可用模型列表中）
   </Accordion>
 
   <Accordion title="渠道测试报错：invalid character '<' looking for beginning of value">
-    此错误表示返回值不是合法的 JSON，而是一个 HTML 页面。
+    此错误表示上游返回的内容不是合法的 JSON，而是一个 HTML 页面（响应以 `<` 开头）。
 
-    最可能的原因是：您的部署站的 IP 或代理节点被 CloudFlare 封禁。
+    常见原因是上游地址、代理节点配置错误，或部署所在的出口 IP / 代理被上游或 CDN 拦截，返回了错误页面而非 API 响应。请核对渠道的接口地址与网络可达性。
   </Accordion>
 
   <Accordion title="渠道测试报错：倍率或价格未配置，请联系管理员设置">
-    请检查是否在「系统设置 - 运营设置 - 模型倍率设置」中配置了倍率或价格。
+    请检查是否已在「系统设置 - 运营设置 - 模型倍率设置」中为相关模型配置了倍率或价格。
 
-    或者在「系统设置 - 运营设置」开启「自用模式」。
+    或在「系统设置 - 运营设置」中开启「自用模式」，以跳过价格校验。
   </Accordion>
 </Accordions>
 
 ## 🌐 部署与连接问题
 
 <Accordions>
-  <Accordion title="ChatGPT Next Web 报错：Failed to fetch">
-    请检查以下几点：
+  <Accordion title="第三方客户端报错：Failed to fetch / 无法连接">
+    使用 OpenAI 兼容客户端连接时，请检查以下几点：
 
-    1. 部署时不要设置 `BASE_URL`
-    2. 确认接口地址和 API Key 填写正确
-    3. 检查是否启用了 HTTPS（浏览器会拦截 HTTPS 域名下的 HTTP 请求）
+    1. 接口地址（Base URL）与 API Key 是否填写正确
+    2. 部署时不要额外覆盖 `BASE_URL` 等会改变请求目标的环境变量
+    3. 是否启用了 HTTPS——浏览器会拦截 HTTPS 页面发往 HTTP 地址的请求（混合内容）
+    4. 跨域（CORS）与反向代理配置是否正确
   </Accordion>
 
   <Accordion title="报错：当前分组负载已饱和，请稍后再试">
-    这表示上游渠道出现了 429 错误（请求过多）。
+    这通常表示上游渠道返回了 429（请求过多 / 限流）。可稍后重试，或在后台为该分组增加可用渠道、调整优先级与权重以分散负载。
+  </Accordion>
+
+  <Accordion title="如何理解限流（Rate Limit）？">
+    限流可能来自两层：
+
+    - **上游供应商**：各家供应商对每分钟请求数 / token 数有自己的限制，触发时一般返回 429
+    - **Code Router 自身**：管理员可在后台对用户、令牌或分组配置额外的速率与配额限制
+
+    具体阈值取决于你的部署与上游账户配置。（默认限流数值待补，TBD）
   </Accordion>
 </Accordions>
 
@@ -87,30 +141,37 @@ import { Accordions, Accordion } from 'fumadocs-ui/components/accordion';
 
 <Accordions>
   <Accordion title="升级之后我的数据会丢失吗？">
-    根据数据库类型有所不同：
+    取决于你使用的数据库与部署方式：
 
-    - **MySQL**：数据不会丢失
-    - **SQLite**：需要按照部署命令挂载 volume 来持久化 `one-api.db` 数据库文件，否则容器重启后数据会丢失
+    - **MySQL / PostgreSQL 等外部数据库**：数据存储在数据库中，升级容器/程序不会丢失数据
+    - **SQLite**：数据存储在本地数据库文件中，需要在部署时将该文件所在目录挂载为持久化卷（volume），否则容器重启后数据会丢失
+
+    升级前建议先备份数据库。
   </Accordion>
 
-  <Accordion title="升级之前数据库需要做变更吗？">
-    一般情况下不需要，系统会在初始化时自动调整。
+  <Accordion title="升级之前数据库需要手动变更吗？">
+    一般不需要。系统通常会在启动初始化时自动应用必要的结构调整。
 
-    如需特殊处理，会在更新日志中说明并提供相应脚本。
+    如某次升级需要特殊处理，会在源码仓库的发布说明中给出提示与相应脚本。
   </Accordion>
 
-  <Accordion title="手动修改数据库后报错：数据库一致性已被破坏，请联系管理员？">
-    此错误表示在 `ability` 表中检测到无效的渠道 ID 记录。常见原因：
+  <Accordion title="手动修改数据库后报错：数据库一致性已被破坏">
+    此类错误通常表示渠道相关的关联表中存在无效记录，例如：
 
-    - 删除 `channel` 表记录时未同步清理 `ability` 表中的无效渠道
-    - 每个渠道支持的模型都需要在 `ability` 表中有对应记录
+    - 直接删除了渠道记录，但未同步清理记录「渠道支持哪些模型」的关联表
+    - 渠道与其可用模型之间的对应关系不完整
+
+    建议通过后台界面管理渠道，而非直接改库；如已发生，请修复或清理无效的关联记录后重启服务。
   </Accordion>
 </Accordions>
 
-## ❓ 没有找到您的问题？
+## ❓ 没有找到你的问题？
 
-如果这里没有解答您的问题，欢迎：
+如果这里没有解答你的问题，欢迎：
 
-1. 查看 [安装部署文档](/zh/docs/installation)
-2. 在 [GitHub 上提交 issue](/zh/docs/support/feedback-issues)
-3. 加入 [QQ 交流群寻求帮助](/zh/docs/support/community-interaction)
+1. 查看本站的[安装部署文档](/zh/docs/installation)
+2. 在 [GitHub 仓库](https://github.com/ssgzy/Router-new-api)提交 issue 反馈问题或提出建议
+
+<Callout>
+  其他官方支持与社区渠道（如交流群、邮箱等）尚未确定。（联系方式待补，TBD）
+</Callout>

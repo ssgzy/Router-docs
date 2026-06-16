@@ -1,7 +1,123 @@
-﻿---
+---
 title: Pricing
+description: How model pricing, quotas, and top-up work in Code Router.
 ---
 
-Here you can view site-wide model pricing.
+The **Pricing** page lists the models Code Router exposes through its
+OpenAI-compatible gateway and the billing rate that applies to each one. Because
+Code Router is a relay that fronts many upstream providers behind a single API
+key and base URL, the rate shown here reflects what *your* deployment charges for
+calling a given model — not any single upstream's list price.
 
-![Pricing](/assets/guide/pricing.png)
+<Callout type="warn">
+  Code Router is a brand-new demo. The numbers, currencies, and payment options
+  below are **not finalized** — every concrete amount on this page is a
+  placeholder marked **(TBD / 待补)**. Do not treat anything here as a committed
+  price or available payment method.
+</Callout>
+
+## Where to find it
+
+Open the **Pricing** entry in the console navigation. You do not need to be
+signed in to view it; the table is public so callers can estimate cost before
+creating an API key.
+
+The page renders one row per available model. Typical columns:
+
+- **Model** — the model name you pass in the `model` field of a request.
+- **Type** — how the model is billed (for example, per-token versus per-call).
+- **Rate** — the billing multiplier or unit price. **(rate values TBD / 费率待补)**
+- **Group** — which token/model group the rate belongs to (see below).
+
+<Callout type="info">
+  A screenshot of the live pricing table will be added once the demo UI is
+  finalized. *(screenshot placeholder)*
+</Callout>
+
+## How rates are expressed
+
+Code Router prices most models **per token**, separating input (prompt) tokens
+from output (completion) tokens. Conceptually:
+
+```text
+cost = input_tokens  × input_rate
+     + output_tokens × output_rate
+```
+
+Rates are configured by the operator of the deployment, so the actual unit
+(per-token, per-1K, or per-1M tokens) and currency depend on how this instance
+is set up. **(unit, currency, and all "per N tokens" numbers TBD / 计价单位与币种待补)**
+
+Some models may instead be billed **per call** (a flat charge per request,
+independent of token count). The Pricing table's **Type** column tells you which
+scheme applies to each model.
+
+## Model groups and token groups
+
+Code Router uses **groups** to let one deployment offer different rates or model
+sets to different users:
+
+<Cards>
+  <Card title="Model groups">
+    Bundle related models so a single rate or routing policy applies across
+    them. Useful when several upstream channels back the "same" logical model.
+  </Card>
+  <Card title="Token groups">
+    Each API key (token) can be assigned to a group. The group determines which
+    rate table and which models that key can reach.
+  </Card>
+</Cards>
+
+When you create an API key, the group it belongs to decides the prices you see
+applied in your usage records. If a model is not available to your group, calls
+to it are rejected before any charge is incurred.
+
+## Quotas
+
+Independently of price, a deployment can cap usage with **quotas**:
+
+- **Balance / remaining quota** — how much spend is left on your account or on a
+  specific key.
+- **Daily limits** — an optional ceiling on usage per day.
+- **Per-key limits** — a remaining-quota value attached to an individual API key,
+  so you can hand out a key with a fixed budget.
+
+A request is allowed only if it passes *all* applicable checks (group access,
+remaining balance, per-key remaining, and any daily limit). When any check
+fails, the gateway returns an error instead of forwarding the call upstream.
+
+## Topping up
+
+<Steps>
+  <Step>
+    Open your account / wallet area in the console.
+  </Step>
+  <Step>
+    Choose a top-up amount. **(available amounts TBD / 充值面额待补)**
+  </Step>
+  <Step>
+    Complete payment. **(payment methods are not finalized for this demo —
+    支付方式待补)**
+  </Step>
+  <Step>
+    Your balance updates and the added quota becomes spendable across your keys.
+  </Step>
+</Steps>
+
+<Callout type="warn">
+  No specific payment method, currency, or amount is available or guaranteed in
+  this demo. Treat the top-up flow above as a UI walkthrough only.
+</Callout>
+
+## Reading your usage and cost
+
+After you make calls, the console's usage/log views show per-request token counts
+and the charge applied, computed from the rate for that model and your group.
+Comparing those records against this Pricing page is the reliable way to confirm
+how a model is billed for your account.
+
+## Feedback
+
+Pricing structure and figures for this demo are still being defined. If
+something looks wrong or you have a question, open an issue on the source repo:
+[github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api).

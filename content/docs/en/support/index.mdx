@@ -1,14 +1,21 @@
 ---
 title: Help & Support
-description: Get help and participate in community discussions
+description: Get help with Code Router and find the right support channel
 ---
 
 import { Card, Cards } from 'fumadocs-ui/components/card';
+import { Callout } from 'fumadocs-ui/components/callout';
 import { HelpCircle, MessageCircle, Bug } from 'lucide-react';
 
 ## Overview
 
-Having issues? Need help? We provide multiple support channels to help you solve various problems during use.
+Need help with Code Router? This section points you to the right place depending on
+what you're trying to do — whether you're troubleshooting an integration, looking for
+an answer to a common question, or reporting a problem.
+
+Code Router is a unified, OpenAI-compatible AI gateway: you get one API key and one
+base URL (for example `https://api.code-router.example/v1`) to call many model
+providers, with model groups, token groups, quotas, and usage tracking.
 
 ## Get Help
 
@@ -22,13 +29,46 @@ Having issues? Need help? We provide multiple support channels to help you solve
   <Card
     icon={<MessageCircle />}
     title="Community"
-    description="Join the community to exchange experiences and tips with other users."
+    description="Find out where to ask questions and exchange tips with other users."
     href="/en/docs/support/community-interaction"
   />
   <Card
     icon={<Bug />}
     title="Feedback"
-    description="Found a bug or have a feature suggestion? Let us know!"
+    description="Found a bug or have a feature suggestion? Let us know."
     href="/en/docs/support/feedback-issues"
   />
 </Cards>
+
+## Support Channels
+
+<Callout type="info">
+  Code Router is a brand-new project, and its official support channels are still
+  being set up. For now, the most reliable way to get help or report problems is
+  through GitHub.
+</Callout>
+
+- **GitHub Issues** — For bug reports, feature requests, and technical questions,
+  open an issue on the source repository:
+  [github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api).
+  This is the recommended channel while others are being established.
+- **Community chat** — Real-time community channels (chat groups, forums) are not
+  yet available. (待补 / TBD)
+- **Direct contact** — A dedicated support contact (email or ticketing) has not been
+  set up yet. (待补 / TBD)
+
+## Before You Reach Out
+
+To get a faster, more useful answer, please gather the following when you have a
+problem to report:
+
+- The **endpoint** and **base URL** you called (e.g. `https://api.code-router.example/v1`).
+- The **model name** (or model group) you requested.
+- The exact **error message** or HTTP status code returned.
+- A **minimal request example** (with any secrets such as your API key removed).
+- Roughly **when** the issue occurred and whether it is reproducible.
+
+<Callout type="warn">
+  Never share your API key, tokens, or other secrets in a public issue or message.
+  Redact them before posting.
+</Callout>

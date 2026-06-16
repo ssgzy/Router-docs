@@ -1,6 +1,6 @@
-﻿---
-title: 快速开始
-description: 选择最适合您需求的部署方式
+---
+title: Code Router 文档
+description: Code Router 是一个兼容 OpenAI 接口的统一 AI 网关 / 中转，让你用一个密钥和一个接入地址调用多家模型供应商。
 ---
 
 import {
@@ -12,11 +12,73 @@ import {
   Handshake,
   Container,
   Boxes,
+  Rocket,
 } from 'lucide-react';
 
-## 部署方式选择
+Code Router 是一个**兼容 OpenAI 接口**的统一 AI 网关（中转）。你只需获取**一个 API 密钥**与**一个统一接入地址**，即可调用多家模型供应商；同时通过模型分组、令牌分组、配额与用量统计，对调用进行集中管理。Code Router 基于开源项目二次开发，源码托管在 [GitHub](https://github.com/ssgzy/Router-new-api)。
 
-根据您的环境和技术要求选择合适的部署方式。
+<Callout type="info">
+  Code Router 目前为全新演示项目，文档中涉及的价格、计费、支付与服务条款等运营信息均为占位说明（待补），请以正式上线后的公告为准。
+</Callout>
+
+## 接入地址
+
+所有请求统一发往兼容 OpenAI 协议的接入地址。下方为演示用占位地址，请在实际部署中替换为你自己的域名：
+
+```text
+# 基础地址
+https://api.code-router.example
+
+# OpenAI 兼容端点
+https://api.code-router.example/v1
+```
+
+将现有 OpenAI SDK 或客户端的 `base_url` 指向上述端点，并使用你在控制台创建的密钥，即可无缝切换到 Code Router。
+
+## 从这里开始
+
+<Cards>
+  <Card
+    icon={<Rocket />}
+    title="使用指南"
+    description="了解核心概念、控制台操作与基本用法，第一次使用从这里开始。"
+    href="/zh/docs/guide/wiki/basic-concepts/project-introduction"
+  />
+  <Card
+    icon={<Boxes />}
+    title="部署安装"
+    description="提供 Docker、面板、集群与本地开发等多种部署方式，按需选择。"
+    href="/zh/docs/installation/deployment-methods/docker-installation"
+  />
+  <Card
+    icon={<Code2 />}
+    title="接口文档"
+    description="兼容 OpenAI 的 API 说明、鉴权方式与调用示例。"
+    href="/zh/docs/api"
+  />
+  <Card
+    icon={<Bot />}
+    title="AI 应用接入"
+    description="将 Code Router 接入各类客户端与 AI 应用的配置示例。"
+    href="/zh/docs/apps"
+  />
+  <Card
+    icon={<Headphones />}
+    title="帮助支持"
+    description="常见问题解答与反馈渠道（可前往源码仓库 Issues 反馈）。"
+    href="/zh/docs/support"
+  />
+  <Card
+    icon={<Handshake />}
+    title="商务合作"
+    description="合作与商业相关说明（具体内容待补）。"
+    href="/zh/docs/business"
+  />
+</Cards>
+
+## 部署方式
+
+如果你计划自行部署 Code Router，可根据环境与技术要求选择下列方式之一。
 
 <Cards>
   <Card
@@ -28,7 +90,7 @@ import {
   <Card
     icon={<Container />}
     title="Docker 单容器部署"
-    description="使用 Docker 镜像快速部署 New API，适合个人使用或小规模应用场景。"
+    description="使用 Docker 镜像快速部署 Code Router，适合个人使用或小规模应用场景。"
     href="/zh/docs/installation/deployment-methods/docker-installation"
   />
   <Card
@@ -54,36 +116,5 @@ import {
     title="本地开发部署"
     description="适合开发者进行代码贡献和功能定制，提供完整的本地开发环境设置指南。"
     href="/zh/docs/installation/deployment-methods/local-development"
-  />
-</Cards>
-
-## 浏览我们的文档
-
-探索全面的指南和资源，充分利用 New API 的强大功能。
-
-<Cards>
-  <Card
-    icon={<Code2 />}
-    title="接口文档"
-    description="全面的 API 接口说明和调用示例。"
-    href="/zh/docs/api"
-  />
-  <Card
-    icon={<Bot />}
-    title="AI 应用"
-    description="探索基于 New API 开发的各类 AI 应用示例。"
-    href="/zh/docs/apps"
-  />
-  <Card
-    icon={<Headphones />}
-    title="帮助支持"
-    description="常见问题解答和社区交流。"
-    href="/zh/docs/support"
-  />
-  <Card
-    icon={<Handshake />}
-    title="商务合作"
-    description="与我们合作，共同开拓 AI 生态与商业机会。"
-    href="/zh/docs/business"
   />
 </Cards>

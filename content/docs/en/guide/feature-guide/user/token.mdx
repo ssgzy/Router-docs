@@ -1,37 +1,94 @@
 ---
 title: Token Management
-description: Tokens are API credentials — each token can have its own permission scope and quota limit
+description: Tokens are your Code Router API credentials — each token can have its own permission scope and quota limit
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps, Step } from 'fumadocs-ui/components/steps';
 
-Tokens are API credentials. Each token can be independently configured with its own permission scope and quota limit. Click "Tokens" in the left sidebar, or visit `/console/token` directly.
+In Code Router, a **token** is the API credential you pass as the `Authorization: Bearer ...` header when calling the gateway. Each token can be configured independently with its own permission scope and quota limit, so you can issue separate keys for different apps, environments, or teammates without sharing your account password.
+
+Open the token list from **"Tokens"** in the left sidebar, or visit `/console/token` directly.
 
 ![Token list page](/assets/guide/feature-guide/token-list.png)
 
-The token list shows all created tokens with their name, status, used quota, remaining quota, and expiration time.
+The token list shows every token you have created along with its name, status, used quota, remaining quota, and expiration time.
 
 ## Create a Token
 
-1. Click the "Create Token" button in the top-right of the token list page — a creation dialog appears
-2. Enter a token name (name it by purpose, e.g. "Production" or "Testing")
-3. Configure the following options as needed:
+<Steps>
+
+<Step>
+Click the **"Create Token"** button in the top-right of the token list page. A creation dialog appears.
+</Step>
+
+<Step>
+Enter a token name. Name it by purpose so it is easy to recognize later — for example `Production`, `Testing`, or `Local CLI`.
+</Step>
+
+<Step>
+Configure the options below as needed.
 
 ![Create token dialog](/assets/guide/feature-guide/token-create.png)
 
 | Option | Description |
 | --- | --- |
-| Expiration | Set an expiry date; leave blank or set to -1 for no expiration |
-| Remaining Quota | Limits the maximum quota this token can consume; auto-disabled when exceeded |
-| Unlimited Quota | When enabled, no quota limit applies (still subject to account total quota) |
-| Model Restrictions | Restrict this token to specific models; leave blank for no restriction |
-| IP Allowlist | Restrict allowed source IPs; leave blank for no restriction |
-| Group | Specify the channel group this token uses |
+| Expiration | Set an expiry date; leave blank or set to `-1` for no expiration |
+| Remaining Quota | Caps the maximum quota this token may consume; the token is auto-disabled once exceeded |
+| Unlimited Quota | When enabled, the token has no per-token quota limit (it is still bounded by your account's total quota) |
+| Model Restrictions | Restrict this token to specific models; leave blank to allow all models your account can reach |
+| IP Allowlist | Restrict the source IPs allowed to use this token; leave blank for no restriction |
+| Group | Select which channel group this token routes through |
+</Step>
 
-4. Click "Submit" — the dialog shows the complete token key. **Copy and save it immediately**, as it cannot be viewed again after closing the dialog.
+<Step>
+Click **"Submit"**. The dialog then displays the complete token key. **Copy and save it immediately** — it cannot be viewed again after you close the dialog.
 
-![Token created successfully, showing full key](/assets/guide/feature-guide/token-created-key.png)
+![Token created successfully, showing the full key](/assets/guide/feature-guide/token-created-key.png)
+</Step>
+
+</Steps>
 
 <Callout type="warn">
-  The token key is only fully displayed once at creation. Copy and save it immediately. Token keys have full API call permissions — do not share them with others or commit them to code repositories.
+  The token key is shown in full only once, at creation time. Copy and store it somewhere safe right away. A token key grants full API-call permissions — never share it, and never commit it to a code repository.
 </Callout>
+
+## Use a Token
+
+A token is the only secret you need to call Code Router. Point your OpenAI-compatible client at the gateway base URL and pass the token as the API key:
+
+- **Base URL:** `https://api.code-router.example`
+- **OpenAI-compatible endpoint:** `https://api.code-router.example/v1`
+- **API key:** the token you copied above
+
+```bash
+curl https://api.code-router.example/v1/chat/completions \
+  -H "Authorization: Bearer sk-your-token-here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "your-model-name",
+    "messages": [{"role": "user", "content": "Hello"}]
+  }'
+```
+
+<Callout type="info">
+  The model names available to a token depend on its **Group** and any **Model Restrictions** you set. If a call is rejected for an unknown model, check those two settings first.
+</Callout>
+
+## Manage Tokens
+
+From the token list you can, for each row:
+
+- **Edit** — change the name, expiration, quota, model restrictions, IP allowlist, or group.
+- **Enable / Disable** — temporarily switch a token off without deleting it. A disabled token rejects all calls until re-enabled.
+- **Copy** — copy the token's stored value again where the interface allows it.
+- **Delete** — permanently remove a token. Any client still using it will immediately stop working.
+
+### Good practice
+
+- Issue **one token per application or environment** so you can revoke a single key without disrupting everything else.
+- Set a **Remaining Quota** on tokens used by experimental or shared code to cap worst-case spend.
+- Use **Model Restrictions** and an **IP Allowlist** to narrow what a leaked token could do.
+- Rotate tokens periodically: create a new one, switch your client over, then delete the old one.
+
+If something behaves unexpectedly or you want to report an issue, the project's GitHub repository is the feedback channel: [github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api).

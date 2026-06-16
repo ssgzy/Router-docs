@@ -1,6 +1,6 @@
 ---
-title: Quick Start
-description: Choose the deployment method that best suits your needs
+title: Code Router Documentation
+description: One API key and one base URL to reach many model providers through a unified, OpenAI-compatible gateway.
 ---
 
 import {
@@ -12,11 +12,40 @@ import {
   Handshake,
   Container,
   Boxes,
+  Rocket,
 } from 'lucide-react';
 
-## Deployment Method Selection
+## Welcome to Code Router
 
-Choose the appropriate deployment method based on your environment and technical requirements.
+Code Router is a unified, OpenAI-compatible AI gateway. Instead of managing a separate key, SDK, and base URL for every upstream provider, you get a **single API key** and a **single base URL** that route requests to many models through one consistent interface. Organize models into model groups, control access with token groups, and track quotas and usage from one place.
+
+<Callout type="info">
+Code Router is built on a popular open-source AI gateway and customized as its own product. The source is available on [GitHub](https://github.com/ssgzy/Router-new-api).
+</Callout>
+
+## Quick Start
+
+Point any OpenAI-compatible client at the gateway by setting two values: the base URL and your Code Router API key.
+
+```bash
+curl https://api.code-router.example/v1/chat/completions \
+  -H "Authorization: Bearer $CODE_ROUTER_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "your-model-name",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
+```
+
+The OpenAI-compatible endpoint is `https://api.code-router.example/v1`. Most SDKs only require overriding the base URL — for example, set `base_url` in the OpenAI Python SDK or `baseURL` in the Node SDK.
+
+<Callout type="warn">
+Replace `https://api.code-router.example` with the base URL of your own deployment, and use a model name that exists in your configured model groups.
+</Callout>
+
+## Deploy Code Router
+
+Choose the deployment method that matches your environment and operational needs.
 
 <Cards>
   <Card
@@ -28,7 +57,7 @@ Choose the appropriate deployment method based on your environment and technical
   <Card
     icon={<Container />}
     title="Docker Single Container Deployment"
-    description="Quickly deploy New API using a Docker image, suitable for personal use or small-scale applications."
+    description="Quickly deploy Code Router using a Docker image, suitable for personal use or small-scale applications."
     href="/en/docs/installation/deployment-methods/docker-installation"
   />
   <Card
@@ -57,33 +86,33 @@ Choose the appropriate deployment method based on your environment and technical
   />
 </Cards>
 
-## Browse Our Documentation
+## Browse the Documentation
 
-Explore comprehensive guides and resources to fully leverage the powerful features of New API.
+Explore guides and references to get the most out of Code Router.
 
 <Cards>
   <Card
     icon={<Code2 />}
-    title="API Documentation"
-    description="Comprehensive API interface descriptions and call examples."
+    title="API Reference"
+    description="OpenAI-compatible endpoints, request and response formats, and call examples."
     href="/en/docs/api"
   />
   <Card
     icon={<Bot />}
-    title="AI Applications"
-    description="Explore various AI application examples developed based on New API."
+    title="App Integrations"
+    description="Connect Code Router to chat clients, IDEs, and other tools that speak the OpenAI protocol."
     href="/en/docs/apps"
   />
   <Card
     icon={<Headphones />}
     title="Help & Support"
-    description="Frequently asked questions and community communication."
+    description="Frequently asked questions and where to ask for help."
     href="/en/docs/support"
   />
   <Card
     icon={<Handshake />}
-    title="Business Cooperation"
-    description="Partner with us to jointly explore the AI ecosystem and business opportunities."
+    title="Business"
+    description="Partnership and collaboration information. (Details TBD.)"
     href="/en/docs/business"
   />
 </Cards>

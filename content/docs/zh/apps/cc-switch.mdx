@@ -1,15 +1,7 @@
 ---
 title: CC Switch - AI CLI 统一管理工具
-description: CC Switch 教程 — 跨平台 AI CLI 管理工具，统一管理 Claude Code、Codex、Gemini CLI 的 Provider 配置、MCP 服务器与系统提示词。对接 New API 一键填入。
+description: CC Switch 教程 — 跨平台 AI CLI 管理工具，统一管理 Claude Code、Codex、Gemini CLI 的 Provider 配置、MCP 服务器与系统提示词，并对接 Code Router 网关。
 ---
-
-<Callout type="info" title="聊天设置选项">
-  在 New API 控制台的系统设置->聊天设置中，可添加如下快捷选项，便于在令牌管理页一键填充到 CC Switch：
-</Callout>
-
-    ```json
-    { "CC Switch": "ccswitch" }
-    ```
 
 <Callout type="info">
   🔀 CC Switch 是一款开源、跨平台的 AI CLI 统一管理工具，支持 Claude Code、Codex 和 Gemini CLI
@@ -17,57 +9,105 @@ description: CC Switch 教程 — 跨平台 AI CLI 管理工具，统一管理 C
   让你在多个 AI 编程助手之间自由切换，无需手动编辑配置文件。
 </Callout>
 
-- GitHub 仓库：[https://github.com/farion1231/cc-switch](https://github.com/farion1231/cc-switch)
+Code Router 是一个统一的、兼容 OpenAI 接口的 AI 网关（基于开源项目二次开发）。注册后你会获得**一个 API Key** 与**一个 Base URL**，即可通过它调用多家模型供应商。本页介绍如何在 CC Switch 中创建一个指向 Code Router 的 Provider，从而为 Claude Code / Codex / Gemini CLI 统一供给模型。
+
+- GitHub 仓库（CC Switch）：[https://github.com/farion1231/cc-switch](https://github.com/farion1231/cc-switch)
 - 下载地址：[GitHub Releases](https://github.com/farion1231/cc-switch/releases)
+- Code Router 源码仓库：[https://github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api)
 
 ## 核心特性
 
 ### 🔌 Provider 管理
 - **一键切换** — 在 Claude Code、Codex、Gemini 的 API 配置之间一键切换，无需手动修改环境变量或配置文件
-- **多端点支持** — 每个 Provider 可配置多个端点，支持 API Key 管理与延迟测速
-- **4 层模型配置** — 支持 Haiku / Sonnet / Opus / Custom 四级模型粒度配置
+- **多端点支持** — 每个 Provider 可配置多个端点，便于在不同网关之间切换
+- **多级模型配置** — 可分别为不同档位（如轻量 / 均衡 / 旗舰）指定模型
 
 ### 🛠️ MCP 服务器管理
 - **跨应用统一管理** — 单面板管理 Claude / Codex / Gemini 三端的 MCP 服务器
-- **三种传输类型** — 支持 stdio、HTTP、SSE（Server-Sent Events）
-- **自动同步** — 统一导入导出 + 双向同步
+- **多种传输类型** — 支持 stdio、HTTP、SSE（Server-Sent Events）
+- **导入导出** — 统一导入导出，便于在不同设备间迁移配置
 
 ### 💬 Prompts 管理
 - **多预设系统提示词** — 无限预设、快速切换
 - **跨应用支持** — Claude（`CLAUDE.md`）、Codex（`AGENTS.md`）、Gemini（`GEMINI.md`）
-- **Markdown 编辑器** — CodeMirror 6 + 实时预览
 
 ### 🌐 多平台支持
 - **桌面应用** — Windows、macOS、Linux 原生安装包
 - **Web 版本** — 适用于无头服务器 / SSH 远程环境的浏览器访问方案
-- **CLI 版本** — 命令行交互模式与命令模式双支持
+- **CLI 版本** — 命令行交互模式与命令模式
 
-## NewAPI 接入方法
+## 准备：获取 Code Router 凭据
 
-CC Switch 支持 `ccswitch://` Deep Link 协议，可从 New API 令牌管理页一键导入 Provider 配置。
+在 CC Switch 中添加 Provider 前，先在 Code Router 控制台准备两项信息：
 
-### 配置步骤
+- **Base URL（API 地址）**：`https://api.code-router.example`
+  CC Switch 中部分应用要求填写到 `/v1`（兼容 OpenAI 协议）：`https://api.code-router.example/v1`
+- **API Key（API 密钥）**：在 Code Router 控制台「令牌管理」中创建并复制，形如 `sk-...`
 
-1. **在 New API 令牌管理页，点击对应令牌的下拉菜单**
-   在菜单中选择 **CC Switch** 选项，系统会自动唤起 CC Switch 应用并弹出配置弹窗。
+<Callout type="warn">
+  请使用你自己部署的 Code Router，或确认服务方具备合法上游授权与合规义务。不要将来源不明的 API 地址或密钥接入生产环境。
+</Callout>
 
-2. **在弹窗中完成配置**
-   ![填入 CC Switch 弹窗](/assets/cc_switch/fill_dialog.png)
+## 在 CC Switch 中接入 Code Router
 
-   弹窗各字段说明：
-   - **应用**：顶部切换应用类型 — **Claude** / **Codex** / **Gemini**，根据需要选择目标应用
-   - **名称**：为该配置填写一个名称（例如 `My Claude`），方便后续在 CC Switch 中识别和切换
-   - **主模型**（必填）— 默认使用的主力模型
-   - **Haiku 模型** — 轻量快速模型
-   - **Sonnet 模型** — 均衡模型
-   - **Opus 模型** — 最强模型
+<Steps>
 
-   所有模型均为下拉选择，未选择时显示「请选择模型」。
+<Step>
+### 打开 Provider 管理并新增配置
 
-3. **完成配置**
-   点击 **「打开 CC Switch」** 即可将配置导入 CC Switch 并开始使用；点击 **「取消」** 放弃本次操作。
+在 CC Switch 中切换到目标应用（**Claude** / **Codex** / **Gemini**），新增一个 Provider 配置，并为其填写一个便于识别的**名称**（例如 `Code Router`）。
+</Step>
 
-## 安装方式
+<Step>
+### 填写 Base URL 与 API Key
+
+将 **Base URL** 设为 Code Router 的接口地址，将 **API Key** 设为你的 Code Router 密钥：
+
+<Tabs items={['Anthropic 兼容（Claude Code）', 'OpenAI 兼容（Codex 等）']}>
+
+<Tab value="Anthropic 兼容（Claude Code）">
+- Base URL：`https://api.code-router.example`
+- API Key：`sk-...`（你的 Code Router 令牌）
+</Tab>
+
+<Tab value="OpenAI 兼容（Codex 等）">
+- Base URL：`https://api.code-router.example/v1`
+- API Key：`sk-...`（你的 Code Router 令牌）
+</Tab>
+
+</Tabs>
+</Step>
+
+<Step>
+### 指定模型
+
+在配置中填写要使用的模型名称（可分档设置主力模型与轻量模型）。具体可用模型以你的 Code Router 控制台中模型 / 令牌分组所授权的为准（可用模型列表待补）。
+</Step>
+
+<Step>
+### 切换并运行
+
+保存后，在 CC Switch 中将当前 Provider 切换为刚创建的 **Code Router** 配置，CC Switch 会自动写入对应 CLI 的配置文件 / 环境变量。随后直接启动你的 CLI（如 `claude`、`codex`、`gemini`）即可通过 Code Router 调用模型。
+</Step>
+
+</Steps>
+
+<Callout type="info">
+  如需校验连通性，可在 CLI 中发起一次简单对话；若返回正常说明 Base URL 与 API Key 配置成功。也可直接对端点 `https://api.code-router.example/v1/models` 发起请求，确认凭据有效。
+</Callout>
+
+## 手动配置（不使用 CC Switch）
+
+如果你不想通过 CC Switch，也可以直接为对应 CLI 设置环境变量。以兼容 OpenAI 协议的 CLI 为例：
+
+```shell
+export OPENAI_BASE_URL="https://api.code-router.example/v1"
+export OPENAI_API_KEY="sk-..."   # 你的 Code Router 令牌
+```
+
+具体环境变量名称以各 CLI 的文档为准；核心是将 **Base URL 指向 Code Router、API Key 设为你的 Code Router 令牌**。
+
+## 安装 CC Switch
 
 ### macOS（推荐 Homebrew）
 
@@ -103,7 +143,6 @@ cd cc-switch-web/
 
 ## 相关链接
 
-- [GitHub 仓库](https://github.com/farion1231/cc-switch)
-- [更新日志](https://github.com/farion1231/cc-switch/blob/main/CHANGELOG.md)
-- [Web 版本仓库](https://github.com/cp-yu/cc-switch-web)
-- [CLI 版本仓库](https://github.com/thomas-jack/cc-switch-cli)
+- [CC Switch GitHub 仓库](https://github.com/farion1231/cc-switch)
+- [CC Switch Releases](https://github.com/farion1231/cc-switch/releases)
+- [Code Router 源码仓库](https://github.com/ssgzy/Router-new-api)

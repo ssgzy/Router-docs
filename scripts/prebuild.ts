@@ -3,7 +3,10 @@
  * Generates changelog before build
  */
 
-import { generateChangelog } from './build-changelog';
+// Code Router: changelog auto-generation from upstream GitHub Releases is
+// disabled — the docs ship a placeholder changelog (待补) and the build must
+// not fetch the network or overwrite that placeholder.
+// import { generateChangelog } from './build-changelog';
 
 async function prebuild() {
   console.log('═══════════════════════════════════════════════');
@@ -13,7 +16,8 @@ async function prebuild() {
   const startTime = Date.now();
 
   try {
-    await generateChangelog();
+    // await generateChangelog();
+    console.log('ℹ Changelog auto-generation disabled (placeholder in use).');
 
     const duration = ((Date.now() - startTime) / 1000).toFixed(2);
 

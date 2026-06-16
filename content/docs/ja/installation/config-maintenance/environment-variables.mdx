@@ -2,10 +2,10 @@
 title: 環境変数設定ガイド
 ---
 
-このドキュメントでは、New APIがサポートするすべての環境変数とその設定について説明します。これらの環境変数を設定することで、システムの動作をカスタマイズできます。
+このドキュメントでは、Code Routerがサポートするすべての環境変数とその設定について説明します。これらの環境変数を設定することで、システムの動作をカスタマイズできます。
 
 <Callout type="info" title="ヒント">
-  New API は `.env` ファイルから環境変数を読み込むことをサポートしています。`.env.example`
+  Code Router は `.env` ファイルから環境変数を読み込むことをサポートしています。`.env.example`
   ファイルを参照し、使用する際は `.env` に名前を変更してください。
 </Callout>
 
@@ -45,7 +45,7 @@ title: 環境変数設定ガイド
 | --------------------------- | ---------------------------------------------- | -------- | ------------------------------------------- |
 | `SESSION_SECRET`            | セッションキー（マルチマシンデプロイに必須） | -        | `SESSION_SECRET=your_session_secret`        |
 | `CRYPTO_SECRET`             | 暗号化キー（データベースコンテンツを暗号化、デフォルトはSESSION_SECRETにフォールバック） | -        | `CRYPTO_SECRET=your_crypto_secret`          |
-| `FRONTEND_BASE_URL`         | フロントエンドベースURL（スレーブノードで使用、未一致のルーティングをこのアドレスにリダイレクト） | -        | `FRONTEND_BASE_URL=https://<your-newapi-domain>` |
+| `FRONTEND_BASE_URL`         | フロントエンドベースURL（スレーブノードで使用、未一致のルーティングをこのアドレスにリダイレクト） | -        | `FRONTEND_BASE_URL=https://api.code-router.example` |
 | `NODE_TYPE`                 | ノードタイプ                                   | `master` | `NODE_TYPE=slave`                           |
 | `TLS_INSECURE_SKIP_VERIFY`  | グローバルTLS証明書検証をスキップ              | `false`  | `TLS_INSECURE_SKIP_VERIFY=true`             |
 | `TRUSTED_REDIRECT_DOMAINS`  | 信頼されたリダイレクトドメインリスト（カンマ区切り） | -        | `TRUSTED_REDIRECT_DOMAINS=example.com,api.example.com` |
@@ -180,7 +180,7 @@ title: 環境変数設定ガイド
 
 | 環境変数 | 説明                                     | デフォルト値 | 例                               |
 |---------|------------------------------------------|--------------|----------------------------------|
-| `VITE_REACT_APP_SERVER_URL` | フロントエンドがバックエンドにリクエストするベースアドレス（コンパイル時に有効） | -            | `VITE_REACT_APP_SERVER_URL=https://api.example.com` |
+| `VITE_REACT_APP_SERVER_URL` | フロントエンドがバックエンドにリクエストするベースアドレス（コンパイル時に有効） | -            | `VITE_REACT_APP_SERVER_URL=https://api.code-router.example` |
 
 <Callout type="info" title="コンパイル時変数">
   `VITE_REACT_APP_SERVER_URL` は Vite のコンパイル時に注入されるフロントエンド変数であり、フロントエンドのビルド時にのみ有効で、実行時には変更できません。
@@ -260,7 +260,7 @@ REDIS_CONN_STRING=redis://default:password@redis-server:6379
 NODE_TYPE=slave
 
 # オプション：フロントエンドベースURL
-# FRONTEND_BASE_URL=https://<your-newapi-domain>
+# FRONTEND_BASE_URL=https://api.code-router.example
 
 # オプション：同期頻度
 SYNC_FREQUENCY=60

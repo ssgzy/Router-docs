@@ -2,7 +2,7 @@
 title: 集群部署
 ---
 
-本文档提供了 New API 集群部署的详细配置步骤和最佳实践，帮助您构建高可用、负载均衡的分布式系统。
+本文档提供了 Code Router 集群部署的详细配置步骤和最佳实践，帮助您构建高可用、负载均衡的分布式系统。
 
 ## 前置要求
 
@@ -14,7 +14,7 @@ title: 集群部署
 
 ## 集群架构概述
 
-New API 集群采用主从架构设计：
+Code Router 集群采用主从架构设计：
 
 1. **主节点**：负责处理所有写操作和部分读操作
 2. **从节点**：主要负责处理读操作，提高系统整体吞吐量
@@ -73,7 +73,7 @@ services:
       - TZ=Asia/Shanghai
       # 以下是可选配置
       - SYNC_FREQUENCY=60 # 同步频率，单位秒
-      # - FRONTEND_BASE_URL=https://<your-newapi-domain> # 前端基础 URL，用于邮件通知等功能
+      # - FRONTEND_BASE_URL=https://api.code-router.example # 前端基础 URL，用于邮件通知等功能
     volumes:
       - ./data:/data
       - ./logs:/app/logs
@@ -110,7 +110,7 @@ services:
       - SYNC_FREQUENCY=60 # 从节点与主节点同步频率，单位秒
       - TZ=Asia/Shanghai
       # 以下是可选配置
-      # - FRONTEND_BASE_URL=https://<your-newapi-domain> # 需与主节点相同
+      # - FRONTEND_BASE_URL=https://api.code-router.example # 需与主节点相同
     volumes:
       - ./data:/data
       - ./logs:/app/logs
@@ -138,7 +138,7 @@ upstream new_api_cluster {
 
 server {
     listen 80;
-    server_name <your-newapi-domain>;
+    server_name api.code-router.example;
 
     location / {
         proxy_pass http://new_api_cluster;

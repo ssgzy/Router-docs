@@ -1,71 +1,83 @@
 ---
-title: Feedback
+title: Feedback & Issues
+description: How to report bugs, request features, and reach Code Router support channels.
 ---
 
-Your feedback is highly valued and crucial for project improvement. If you encounter any issues during use, please report them to us via GitHub Issues.
+Your feedback helps improve Code Router. If you run into a problem or have an idea, the most reliable channel today is the project's GitHub Issues tracker.
+
+<Callout type="info" title="Support channels">
+  Code Router is an early-stage demo, and dedicated support channels (community chat, email, etc.) are still being set up — **(other channels TBD / 待补)**. For now, please use GitHub Issues on the source repository below.
+</Callout>
 
 ## 📝 How to Submit an Issue
 
-Please visit our GitHub Issues page: [New API Issues](https://github.com/Calcium-Ion/new-api/issues)
+Open an issue on the source repository: [Code Router on GitHub](https://github.com/ssgzy/Router-new-api).
 
-<Callout type="info" title="Checks Before Submitting an Issue">
-  Before submitting a new issue, we recommend that you:
-</Callout>
+Before opening a new issue, we recommend that you:
 
-    1. Search to see if a similar issue already exists
-    2. Ensure you are using the latest version
-    3. Check if there are already relevant answers in the [FAQ document](/en/docs/support/faq)
+<Steps>
+  <Step>Search existing issues to see whether the same problem or request already exists.</Step>
+  <Step>Make sure you are running an up-to-date version of Code Router.</Step>
+  <Step>Check the [FAQ document](/en/docs/support/faq) for an existing answer.</Step>
+</Steps>
 
-![feedback-issues](/assets/issues.png)
+When the problem involves an API call, including the request you sent (with secrets redacted) and the full error response makes diagnosis much faster. Remember to strip your real API key and base URL — use the demo placeholders `https://api.code-router.example` / `https://api.code-router.example/v1` if you want to show structure.
 
-## 💡 Issue Feedback Template
+## 💡 Issue Templates
 
-### Format for Reporting Issues
+Copy one of the templates below into your issue and fill it in.
 
-```markdown
-**Routine Checks**
-
-[//]: # 'Remove existing spaces in the box and fill with x'
-
-- [ ] I have confirmed there are no similar issues currently
-- [ ] I have confirmed that I have upgraded to the latest version
-- [ ] I have thoroughly reviewed the project README, especially the FAQ section
-- [ ] I understand and am willing to follow up on this issue, assisting with testing and providing feedback
-- [ ] I understand and agree with the above content, and I understand that project maintainers have limited energy, **issues that do not follow the rules may be ignored or directly closed**
-- [ ] I confirm that the scenario described in this issue complies with upstream terms of service, platform rules, regulatory requirements, and project compliance policies
-
-**Problem Description**
-
-**Steps to Reproduce**
-
-**Expected Result**
-
-**Relevant Screenshots**
-If none, please delete this section.
-```
-
-### Format for Feature Requests
+### Bug Report
 
 ```markdown
-**Routine Checks**
+**Routine checks**
 
-[//]: # 'Remove existing spaces in the box and fill with x'
+[//]: # 'Replace the spaces in the boxes with x'
 
-- [ ] I have confirmed there are no similar issues currently
-- [ ] I have confirmed that I have upgraded to the latest version
-- [ ] I have thoroughly reviewed the project README and confirmed that the current version cannot meet the requirements
-- [ ] I understand and am willing to follow up on this issue, assisting with testing and providing feedback
-- [ ] I understand and agree with the above content, and I understand that project maintainers have limited energy, **issues that do not follow the rules may be ignored or directly closed**
-- [ ] I confirm that the scenario described in this issue complies with upstream terms of service, platform rules, regulatory requirements, and project compliance policies
+- [ ] I have searched and confirmed there is no similar existing issue
+- [ ] I have confirmed I am using an up-to-date version
+- [ ] I have reviewed the documentation, especially the FAQ
+- [ ] I am willing to follow up on this issue and help with testing and feedback
 
-**Feature Description**
+**Problem description**
 
-**Use Case**
+**Steps to reproduce**
+
+**Expected result**
+
+**Actual result**
+
+**Environment**
+- Code Router version:
+- Deployment (self-hosted / demo):
+- Model / provider involved:
+
+**Logs or screenshots**
+(Redact API keys, tokens, and any private base URLs. Delete this section if not applicable.)
 ```
 
-<Callout type="warn" title="Important Notes">
-  - Please strictly follow the template format when submitting issues - Please use a clear title to facilitate searching for other users -
-  Please pay attention to and respond to the issues you submit promptly - Non-compliant issues may be closed directly -
-  If the issue is resolved, please close it promptly
-  - Issues / PRs / discussions should comply with project compliance policies and community rules; maintainers will handle non-compliant content according to the rules
+### Feature Request
+
+```markdown
+**Routine checks**
+
+[//]: # 'Replace the spaces in the boxes with x'
+
+- [ ] I have searched and confirmed there is no similar existing request
+- [ ] I have confirmed the current version cannot already meet this need
+- [ ] I am willing to follow up on this request and help with testing and feedback
+
+**Feature description**
+
+**Use case / motivation**
+
+**Possible approach (optional)**
+```
+
+<Callout type="warn" title="Tips for a good issue">
+  - Use a clear, specific title so others can find it.
+  - Follow the template — incomplete reports are harder to act on and may be closed.
+  - Watch your issue and respond to follow-up questions promptly.
+  - Close the issue once it is resolved.
+  - Keep reports and discussion respectful and on-topic.
 </Callout>

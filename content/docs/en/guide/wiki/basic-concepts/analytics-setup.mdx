@@ -4,7 +4,7 @@ title: Analytics Tool Setup Guide
 
 ### Overview
 
-New API now supports integration with popular analytics platforms to help you track user behavior and website performance:
+Code Router now supports integration with popular analytics platforms to help you track user behavior and website performance:
 
 - **Google Analytics 4 (GA4)**: The latest version of Google's analytics platform
 - **Umami Analytics**: A privacy-focused, open-source analytics tool
@@ -97,7 +97,7 @@ Edit the `docker-compose.yml` file:
 environment:
   - UMAMI_WEBSITE_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   # Optional: Only required for self-hosted instances
-  - UMAMI_SCRIPT_URL=https://<your-umami-domain>/script.js
+  - UMAMI_SCRIPT_URL=https://your-umami-instance.example/script.js
 ```
 
 **Standalone Deployment:**
@@ -106,7 +106,7 @@ Add to the `.env` file:
 
 ```bash
 export UMAMI_WEBSITE_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-export UMAMI_SCRIPT_URL=https://<your-umami-domain>/script.js  # Optional
+export UMAMI_SCRIPT_URL=https://your-umami-instance.example/script.js  # Optional
 ```
 
 **Note:** If using Umami Cloud, you do not need to set `UMAMI_SCRIPT_URL`, as it uses the official URL by default.

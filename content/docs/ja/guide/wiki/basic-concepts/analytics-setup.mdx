@@ -4,7 +4,7 @@ title: 分析ツール設定ガイド
 
 ### 概要
 
-New API は現在、一般的な分析プラットフォームとの統合をサポートしており、ユーザー行動とウェブサイトのパフォーマンスを追跡するのに役立ちます。
+Code Router は現在、一般的な分析プラットフォームとの統合をサポートしており、ユーザー行動とウェブサイトのパフォーマンスを追跡するのに役立ちます。
 
 - **Google Analytics 4 (GA4)**：Googleの分析プラットフォームの最新バージョン
 - **Umami Analytics**：プライバシーを重視したオープンソースの分析ツール
@@ -97,7 +97,7 @@ docker-compose down && docker-compose up -d
 environment:
   - UMAMI_WEBSITE_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   # オプション：セルフホストインスタンスのみ必要
-  - UMAMI_SCRIPT_URL=https://<your-umami-domain>/script.js
+  - UMAMI_SCRIPT_URL=https://your-umami-instance.example/script.js
 ```
 
 **スタンドアロンデプロイメントの場合：**
@@ -106,7 +106,7 @@ environment:
 
 ```bash
 export UMAMI_WEBSITE_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-export UMAMI_SCRIPT_URL=https://<your-umami-domain>/script.js  # オプション
+export UMAMI_SCRIPT_URL=https://your-umami-instance.example/script.js  # オプション
 ```
 
 **注意：** Umami Cloudを使用する場合、`UMAMI_SCRIPT_URL`は公式URLがデフォルトで使用されるため、設定する必要はありません。

@@ -2,7 +2,7 @@
 title: Cluster Deployment
 ---
 
-This document provides detailed configuration steps and best practices for New API cluster deployment, helping you build a highly available, load-balanced distributed system.
+This document provides detailed configuration steps and best practices for Code Router cluster deployment, helping you build a highly available, load-balanced distributed system.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ This document provides detailed configuration steps and best practices for New A
 
 ## Cluster Architecture Overview
 
-The New API cluster adopts a master-slave architecture design:
+The Code Router cluster adopts a master-slave architecture design:
 
 1.  **Master Node**: Responsible for handling all write operations and some read operations
 2.  **Slave Nodes**: Primarily responsible for handling read operations, improving overall system throughput
@@ -74,7 +74,7 @@ services:
       - TZ=Asia/Shanghai
       # 以下是可选配置
       - SYNC_FREQUENCY=60 # 同步频率，单位秒
-      # - FRONTEND_BASE_URL=https://<your-newapi-domain> # 前端基础 URL，用于邮件通知等功能
+      # - FRONTEND_BASE_URL=https://api.code-router.example # 前端基础 URL，用于邮件通知等功能
     volumes:
       - ./data:/data
       - ./logs:/app/logs
@@ -112,7 +112,7 @@ services:
       - SYNC_FREQUENCY=60 # 从节点与主节点同步频率，单位秒
       - TZ=Asia/Shanghai
       # 以下是可选配置
-      # - FRONTEND_BASE_URL=https://<your-newapi-domain> # 需与主节点相同
+      # - FRONTEND_BASE_URL=https://api.code-router.example # 需与主节点相同
     volumes:
       - ./data:/data
       - ./logs:/app/logs
@@ -140,7 +140,7 @@ upstream new_api_cluster {
 
 server {
     listen 80;
-    server_name <your-newapi-domain>;
+    server_name api.code-router.example;
 
     location / {
         proxy_pass http://new_api_cluster;

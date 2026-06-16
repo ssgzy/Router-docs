@@ -1,13 +1,77 @@
-﻿---
+---
 title: API 令牌
+description: 在 Code Router 控制台创建、查看与管理 API 令牌（API Key），用于以兼容 OpenAI 的方式调用统一网关。
 ---
 
-在这里可以进行查看、编辑和添加令牌等操作。
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+在「API 令牌」页面，你可以查看、创建、编辑和删除令牌。令牌即调用网关时使用的 API 密钥（API Key），它决定了调用方的身份、可用范围与额度限制。
+
+<Callout type="info">
+Code Router 是一个统一的、兼容 OpenAI 接口的 AI 网关：你只需**一个 API 密钥**和**一个 Base URL**，即可调用多家模型供应商。本演示站点统一使用 Base URL `https://api.code-router.example`，OpenAI 兼容端点为 `https://api.code-router.example/v1`。
+</Callout>
 
 ## 查看令牌
 
+令牌列表展示当前账号下所有已创建的令牌，包括名称、状态（启用 / 停用）、已用与剩余额度、所属分组（token group）以及过期时间等信息。你可以在此复制密钥、查看用量或进行编辑。
+
 ![查看令牌](/assets/guide/api-token.png)
+
+<Callout type="warn">
+密钥仅在创建时完整展示一次，请立即妥善保存。不要将密钥提交到公开仓库或写入前端代码中。如果怀疑泄露，请尽快删除该令牌并重新创建。
+</Callout>
 
 ## 添加令牌
 
+点击「添加令牌」即可创建一个新的 API 密钥。常见的可配置项包括：
+
+- **名称**：用于在列表中区分不同用途的令牌（如「本地开发」「线上服务」）。
+- **额度**：该令牌可消耗的上限，可设置为固定额度或不限。
+- **过期时间**：到期后令牌自动失效，可设置为永不过期。
+- **令牌分组（token group）**：与模型分组共同决定该令牌能调用哪些模型。
+- **IP 限制**：可限定允许使用该令牌的来源 IP（按站点配置支持 CIDR 或不限）。
+
 ![添加令牌](/assets/guide/create-api-token.png)
+
+<Callout type="info">
+计费规则与价格表暂未公布（价格待补 / pricing TBD）。额度的具体计量与扣费方式以站点实际配置为准。
+</Callout>
+
+## 使用令牌发起请求
+
+创建并复制密钥后，将其作为 `Bearer` 令牌放入请求头，向 OpenAI 兼容端点发起调用。请求体中的 `model` 字段需填写你账号可用的模型名（可在「个人设置」的可用模型列表中查看并复制）。
+
+<Steps>
+
+<Step>
+将 Base URL 设置为 `https://api.code-router.example/v1`。
+</Step>
+
+<Step>
+将 API 密钥放入 `Authorization: Bearer <你的密钥>` 请求头。
+</Step>
+
+<Step>
+向 `/v1/chat/completions` 发送请求，并在请求体中指定可用的 `model`。
+</Step>
+
+</Steps>
+
+```bash
+curl https://api.code-router.example/v1/chat/completions \
+  -H "Authorization: Bearer <你的密钥>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "<可用模型名>",
+    "messages": [{"role": "user", "content": "你好"}]
+  }'
+```
+
+<Callout type="info">
+能否调用某个模型，由令牌所属的**令牌分组（token group）**与账号所在的**模型分组（model group）**共同决定。若返回模型不可用，请确认该模型在你的可用模型列表中。
+</Callout>
+
+---
+
+如对功能有疑问或希望反馈问题，可前往源码仓库提交 issue：https://github.com/ssgzy/Router-new-api。

@@ -1,14 +1,15 @@
 ---
 title: 帮助支持
-description: 获取帮助和参与社区交流
+description: 获取 Code Router 的帮助、反馈问题并参与社区交流
 ---
 
 import { Card, Cards } from 'fumadocs-ui/components/card';
+import { Callout } from 'fumadocs-ui/components/callout';
 import { HelpCircle, MessageCircle, Bug } from 'lucide-react';
 
 ## 概述
 
-遇到问题？需要帮助？我们提供多种支持渠道，帮助您解决使用过程中的各种问题。
+使用 Code Router 时遇到问题或有改进建议？本页汇总了目前可用的求助与反馈渠道。Code Router 是一个统一的、兼容 OpenAI 协议的 AI 网关（基于开源项目二次开发），帮助你用一套 API Key 和一个 Base URL 调用多家模型供应商。
 
 ## 获取帮助
 
@@ -16,19 +17,42 @@ import { HelpCircle, MessageCircle, Bug } from 'lucide-react';
   <Card
     icon={<HelpCircle />}
     title="常见问题"
-    description="查看常见问题的解答，快速解决常见问题。"
+    description="查看常见问题的解答，快速排查使用中的常见情况。"
     href="/zh/docs/support/faq"
   />
   <Card
     icon={<MessageCircle />}
     title="社区交流"
-    description="加入社区，与其他用户交流经验和技巧。"
+    description="与其他用户交流接入经验、配置技巧与最佳实践。"
     href="/zh/docs/support/community-interaction"
   />
   <Card
     icon={<Bug />}
     title="问题反馈"
-    description="遇到 Bug 或有功能建议？告诉我们！"
+    description="遇到 Bug 或有功能建议？通过源码仓库提交给我们。"
     href="/zh/docs/support/feedback-issues"
   />
 </Cards>
+
+## 支持渠道
+
+<Callout type="info">
+Code Router 目前处于早期阶段，官方支持渠道仍在搭建中。在此之前，推荐通过源码仓库的 GitHub Issues 提交问题与建议。
+</Callout>
+
+- **GitHub Issues（推荐）**：提交 Bug、功能请求或使用疑问。
+  仓库地址：https://github.com/ssgzy/Router-new-api
+- **官方社区 / 即时通讯群**：（待补 / TBD）
+- **邮件、客服等其他联系方式**：（待补 / TBD）
+
+提交问题前，建议先查阅 [常见问题](/zh/docs/support/faq)；如果确认是缺陷，请在 [问题反馈](/zh/docs/support/feedback-issues) 中按指引整理复现步骤后提交，便于我们更快定位。
+
+## 在反馈中包含的信息
+
+为了让我们更高效地处理你的反馈，提交时尽量附上以下内容：
+
+- 你使用的接口与示例请求（注意脱敏，**不要泄露 API Key**）。
+  - OpenAI 兼容端点示例：`https://api.code-router.example/v1`
+- 期望结果与实际结果，以及完整的错误信息或状态码。
+- 涉及的模型名称、模型分组或令牌分组等配置信息。
+- 复现步骤；如可能，附上能稳定复现的最小示例。

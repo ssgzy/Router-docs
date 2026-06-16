@@ -1,239 +1,237 @@
 ---
 title: Ratio Settings
+description: How Code Router uses model, completion, and group ratios to convert API usage into quota consumption.
 ---
 
-Ratio settings are a core configuration of NewAPI's internal cost accounting system. By setting different ratios, you can flexibly control internal cost allocation, budget control, or enterprise customer billing standards for various models and user groups.
+Ratio settings are a core part of Code Router's internal cost-accounting system. By configuring different ratios you can flexibly control how usage of various models and user groups is converted into quota consumption — useful for internal cost allocation, budget control, or differentiated billing tiers.
+
+<Callout type="warn">
+The concrete ratio values, prices, currency amounts, and quota-unit conversions shown below are **illustrative placeholders only**. Code Router is an early demo and none of these numbers are finalized. Treat every value marked **(TBD / 待补)** as a placeholder to be replaced with your own configuration. Do not rely on any figure here as a real price.
+</Callout>
 
 ## Ratio System Overview
 
-NewAPI uses a three-tier ratio system to calculate user quota consumption:
+Code Router uses a three-tier ratio system to calculate quota consumption:
 
-1.  **Model Ratio** - Defines the base billing multiplier for different AI models
-2.  **Completion Ratio** - Applies additional billing adjustments to output tokens
-3.  **Group Ratio** - Sets differentiated billing multipliers for different user groups
+1. **Model Ratio** — the base billing multiplier for a given model.
+2. **Completion Ratio** — an additional adjustment applied to output tokens.
+3. **Group Ratio** — a differentiated multiplier for different user groups.
 
 ### Relationship between Quota and Ratios
 
-In the New API system, ratios are key parameters for calculating quota consumption. Quota is the internal billing unit of the system, and all API calls are ultimately converted into quota points for deduction.
+In Code Router, ratios are the parameters used to compute quota consumption. **Quota** is the internal accounting unit of the system: all API calls are ultimately converted into quota points and deducted from a user's balance.
 
-Quota Unit Conversion:
+Quota unit conversion:
 
--   1 USD = 500,000 quota points
--   Quota points are the basic unit for internal system billing
--   User balances and consumption records are based on quota points
+- 1 USD ≈ **(conversion rate TBD / 待补)** quota points
+- Quota points are the basic unit for all internal accounting.
+- User balances and consumption records are tracked in quota points.
+
+<Callout type="info">
+The USD-to-quota conversion rate is an operational decision and is **not yet finalized** for this demo. Configure it to a value that suits your deployment before exposing billing to end users.
+</Callout>
 
 ### Quota Calculation Formulas
 
-#### Pay-as-you-go Models (Based on Token Consumption)
+#### Pay-as-you-go models (token-based)
 
 ```
-配额消耗 = (输入token数 + 输出token数 × 补全倍率) × 模型倍率 × 分组倍率
+quota = (input_tokens + output_tokens × completion_ratio) × model_ratio × group_ratio
 ```
 
-#### Per-call Billing Models (Fixed Price)
+#### Per-call billing models (fixed price)
 
 ```
-配额消耗 = 模型固定价格 × 分组倍率 × 配额单位(500,000)
+quota = model_fixed_price × group_ratio × quota_unit
 ```
 
-#### Audio Models (Special handling, automatically processed internally by New API)
+#### Audio models (handled automatically by Code Router)
 
 ```
-配额消耗 = (文本输入token + 文本输出token × 补全倍率 + 音频输入token × 音频倍率 + 音频输出token × 音频倍率 × 音频补全倍率) × 模型倍率 × 分组倍率
+quota = (text_input_tokens
+         + text_output_tokens × completion_ratio
+         + audio_input_tokens × audio_ratio
+         + audio_output_tokens × audio_ratio × audio_completion_ratio)
+        × model_ratio × group_ratio
 ```
 
-#### Pre-consumption and Post-consumption Mechanism
+#### Pre-consumption and post-consumption
 
-New API adopts a dual billing mechanism of pre-consumption and post-consumption:
+Code Router uses a two-phase billing mechanism:
 
-1.  **Pre-consumption Phase**: Before an API call, calculate and pre-deduct quota consumption based on estimated token count.
-2.  **Post-consumption Phase**: After an API call is completed, recalculate quota consumption based on actual token count.
-3.  **Difference Adjustment**: If the actual consumption differs from the pre-consumption, the system will automatically adjust the user's quota balance.
+1. **Pre-consumption** — before the call, an estimated quota amount is pre-deducted based on the estimated token count.
+2. **Post-consumption** — after the call completes, quota is recalculated from the actual token count.
+3. **Difference adjustment** — if the actual consumption differs from the pre-consumption, the system automatically corrects the user's balance.
 
 ```
-预消费配额 = 预估token数 × 模型倍率 × 分组倍率
-实际配额 = 实际token数 × 模型倍率 × 分组倍率
-配额调整 = 实际配额 - 预消费配额
+pre_consumed = estimated_tokens × model_ratio × group_ratio
+actual       = actual_tokens × model_ratio × group_ratio
+adjustment   = actual - pre_consumed
 ```
 
 ## Model Ratio Settings
 
-Model ratios define the base billing multipliers for different AI models, and the system pre-sets default ratios for various models.
+Model ratios define the base billing multiplier for each model. A higher ratio means more quota is consumed per token; a lower ratio means less.
 
-### Examples of Common Model Ratios
+### Illustrative model ratios
 
-| Model Name      | Model Ratio | Completion Ratio | Official Price (Input) | Official Price (Output) |
-| --------------- | ----------- | ---------------- | ---------------------- | ----------------------- |
-| gpt-4o          | 1.25        | 4                | $2.5/1M Tokens         | $10/1M Tokens           |
-| gpt-3.5-turbo   | 0.25        | 1.33             | $0.5/1M Tokens         | $1.5/1M Tokens          |
-| gpt-4o-mini     | 0.075       | 4                | $0.15/1M Tokens        | $0.6/1M Tokens          |
-| o1              | 7.5         | 4                | $15/1M Tokens          | $60/1M Tokens           |
+<Callout type="warn">
+The table below uses **placeholder values for layout illustration only** — the model names, ratios, and any prices are **not real Code Router rates (pricing TBD / 价格待补)**.
+</Callout>
 
-Ratio Meaning Explanation:
+| Model Name      | Model Ratio | Completion Ratio | Reference Price (Input) | Reference Price (Output) |
+| --------------- | ----------- | ---------------- | ----------------------- | ------------------------ |
+| example-model-a | (TBD)       | (TBD)            | (pricing TBD)           | (pricing TBD)            |
+| example-model-b | (TBD)       | (TBD)            | (pricing TBD)           | (pricing TBD)            |
+| example-model-c | (TBD)       | (TBD)            | (pricing TBD)           | (pricing TBD)            |
 
--   **Model Ratio**: A multiplier relative to the base billing unit, reflecting cost differences between models
--   **Completion Ratio**: The billing multiplier for output tokens relative to input tokens, reflecting output cost differences
--   Higher ratio means more quota consumed; lower ratio means less quota consumed
+Meaning of each value:
 
-### Setup Methods
+- **Model Ratio** — multiplier relative to the base accounting unit, reflecting cost differences between models.
+- **Completion Ratio** — the billing multiplier for output tokens relative to input tokens.
 
-1.  **JSON Format Setting**: Directly edit the model ratio JSON configuration
-2.  **Visual Editor**: Set ratios via a graphical interface
+### Setup methods
 
-![倍率1](/assets/guide/rate-setting-1.png)
+1. **JSON configuration** — edit the model-ratio JSON directly.
+2. **Visual editor** — set ratios through a graphical interface.
+
+*(Screenshot placeholder — console ratio editor; image TBD.)*
 
 ## Completion Ratio Settings
 
-The completion ratio is used for additional billing of output tokens, primarily to balance the input and output cost differences of various models.
+The completion ratio applies extra billing to output tokens, mainly to balance the cost difference between input and output for models where output is more expensive than input.
 
-### Default Completion Ratios
+### Setup instructions
 
-| Model Type      | Official Price (Input) | Official Price (Output) | Completion Ratio | Description        |
-| --------------- | ---------------------- | ----------------------- | ---------------- | ------------------ |
-| gpt-4o          | 2.5$/1M Tokens         | 10$/1M Tokens           | 4                | Output is 4x input |
-| gpt-3.5-turbo   | 0.5$/1M Tokens         | 1$/1M Tokens            | 2                | Output is 2x input |
-| gpt-image-1     | 5$/1M Tokens           | 40$/1M Tokens           | 8                | Output is 8x input |
-| gpt-4o-mini     | 0.15$/1M Tokens        | 0.6$/1M Tokens          | 4                | Output is 4x input |
-| Other Models    | 1                      | 1                       | 1                | Output is 1x input |
+- The completion ratio affects only output-token billing.
+- A value of **1** means output tokens are billed the same as input tokens.
+- Greater than 1 → output tokens cost more; less than 1 → output tokens cost less.
 
-### Setup Instructions
-
--   The completion ratio primarily affects the billing of output tokens
--   Setting it to 1 means output token billing is the same as input token billing
--   Greater than 1 means higher billing for output tokens, less than 1 means lower billing for output tokens
+<Callout type="info">
+Per-model completion-ratio defaults depend on each upstream model's published input/output pricing, which is **not finalized in this demo (待补)**. Set conservative values and adjust based on the upstream provider's actual rates.
+</Callout>
 
 ## Group Ratio Settings
 
-Group ratios allow setting differentiated billing multipliers for different user groups, enabling internal cost allocation, budget control, or enterprise customer billing configuration.
+Group ratios let you assign differentiated multipliers to different user groups — enabling internal cost allocation, budget control, or tiered billing.
 
-### Group Ratio Configuration
+### Group ratio configuration
 
 ```json
 {
-  "internal-test": 0.5,
-  "standard": 1.0,
-  "enterprise-client": 0.8,
-  "trial": 2.0
+  "internal-test": "(TBD)",
+  "standard": "(TBD)",
+  "enterprise": "(TBD)",
+  "trial": "(TBD)"
 }
 ```
 
-### Group Ratio Priority
+### Group ratio priority
 
-1.  **User-specific Ratio**: Individual ratio set for a particular user
-2.  **Group Ratio**: The ratio of the group the user belongs to
-3.  **Default Ratio**: System default ratio (usually 1.0)
+1. **User-specific ratio** — an individual override set for a particular user.
+2. **Group ratio** — the ratio of the group the user belongs to.
+3. **Default ratio** — the system default (typically 1.0).
 
-![倍率2](/assets/guide/rate-setting-2.png)
+*(Screenshot placeholder — group ratio settings; image TBD.)*
 
-## Visual Ratio Settings
+## Visual Ratio Editor
 
-The visual editor provides an intuitive ratio management interface, supporting:
+The visual editor provides an intuitive interface for managing ratios, including:
 
--   Batch editing of model ratios
--   Real-time preview of ratio configurations
--   Conflict detection and alerts
--   One-click synchronization of upstream ratios
+- Batch editing of model ratios.
+- Real-time preview of the resulting configuration.
+- Conflict detection and alerts.
+- Optional synchronization of metadata from upstream channels.
 
-![倍率3](/assets/guide/rate-setting-3.png)
+*(Screenshot placeholder — visual ratio editor; image TBD.)*
 
 ## Models Without Ratio Settings
 
-For models without ratio settings, the system will:
+For models that have no ratio configured, Code Router can:
 
-1.  **Self-use Mode**: Use the default ratio of 37.5
-2.  **Billing Mode**: Prompt with "Ratio or price not configured" error
-3.  **Automatic Detection**: Display unconfigured models in the management interface
-
-![倍率4](/assets/guide/rate-setting-4.png)
+1. **Self-use mode** — fall back to a default ratio (**default value TBD / 待补**).
+2. **Billing mode** — return a "ratio or price not configured" error rather than guessing a price.
+3. **Detection** — surface unconfigured models in the management interface so they can be filled in.
 
 ## Upstream Ratio Synchronization
 
-The system supports automatic synchronization of ratio settings from upstream channels:
+Code Router can help keep local ratios aligned with upstream channels:
 
--   Only synchronize legally authorized upstream public or authorized available price/model metadata
--   Batch update local ratio configurations
--   Stay synchronized with upstream prices
--   Supports manual adjustment and override
-
-![倍率5](/assets/guide/rate-setting-5.png)
-
-## Frequently Asked Questions
-
-### Q: How do I set ratios for new models?
-
-A: You can add new models via the visual editor or directly in the JSON configuration. It is recommended to set a conservative ratio first and adjust it based on actual usage.
-
-### Q: How do group ratios take effect?
-
-A: Group ratios are multiplied by model ratios, ultimately affecting the calculation of user quota consumption. A user's actual ratio = Model Ratio × Group Ratio.
-
-### Q: What is the purpose of the completion ratio?
-
-A: The completion ratio is mainly used to balance the cost differences between input and output tokens. The output cost of some models is significantly higher than the input cost, requiring adjustment via the completion ratio.
-
-### Q: How do I batch set ratios for similar models?
-
-A: You can perform batch operations through the visual editor, or directly add ratio settings for similar models in bulk within the JSON configuration.
+- Sync only legally authorized, publicly available price/model metadata from upstream.
+- Batch-update local ratio configurations.
+- Keep local entries roughly aligned with upstream rates.
+- Allow manual adjustment and override at any time.
 
 ## Quota Calculation Examples
 
-### Example 1: GPT-4 Standard User Conversation
+<Callout type="warn">
+The numbers in these examples are **made-up inputs to demonstrate the formulas**. They are not real Code Router prices or ratios (价格/费率待补).
+</Callout>
 
-Scenario Parameters:
+### Example 1 — token-based, standard group
 
--   Input Tokens: 1,000
--   Output Tokens: 500
--   Model Ratio: 15
--   Completion Ratio: 2
--   Group Ratio: 1.0 (Standard User)
+Scenario inputs (illustrative):
 
-Calculation Process:
+- Input tokens: 1,000
+- Output tokens: 500
+- Model ratio: `M`
+- Completion ratio: `C`
+- Group ratio: `G`
 
-```
-配额消耗 = (1,000 + 500 × 2) × 15 × 1.0
-         = (1,000 + 1,000) × 15
-         = 2,000 × 15
-         = 30,000 配额点数
-```
-
-Equivalent USD Cost: 30,000 ÷ 500,000 = $0.06
-
-### Example 2: GPT-3.5 Internal Test Group Conversation
-
-Scenario Parameters:
-
--   Input Tokens: 2,000
--   Output Tokens: 1,000
--   Model Ratio: 0.25
--   Completion Ratio: 1.33
--   Group Ratio: 0.5 (Internal Test Group)
-
-Calculation Process:
+Plug into the pay-as-you-go formula:
 
 ```
-配额消耗 = (2,000 + 1,000 × 1.33) × 0.25 × 0.5
-         = (2,000 + 1,330) × 0.125
-         = 3,330 × 0.125
-         = 416.25 配额点数
+quota = (1,000 + 500 × C) × M × G
 ```
 
-Equivalent USD Cost: 416.25 ÷ 500,000 = $0.00083
+Equivalent USD cost = `quota ÷ quota_unit` (where `quota_unit` is the TBD conversion rate).
 
-### Example 3: Per-call Billing Model (e.g., Midjourney)
+### Example 2 — token-based, discounted group
 
-Scenario Parameters:
+Scenario inputs (illustrative):
 
--   Model Fixed Price: $0.02
--   Group Ratio: 1.0 (Standard User)
--   Quota Unit: 500,000
-
-Calculation Process:
+- Input tokens: 2,000
+- Output tokens: 1,000
+- Model ratio: `M`
+- Completion ratio: `C`
+- Group ratio: `G` (a discounted group, e.g. < 1.0)
 
 ```
-配额消耗 = 0.02 × 1.0 × 500,000
-         = 10,000 配额点数
+quota = (2,000 + 1,000 × C) × M × G
 ```
 
-Equivalent USD Cost: 10,000 ÷ 500,000 = $0.02
+### Example 3 — per-call (fixed price) model
 
-For more billing rules, please refer to [Frequently Asked Questions](/en/docs/support/faq)
+Scenario inputs (illustrative):
+
+- Model fixed price: `P` (per-call price, value TBD)
+- Group ratio: `G`
+- Quota unit: `quota_unit` (conversion rate TBD)
+
+```
+quota = P × G × quota_unit
+```
+
+## Frequently Asked Questions
+
+<Accordions>
+<Accordion title="How do I set a ratio for a new model?">
+Add the model through the visual editor or directly in the JSON configuration. Start with a conservative ratio and adjust it based on actual usage and the upstream provider's real pricing.
+</Accordion>
+
+<Accordion title="How do group ratios take effect?">
+A group ratio is multiplied with the model ratio when computing quota consumption — so a user's effective multiplier is roughly `model_ratio × group_ratio` (with any user-specific override taking precedence).
+</Accordion>
+
+<Accordion title="What is the completion ratio for?">
+It balances the cost difference between input and output tokens. For models whose output is significantly more expensive than input, raise the completion ratio so output tokens are billed proportionally more.
+</Accordion>
+
+<Accordion title="How do I batch-set ratios for similar models?">
+Use the visual editor's batch operations, or add several entries at once in the JSON configuration.
+</Accordion>
+</Accordions>
+
+---
+
+Found an issue or want to suggest a default ratio scheme? Feedback is welcome via the project's [GitHub issues](https://github.com/ssgzy/Router-new-api). For more billing rules, see the [FAQ](/en/docs/support/faq).

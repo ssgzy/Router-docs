@@ -1,40 +1,90 @@
 ---
-title: Business Collaboration
+title: Business & Enterprise Use
+description: How Code Router can support team and enterprise deployments, plus how to get in touch about collaboration.
 ---
 
-## 💡 Our Original Intention
+## What Code Router is
 
-The original intention behind New API's creation is simple: **to make AI accessible to more people and lower the barrier to entry for AI**.
+Code Router is a unified, OpenAI-compatible AI gateway. It gives users **one API key and one base URL** to reach many model providers, with model groups, token groups, quotas, and usage tracking layered on top. It is an open-source project; the source lives at https://github.com/ssgzy/Router-new-api.
 
-We believe that AI should not be a privilege for a few, but a tool accessible to everyone. Whether you are an independent developer, a startup team, or a large enterprise, you should be able to reduce internal access and management complexity under the premise of legal authorization and compliant deployment.
-
-## 🤝 About Commercialization
-
-Our choice to commercialize is not to maximize profit, but to enable the project to **develop healthily and sustainably**.
-
-Servers incur costs, maintenance requires effort, and ecosystem development needs resources—moderate commercialization is a necessary guarantee for New API to continue serving the community. We pledge to invest profits back into product iteration, community building, and ecosystem expansion, ensuring that every bit of support translates into better services.
-
-## 📜 Gentleman's Agreement
-
-The New API community has always upheld the concept of a **Gentleman's Agreement**:
-
-- We trust every user and provide flexible and open ways of use.
-- We do not impose cumbersome restrictions, trusting that everyone will use resources responsibly.
-- We expect users, while benefiting, to also respect the sustainable development of the project.
-- If your project benefits from New API, we welcome contributions back to the community in any form.
-
-This is an agreement based on trust and respect, and a continuation of the open-source spirit.
-
-## 📬 Contact Information
-
-<Callout type="info" title="Business Collaboration Email">
-  [newapi@quantumnous.com](mailto:newapi@quantumnous.com)
-
-  Email replies are generally within 2-3 business days.
+<Callout type="info" title="Demo status">
+  Code Router is a brand-new demo. The notes below describe what enterprise use *could* look like. Anything marked **(TBD)** is not finalized — treat it as a placeholder, not a commitment.
 </Callout>
 
-<Callout type="info" title="WeChat Work (Scan to Contact)">
-  <img src="/assets/wechat.png" alt="WeChat Work QR Code" width="240" />
+## What enterprise use could look like
+
+For a team or organization, a single gateway in front of many providers can reduce integration and management overhead. Typical goals:
+
+<Cards>
+  <Card title="One integration point" description="Point internal apps at a single OpenAI-compatible base URL instead of wiring each provider SDK separately." />
+  <Card title="Centralized keys" description="Issue and rotate keys per team or service, and group them with token groups." />
+  <Card title="Quotas & limits" description="Apply per-key quotas and daily limits so spend and load stay predictable." />
+  <Card title="Usage tracking" description="See request and consumption records per key for internal cost attribution." />
+</Cards>
+
+### Connecting
+
+Any OpenAI-compatible client works. Set the base URL and key, then call the standard endpoints.
+
+<Tabs items={["Base URL", "Endpoint"]}>
+  <Tab value="Base URL">
+    ```
+    https://api.code-router.example
+    ```
+  </Tab>
+  <Tab value="Endpoint">
+    ```
+    https://api.code-router.example/v1
+    ```
+  </Tab>
+</Tabs>
+
+```bash
+curl https://api.code-router.example/v1/chat/completions \
+  -H "Authorization: Bearer $CODE_ROUTER_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "your-model-group",
+    "messages": [{"role": "user", "content": "Hello"}]
+  }'
+```
+
+The exact set of available models, model groups, and routing behavior depends on how a given deployment is configured.
+
+## Self-hosting vs. hosted
+
+Because Code Router is open source, two paths are possible:
+
+<Steps>
+  <Step>
+    **Self-host.** Run your own instance from the source repo and bring your own provider credentials. You control deployment, data, and configuration.
+  </Step>
+  <Step>
+    **Hosted / managed (TBD).** A managed offering is not yet available. Details — including whether it will be offered, in what form, and on what terms — are still to be determined.
+  </Step>
+</Steps>
+
+## Pricing
+
+<Callout type="warn" title="Pricing TBD">
+  No pricing, rate tables, billing model, or payment methods are defined yet. **(pricing TBD)** When a model is finalized it will be documented here.
 </Callout>
 
-New API is committed to providing developers and enterprises with a unified API gateway and usage management capabilities under legally authorized scenarios. If you wish to engage in in-depth collaboration with us at the product or technical level, we sincerely welcome your inquiry! Collaboration should be based on legal authorization, compliant deployment, and legitimate business scenarios, and adhere to upstream service terms, platform rules, and regulatory requirements. Clients must legally obtain upstream authorization and bear responsibility for their service qualifications, compliant operations, content security, and user management.
+## Service commitments
+
+<Callout type="warn" title="No SLA yet">
+  Code Router is a demo and does **not** currently publish any uptime or service-level guarantees. **(SLA TBD)**
+</Callout>
+
+## Collaboration & contact
+
+If you are interested in collaborating at a product or technical level, contact details are not yet published.
+
+<Callout type="info" title="How to reach us (TBD)">
+  - A dedicated business contact channel is **(TBD)**.
+  - In the meantime, questions, feature requests, and feedback can go through GitHub Issues on the source repository: https://github.com/ssgzy/Router-new-api.
+</Callout>
+
+### Responsible use
+
+Any deployment or collaboration should rest on legal authorization, compliant deployment, and legitimate use. Operators are responsible for obtaining upstream provider authorization and for their own service qualifications, compliant operation, content safety, and user management, and should follow the applicable upstream service terms, platform rules, and regulations.

@@ -1,45 +1,89 @@
-﻿---
+---
 title: Personal Settings
+description: Manage your Code Router account — view available models, link accounts, secure your credentials, and configure notifications, pricing acceptance, and IP logging.
 ---
 
-Here you can view account information, manage account bindings, perform security settings, and more.
+The Personal Settings page is where you manage your Code Router account: review the models you can call, link sign-in methods, secure your password and API keys, and tune a few per-account preferences.
+
+<Callout type="info">
+Code Router is an OpenAI-compatible gateway (a fork of the open-source [Router-new-api](https://github.com/ssgzy/Router-new-api)). The settings below apply to your account on whichever Code Router deployment you signed in to.
+</Callout>
 
 ## View Available Models
 
-Here you can view the models available to your current account. Click on a model name to copy it.
+This section lists every model your current account is allowed to call. Click a model name to copy it, then use that exact string as the `model` field in your API requests.
 
-![可用模型](/assets/guide/available-models.png)
+![Available models](/assets/guide/available-models.png)
+
+You call these models against the OpenAI-compatible endpoint of your deployment, for example:
+
+```bash
+curl https://api.code-router.example/v1/chat/completions \
+  -H "Authorization: Bearer $CODE_ROUTER_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "<copied-model-name>",
+    "messages": [{"role": "user", "content": "Hello"}]
+  }'
+```
+
+<Callout type="info">
+The set of models you see depends on the model groups and token groups assigned to your account. If a model you expect is missing, contact your deployment's administrator. (Default model availability is configured per deployment — TBD.)
+</Callout>
 
 ## Account Binding
 
-Here you can perform account binding operations.
+Here you can link additional sign-in methods to your account. Binding more than one method gives you a fallback way to sign in and can be required by some deployments before certain actions are allowed.
 
-![账户绑定](/assets/guide/account-bind.png)
+![Account binding](/assets/guide/account-bind.png)
+
+The exact set of available bindings (e.g. email, OAuth providers) is configured per deployment — available options are TBD for this demo.
 
 ## Security Settings
 
-Here you can change your password, reset your API key, and perform other related operations.
+Here you can change your password and reset your API key, among other security-related actions.
 
-![安全设置](/assets/guide/account-security.png)
+![Security settings](/assets/guide/account-security.png)
+
+<Callout type="warn">
+Resetting your API key invalidates the previous key immediately. Any application still using the old key will start receiving authentication errors until you update it with the new key. Treat your API key like a password and never commit it to source control.
+</Callout>
+
+A common, safe way to use your key in code is to read it from an environment variable rather than hard-coding it:
+
+```bash
+export CODE_ROUTER_API_KEY="sk-..."
+export CODE_ROUTER_BASE_URL="https://api.code-router.example/v1"
+```
 
 ## Other Settings
 
 ### Notification Settings
 
-Here you can configure how you receive notifications. Currently, email and Webhook are supported.
+Configure how you receive notifications from the platform — for example quota or balance alerts. Email and Webhook delivery are supported.
 
-![邮件通知](/assets/guide/account-notification-mail.png)
+![Email notifications](/assets/guide/account-notification-mail.png)
 
-![Webhook](/assets/guide/account-notification-webhook.png)
+![Webhook notifications](/assets/guide/account-notification-webhook.png)
+
+For Webhook delivery, provide an HTTPS URL that can receive POST requests. Your endpoint should respond quickly with a `2xx` status; treat the payload as untrusted and validate it before acting on it.
 
 ### Price Settings
 
-Here you can set whether to accept models without a configured price.
+Here you choose whether your account will accept requests for models that do not have a configured price.
 
-![价格设置](/assets/guide/account-price.png)
+![Price settings](/assets/guide/account-price.png)
+
+<Callout type="warn">
+Leaving this enabled means you may be charged for a model whose price was not known in advance. If you want to avoid unexpected charges, disable it so requests to unpriced models are rejected. (Actual model prices are configured per deployment — pricing TBD for this demo.)
+</Callout>
 
 ### IP Logging
 
-Here you can choose to enable IP logging. If enabled, IP addresses will be displayed in the logs.
+Enable this to record the client IP address alongside your request logs. When enabled, IP addresses appear in the log views, which helps with auditing and debugging access issues.
 
-![IP设置](/assets/guide/account-ip-log.png)
+![IP logging settings](/assets/guide/account-ip-log.png)
+
+<Callout type="info">
+Need help or found a problem? Open an issue on the source repository: [github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api). (Other support channels are TBD.)
+</Callout>

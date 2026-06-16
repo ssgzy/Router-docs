@@ -1,24 +1,35 @@
 ﻿---
 title: 个人设置
+description: 在 Code Router 控制台查看账号信息、绑定账户、进行安全设置，并管理通知、价格与 IP 记录等个人偏好。
 ---
 
-在这里可以查看账号信息，管理账号绑定，进行安全设置等操作
+import { Callout } from 'fumadocs-ui/components/callout';
+
+在「个人设置」页面，你可以查看账号信息、管理账户绑定、进行安全设置，并调整通知、价格与 IP 记录等个人偏好。
+
+<Callout type="info">
+Code Router 是一个统一的、兼容 OpenAI 接口的 AI 网关：你只需一个 API 密钥和一个 Base URL，即可调用多家模型供应商。本页设置不会改变 Base URL（统一为 `https://api.code-router.example`），仅影响你当前账号的可用范围与偏好。
+</Callout>
 
 ## 可用模型查看
 
-这里可以查看当前账户可用的模型，点击模型名进行复制
+这里可以查看当前账号可用的模型列表，点击模型名即可复制，便于直接填入请求体中的 `model` 字段。可用模型由你所在的模型分组（model group）与令牌分组（token group）共同决定。
 
 ![可用模型](/assets/guide/available-models.png)
 
 ## 账户绑定
 
-这里可以进行账户绑定操作
+这里可以将第三方登录方式绑定到当前账号，绑定后即可作为额外的登录入口使用。具体支持的绑定方式取决于站点的部署配置。
 
 ![账户绑定](/assets/guide/account-bind.png)
 
 ## 安全设置
 
-这里可以进行修改密码，重置 API 密钥等操作
+这里可以修改登录密码、重置系统访问令牌（System Access Token）等。
+
+<Callout type="warn">
+重置访问令牌后，旧令牌会立即失效，所有使用旧令牌的脚本或集成都需要更新为新令牌。请妥善保管，不要在公开仓库或前端代码中泄露。
+</Callout>
 
 ![安全设置](/assets/guide/account-security.png)
 
@@ -26,20 +37,28 @@ title: 个人设置
 
 ### 通知设置
 
-这里可以配置接收通知的方式，目前支持邮件和Webhook两种方式
+这里可以配置接收系统通知的方式，目前支持邮件和 Webhook 两种渠道。常见的通知场景包括额度变动、调用异常等。
 
 ![邮件通知](/assets/guide/account-notification-mail.png)
 
-![Webhook](/assets/guide/account-notification-webhook.png)
+![Webhook 通知](/assets/guide/account-notification-webhook.png)
 
 ### 价格设置
 
-这里可以设置是否接受未设置价格的模型
+这里可以设置是否接受调用「尚未配置价格的模型」。开启后，遇到未设价模型时仍会照常发起请求；关闭后则会拒绝此类请求，以避免意料之外的扣费。
+
+<Callout type="info">
+本演示站点暂未公布正式计费规则与价格表（价格待补 / pricing TBD）。具体计费方式以站点实际配置为准。
+</Callout>
 
 ![价格设置](/assets/guide/account-price.png)
 
 ### IP 记录
 
-这里可以选择开启IP记录，开启后将会在日志中显示IP
+这里可以选择开启 IP 记录。开启后，调用日志中将额外记录请求来源 IP，便于排查异常与审计。
 
-![IP设置](/assets/guide/account-ip-log.png)
+![IP 记录设置](/assets/guide/account-ip-log.png)
+
+---
+
+如对功能有疑问或希望反馈问题，可前往源码仓库提交 issue：https://github.com/ssgzy/Router-new-api。

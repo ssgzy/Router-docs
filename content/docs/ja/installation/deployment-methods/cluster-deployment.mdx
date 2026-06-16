@@ -2,7 +2,7 @@
 title: クラスターデプロイ
 ---
 
-このドキュメントでは、New API クラスターデプロイの詳細な設定手順とベストプラクティスを提供し、高可用性で負荷分散された分散システムの構築を支援します。
+このドキュメントでは、Code Router クラスターデプロイの詳細な設定手順とベストプラクティスを提供し、高可用性で負荷分散された分散システムの構築を支援します。
 
 ## 前提条件
 
@@ -14,7 +14,7 @@ title: クラスターデプロイ
 
 ## クラスターアーキテクチャの概要
 
-New API クラスターはマスター・スレーブアーキテクチャを採用しています：
+Code Router クラスターはマスター・スレーブアーキテクチャを採用しています：
 
 1.  **マスターノード**：すべての書き込み操作と一部の読み取り操作を処理します
 2.  **スレーブノード**：主に読み取り操作を処理し、システム全体の処理能力を向上させます
@@ -74,7 +74,7 @@ services:
       - TZ=Asia/Shanghai
       # 以下はオプション設定
       - SYNC_FREQUENCY=60 # 同期頻度、単位は秒
-      # - FRONTEND_BASE_URL=https://<your-newapi-domain> # フロントエンドのベースURL、メール通知などの機能に使用
+      # - FRONTEND_BASE_URL=https://api.code-router.example # フロントエンドのベースURL、メール通知などの機能に使用
     volumes:
       - ./data:/data
       - ./logs:/app/logs
@@ -111,7 +111,7 @@ services:
       - SYNC_FREQUENCY=60 # スレーブノードとマスターノードの同期頻度、単位は秒
       - TZ=Asia/Shanghai
       # 以下はオプション設定
-      # - FRONTEND_BASE_URL=https://<your-newapi-domain> # マスターノードと同じである必要があります
+      # - FRONTEND_BASE_URL=https://api.code-router.example # マスターノードと同じである必要があります
     volumes:
       - ./data:/data
       - ./logs:/app/logs
@@ -139,7 +139,7 @@ upstream new_api_cluster {
 
 server {
     listen 80;
-    server_name <your-newapi-domain>;
+    server_name api.code-router.example;
 
     location / {
         proxy_pass http://new_api_cluster;
