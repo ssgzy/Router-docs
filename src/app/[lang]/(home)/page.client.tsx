@@ -186,8 +186,8 @@ export function Hero() {
           )}
         >
           <Image
-            src="/assets/newapi.svg"
-            alt="logo"
+            src="/assets/code-router-logo.png"
+            alt="Code Router"
             width={288}
             height={288}
             className="size-32 drop-shadow-2xl sm:size-40 md:size-56 lg:size-72"

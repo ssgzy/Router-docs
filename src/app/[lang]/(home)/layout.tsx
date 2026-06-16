@@ -159,14 +159,6 @@ export default async function Layout({
             url: `${docsUrl}/skills`,
             icon: <Puzzle />,
           },
-          {
-            type: 'main',
-            on: 'menu',
-            text: texts.apiDocs.text,
-            url: 'https://apifox.newapi.ai/',
-            icon: <FileCode />,
-            external: true,
-          },
           // Desktop navigation
           {
             type: 'custom',
@@ -227,13 +219,6 @@ export default async function Layout({
                 </span>
               </Link>
             ),
-          },
-          {
-            type: 'main',
-            on: 'nav',
-            text: texts.apiDocs.text,
-            url: 'https://apifox.newapi.ai/',
-            external: true,
           },
           ...linkItems,
         ]}

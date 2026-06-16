@@ -7,19 +7,19 @@
 @theme {
   --spacing-fd-container: 1436px;
 
-  /* Pink theme color */
-  --color-brand: hsl(330, 70%, 55%);
+  /* Code Router brand color (blue-violet, matches the logo gradient) */
+  --color-brand: hsl(258, 80%, 60%);
   --color-brand-foreground: white;
-  --color-brand-secondary: hsl(340, 75%, 65%);
-  --color-brand-secondary-foreground: hsl(330, 60%, 20%);
-  --color-brand-200: hsl(330, 65%, 75%);
+  --color-brand-secondary: hsl(268, 75%, 66%);
+  --color-brand-secondary-foreground: hsl(258, 60%, 20%);
+  --color-brand-200: hsl(258, 70%, 78%);
 
   /* Fumadocs UI theme color (for navigation, TOC, etc.) */
-  --color-fd-primary: hsl(330, 70%, 55%);
+  --color-fd-primary: hsl(258, 80%, 58%);
   --color-fd-primary-foreground: white;
 
-  --color-landing-foreground: #5c3a4a;
-  --color-landing-foreground-200: #a87b8b;
+  --color-landing-foreground: #3a3a5c;
+  --color-landing-foreground-200: #7b7ba8;
 
   /* System fonts */
   --font-sans:
@@ -31,18 +31,18 @@
 }
 
 .dark {
-  --color-landing-foreground: #f5e0ea;
-  --color-landing-foreground-200: #e0b8d0;
+  --color-landing-foreground: #e6e4f7;
+  --color-landing-foreground-200: #b8b4e0;
 
-  /* Pink theme color (dark mode) */
-  --color-brand: hsl(330, 85%, 70%);
-  --color-brand-secondary: hsl(340, 80%, 75%);
-  --color-brand-secondary-foreground: hsl(330, 60%, 10%);
+  /* Code Router brand color (blue-violet, dark mode) */
+  --color-brand: hsl(258, 90%, 74%);
+  --color-brand-secondary: hsl(268, 85%, 78%);
+  --color-brand-secondary-foreground: hsl(258, 60%, 10%);
   --color-brand-foreground: black;
-  --color-brand-200: hsl(330, 80%, 85%);
+  --color-brand-200: hsl(258, 85%, 86%);
 
   /* Fumadocs UI theme color (for navigation, TOC, etc. - dark mode) */
-  --color-fd-primary: hsl(330, 85%, 70%);
+  --color-fd-primary: hsl(258, 90%, 74%);
   --color-fd-primary-foreground: black;
 }
 
