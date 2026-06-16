@@ -3,7 +3,7 @@ import { i18n } from '@/lib/i18n';
 import Image from 'next/image';
 import type { LinkItemType } from 'fumadocs-ui/layouts/docs';
 
-// Code Router source repository (fork of new-api). Placeholder until a
+// Code Router source repository (fork of the upstream project). Placeholder until a
 // dedicated docs repo is published — see report.
 const SOURCE_REPO_URL = 'https://github.com/ssgzy/Router-new-api';
 

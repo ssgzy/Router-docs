@@ -56,7 +56,7 @@ export GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
 docker run -d \
   -e GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX \
   ...其他选项...
-  calciumion/new-api:latest
+  code-router:latest
 ```
 
 #### 3. 重启应用
@@ -159,7 +159,7 @@ environment:
 
 ```bash
 # 检查环境变量是否设置
-docker exec new-api env | grep -E "GOOGLE_ANALYTICS|UMAMI"
+docker exec code-router env | grep -E "GOOGLE_ANALYTICS|UMAMI"
 ```
 
 ---

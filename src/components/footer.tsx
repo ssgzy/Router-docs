@@ -6,7 +6,7 @@ interface FooterProps {
   lang: string;
 }
 
-// Code Router source repository (fork of new-api). Placeholder until a
+// Code Router source repository (fork of the upstream project). Placeholder until a
 // dedicated docs repo is published — see report.
 const SOURCE_REPO_URL = 'https://github.com/ssgzy/Router-new-api';
 
@@ -28,7 +28,6 @@ const internalPaths = {
   aboutProject: 'docs/guide/wiki/basic-concepts/project-introduction',
   contactUs: 'docs/support/community-interaction',
   features: 'docs/guide/wiki/basic-concepts/features-introduction',
-  installation: 'docs/installation',
   userGuide: 'docs/guide/home',
   apiDocs: 'docs/api',
 } as const;
@@ -46,7 +45,6 @@ interface FooterTranslation {
     };
     docs: {
       title: string;
-      installation: string;
       userGuide: string;
       apiDocs: string;
     };
@@ -65,7 +63,6 @@ const translations: Record<string, FooterTranslation> = {
       },
       docs: {
         title: '文档',
-        installation: '安装部署',
         userGuide: '使用指南',
         apiDocs: 'API 文档',
       },
@@ -82,7 +79,6 @@ const translations: Record<string, FooterTranslation> = {
       },
       docs: {
         title: 'Docs',
-        installation: 'Installation',
         userGuide: 'User Guide',
         apiDocs: 'API Docs',
       },
@@ -99,7 +95,6 @@ const translations: Record<string, FooterTranslation> = {
       },
       docs: {
         title: 'ドキュメント',
-        installation: 'インストール',
         userGuide: 'ユーザーガイド',
         apiDocs: 'APIドキュメント',
       },
@@ -127,10 +122,6 @@ function buildSections(t: FooterTranslation) {
     {
       title: t.sections.docs.title,
       links: [
-        {
-          label: t.sections.docs.installation,
-          href: internalPaths.installation,
-        },
         { label: t.sections.docs.userGuide, href: internalPaths.userGuide },
         { label: t.sections.docs.apiDocs, href: internalPaths.apiDocs },
       ],
