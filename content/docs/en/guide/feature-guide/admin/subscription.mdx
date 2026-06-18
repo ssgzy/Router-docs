@@ -1,16 +1,16 @@
 ---
 title: Subscription Plan Management
-description: Create and manage Code Router subscription plans, control their visibility, and manually activate subscriptions for users
+description: Create and manage AI Router subscription plans, control their visibility, and manually activate subscriptions for users
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
-Subscription plans let you package access to Code Router as recurring offerings: each plan bundles a quota allowance with a billing duration, and users can subscribe to gain that allowance against the model groups and token groups you've configured.
+Subscription plans let you package access to AI Router as recurring offerings: each plan bundles a quota allowance with a billing duration, and users can subscribe to gain that allowance against the model groups and token groups you've configured.
 
 This page covers the admin-side management of plans. Log in with an admin account and open the subscription management page (`/console/subscription`) directly. The admin view differs from the user-facing purchase view: it lets you create, edit, publish, and manually assign plans.
 
 <Callout type="warning">
-Code Router is a brand-new demo. No prices, currencies, payment methods, or billing amounts are finalized yet — every monetary value shown here is a placeholder marked **(pricing TBD / 价格待补)**. Do not treat any number or payment option as real until it has been configured for your own deployment.
+AI Router is a brand-new demo. No prices, currencies, payment methods, or billing amounts are finalized yet — every monetary value shown here is a placeholder marked **(pricing TBD / 价格待补)**. Do not treat any number or payment option as real until it has been configured for your own deployment.
 </Callout>
 
 The plan list shows all created subscription plans along with their name, price, duration, and status (published / unpublished).
@@ -19,7 +19,7 @@ The plan list shows all created subscription plans along with their name, price,
 
 A subscription plan is just a template that maps a **price** to a **quota allowance** over a **duration**:
 
-- **Quota allowance** — the amount of usage credit a subscriber receives. In Code Router, usage is metered as quota that is drawn down as requests consume input/output tokens. The exact per-token rates and conversion are configured elsewhere in your deployment and are **not finalized for this demo (费率/价格待补)**.
+- **Quota allowance** — the amount of usage credit a subscriber receives. In AI Router, usage is metered as quota that is drawn down as requests consume input/output tokens. The exact per-token rates and conversion are configured elsewhere in your deployment and are **not finalized for this demo (费率/价格待补)**.
 - **Duration** — how long the allowance is valid (for example daily, weekly, monthly, or a custom number of days).
 - **Visibility** — whether end users can see and purchase the plan.
 
@@ -56,7 +56,7 @@ Use this when you want to grant a subscription without going through the user pu
 Payment collection is **not configured in this demo**. No payment provider, gateway, balance top-up flow, or currency has been finalized **(payment methods TBD — 支付方式待补)**. Until you wire up your own billing integration, manual activation is the only reliable way to assign a subscription.
 </Callout>
 
-When you do connect billing in your own deployment, the published plans become the catalog users purchase from, and the included quota is credited to a subscriber's account for the plan's duration. The mapping between price, quota, and per-token rates is entirely up to your configuration — none of it is predetermined by Code Router.
+When you do connect billing in your own deployment, the published plans become the catalog users purchase from, and the included quota is credited to a subscriber's account for the plan's duration. The mapping between price, quota, and per-token rates is entirely up to your configuration — none of it is predetermined by AI Router.
 
 ## Feedback
 

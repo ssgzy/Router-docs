@@ -6,7 +6,7 @@ interface FooterProps {
   lang: string;
 }
 
-// Code Router source repository (fork of the upstream project). Placeholder until a
+// AI Router source repository (fork of the upstream project). Placeholder until a
 // dedicated docs repo is published — see report.
 const SOURCE_REPO_URL = 'https://github.com/ssgzy/Router-new-api';
 
@@ -67,7 +67,7 @@ const translations: Record<string, FooterTranslation> = {
         apiDocs: 'API 文档',
       },
     },
-    copyright: '© 2026 Code Router.',
+    copyright: '© 2026 AI Router.',
   },
   en: {
     sections: {
@@ -83,7 +83,7 @@ const translations: Record<string, FooterTranslation> = {
         apiDocs: 'API Docs',
       },
     },
-    copyright: '© 2026 Code Router.',
+    copyright: '© 2026 AI Router.',
   },
   ja: {
     sections: {
@@ -99,7 +99,7 @@ const translations: Record<string, FooterTranslation> = {
         apiDocs: 'APIドキュメント',
       },
     },
-    copyright: '© 2026 Code Router.',
+    copyright: '© 2026 AI Router.',
   },
 };
 

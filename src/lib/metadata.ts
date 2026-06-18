@@ -21,7 +21,7 @@ export function createMetadata(override: Metadata): Metadata {
       description: override.description ?? undefined,
       url: baseUrl.toString(),
       images: '/assets/logo.png',
-      siteName: 'Code Router',
+      siteName: 'AI Router',
       type: 'website',
       ...override.openGraph,
     },

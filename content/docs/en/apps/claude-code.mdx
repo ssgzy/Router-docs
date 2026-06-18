@@ -1,6 +1,6 @@
 ---
 title: Claude Code
-description: Configure Claude Code, Anthropic's terminal coding agent, to route requests through Code Router using an Anthropic-compatible base URL and your Code Router API key.
+description: Configure Claude Code, Anthropic's terminal coding agent, to route requests through AI Router using an Anthropic-compatible base URL and your AI Router API key.
 ---
 
 <Callout type="info" title="What is Claude Code?">
@@ -8,7 +8,7 @@ description: Configure Claude Code, Anthropic's terminal coding agent, to route 
   project, runs commands, and works directly from your shell.
 
   Because Claude Code honors standard Anthropic-compatible environment variables, you can point
-  it at **Code Router** instead of Anthropic's default endpoint. Code Router then forwards your
+  it at **AI Router** instead of Anthropic's default endpoint. AI Router then forwards your
   requests to whichever upstream model provider is configured behind your key.
 
   - Official Claude Code site: [https://www.anthropic.com/claude-code](https://www.anthropic.com/claude-code)
@@ -16,22 +16,22 @@ description: Configure Claude Code, Anthropic's terminal coding agent, to route 
 
 ## How it works
 
-Code Router exposes an OpenAI-compatible gateway (and an Anthropic-compatible surface for tools
-like Claude Code). You get **one API key** and **one base URL**; Code Router resolves the
+AI Router exposes an OpenAI-compatible gateway (and an Anthropic-compatible surface for tools
+like Claude Code). You get **one API key** and **one base URL**; AI Router resolves the
 requested model to an upstream provider and tracks usage against your key.
 
-To make Claude Code use Code Router, you set two environment variables before launching it:
+To make Claude Code use AI Router, you set two environment variables before launching it:
 
 | Variable | Value |
 | --- | --- |
 | `ANTHROPIC_BASE_URL` | `https://ai.sammier.com` |
-| `ANTHROPIC_AUTH_TOKEN` | Your Code Router API key (looks like `sk-...`) |
+| `ANTHROPIC_AUTH_TOKEN` | Your AI Router API key (looks like `sk-...`) |
 
 <Callout type="warn" title="Where do these values come from?">
-  - The **base URL** above is a demo placeholder. Use the base URL of the Code Router deployment
+  - The **base URL** above is a demo placeholder. Use the base URL of the AI Router deployment
     you actually connect to.
-  - The **API key** is the key you create in your Code Router account. Treat it like a password.
-  - Which underlying models are available, and any usage limits, depend on your Code Router
+  - The **API key** is the key you create in your AI Router account. Treat it like a password.
+  - Which underlying models are available, and any usage limits, depend on your AI Router
     deployment's configuration. (Available model list and limits: TBD / 待补)
 </Callout>
 
@@ -39,9 +39,9 @@ To make Claude Code use Code Router, you set two environment variables before la
 
 <Steps>
 <Step>
-### A Code Router API key
+### A AI Router API key
 
-Create a key in your Code Router account and copy it. It will look like `sk-...`.
+Create a key in your AI Router account and copy it. It will look like `sk-...`.
 </Step>
 <Step>
 ### Node.js (recommended)
@@ -107,7 +107,7 @@ claude --version
 </Tab>
 </Tabs>
 
-## Point Claude Code at Code Router
+## Point Claude Code at AI Router
 
 Set the two environment variables, then launch `claude`.
 
@@ -118,7 +118,7 @@ Set the variables for your current shell session:
 
 ```bash
 export ANTHROPIC_BASE_URL="https://ai.sammier.com"
-export ANTHROPIC_AUTH_TOKEN="sk-..."   # your Code Router API key
+export ANTHROPIC_AUTH_TOKEN="sk-..."   # your AI Router API key
 ```
 
 To make the change permanent, append those two `export` lines to your shell profile
@@ -135,7 +135,7 @@ Set the variables for the current session:
 
 ```powershell
 $env:ANTHROPIC_BASE_URL = "https://ai.sammier.com"
-$env:ANTHROPIC_AUTH_TOKEN = "sk-..."   # your Code Router API key
+$env:ANTHROPIC_AUTH_TOKEN = "sk-..."   # your AI Router API key
 ```
 
 To persist them across sessions:
@@ -151,9 +151,9 @@ Close and reopen PowerShell so the persisted values take effect.
 </Tabs>
 
 <Callout type="warn" title="This redirects all requests">
-  Once `ANTHROPIC_BASE_URL` points at Code Router, Claude Code sends **all** model traffic
-  through Code Router rather than Anthropic's default endpoint. Usage is billed/accounted against
-  your Code Router key, not an Anthropic subscription.
+  Once `ANTHROPIC_BASE_URL` points at AI Router, Claude Code sends **all** model traffic
+  through AI Router rather than Anthropic's default endpoint. Usage is billed/accounted against
+  your AI Router key, not an Anthropic subscription.
 </Callout>
 
 ## Run it
@@ -173,15 +173,15 @@ To choose a model from inside the session:
 /model
 ```
 
-Pick from the models your Code Router deployment exposes. The exact model names and which ones
+Pick from the models your AI Router deployment exposes. The exact model names and which ones
 are available depend on your deployment's configuration (model list: TBD / 待补).
 
 ## Verify the connection
 
-A quick way to confirm Claude Code is talking to Code Router:
+A quick way to confirm Claude Code is talking to AI Router:
 
 ```bash
-echo $ANTHROPIC_BASE_URL   # should print your Code Router base URL
+echo $ANTHROPIC_BASE_URL   # should print your AI Router base URL
 claude --version           # confirms the CLI is installed
 ```
 
@@ -211,13 +211,13 @@ curl https://ai.sammier.com/v1/models \
 </Accordion>
 
 <Accordion title="Authentication / 401 errors">
-  Make sure `ANTHROPIC_AUTH_TOKEN` holds a valid Code Router key (the `sk-...` value from your
-  account), not an Anthropic key. Regenerate the key in Code Router if you suspect it was revoked.
+  Make sure `ANTHROPIC_AUTH_TOKEN` holds a valid AI Router key (the `sk-...` value from your
+  account), not an Anthropic key. Regenerate the key in AI Router if you suspect it was revoked.
 </Accordion>
 
 <Accordion title="Requests still go to the default endpoint">
   `ANTHROPIC_BASE_URL` may not be set in the shell where you launched `claude`. Set it in the same
-  session (or persist it) and relaunch. Remember it must point at your Code Router base URL.
+  session (or persist it) and relaunch. Remember it must point at your AI Router base URL.
 </Accordion>
 
 <Accordion title="macOS blocks the binary from running">
@@ -240,5 +240,5 @@ curl https://ai.sammier.com/v1/models \
 
 ## Feedback
 
-Found a problem with these instructions or with Code Router itself? Open an issue on the source
+Found a problem with these instructions or with AI Router itself? Open an issue on the source
 repository: [github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api).

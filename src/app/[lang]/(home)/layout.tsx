@@ -28,7 +28,7 @@ const i18nText: Record<
     title: { text: 'Documentation', desc: '' },
     start: {
       text: 'Getting Started',
-      desc: 'Learn how to configure and use Code Router.',
+      desc: 'Learn how to configure and use AI Router.',
     },
     support: { text: 'Help & Support', desc: 'FAQ and community support.' },
     api: {
@@ -42,14 +42,14 @@ const i18nText: Record<
   },
   zh: {
     title: { text: '文档', desc: '' },
-    start: { text: '快速开始', desc: '了解如何配置和使用 Code Router。' },
+    start: { text: '快速开始', desc: '了解如何配置和使用 AI Router。' },
     support: { text: '帮助支持', desc: '常见问题和社区支持。' },
     api: { text: 'API 参考', desc: '完整的 API 文档和参考指南。' },
     apps: { text: 'AI 应用', desc: 'AI 应用集成指南。' },
   },
   ja: {
     title: { text: 'ドキュメント', desc: '' },
-    start: { text: 'はじめに', desc: 'Code Router の設定と使い方を学ぶ。' },
+    start: { text: 'はじめに', desc: 'AI Router の設定と使い方を学ぶ。' },
     support: {
       text: 'ヘルプ＆サポート',
       desc: 'よくある質問とコミュニティサポート。',

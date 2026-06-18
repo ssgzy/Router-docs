@@ -1,6 +1,6 @@
 ---
 title: LangBot - Instant Messaging Bot Development Platform
-description: LangBot integration guide — build AI-powered chatbots for Feishu, DingTalk, Telegram, Discord, and more. Supports Knowledge Base, Agent, and MCP with Code Router.
+description: LangBot integration guide — build AI-powered chatbots for Feishu, DingTalk, Telegram, Discord, and more. Supports Knowledge Base, Agent, and MCP with AI Router.
 ---
 
 <Callout type="info">
@@ -8,7 +8,7 @@ description: LangBot integration guide — build AI-powered chatbots for Feishu,
   supports various instant messaging platforms such as Feishu, DingTalk, WeChat,
   QQ, Telegram, Discord, Slack, etc. It integrates with mainstream global AI
   models, supports various AI application capabilities like Knowledge Base,
-  Agent, MCP, and is perfectly compatible with Code Router.
+  Agent, MCP, and is perfectly compatible with AI Router.
 </Callout>
 
 - Official Website: [https://langbot.app](https://langbot.app/)
@@ -16,19 +16,19 @@ description: LangBot integration guide — build AI-powered chatbots for Feishu,
 - Official Documentation: [https://docs.langbot.app](https://docs.langbot.app/)
 - Open Source Address: [https://github.com/langbot-app/LangBot](https://github.com/langbot-app/LangBot)
 
-## Integrating Code Router
+## Integrating AI Router
 
-LangBot supports integrating with locally deployed Code Router and third-party Code Router services built using Code Router.
+LangBot supports integrating with locally deployed AI Router and third-party AI Router services built using AI Router.
 
 ### Usage
 
-1.  Obtain an API key from Code Router
+1.  Obtain an API key from AI Router
     ![获取 API key](/assets/langbot/get_api_key.png)
 
-        If Code Router is deployed locally, please configure the API address yourself (refer to [Container Network Connection](https://docs.langbot.app/en/workshop/network-details.html)). If using a third-party Code Router service, you can copy the address from the page. Note that `/v1` needs to be appended to the address.
+        If AI Router is deployed locally, please configure the API address yourself (refer to [Container Network Connection](https://docs.langbot.app/en/workshop/network-details.html)). If using a third-party AI Router service, you can copy the address from the page. Note that `/v1` needs to be appended to the address.
 
-2.  Add a model in LangBot, select Code Router as the provider, and fill in the corresponding API key and API address
-    ![添加 Code Router 模型](/assets/langbot/add_newapi_model.png)
+2.  Add a model in LangBot, select AI Router as the provider, and fill in the corresponding API key and API address
+    ![添加 AI Router 模型](/assets/langbot/add_newapi_model.png)
 
 3.  Select the model to use in the pipeline
 
@@ -44,9 +44,9 @@ LangBot supports integrating with locally deployed Code Router and third-party C
 
 ### Using LangBot Knowledge Base
 
-LangBot supports using Code Router's embedding models and utilizing them as vector models for the knowledge base.
+LangBot supports using AI Router's embedding models and utilizing them as vector models for the knowledge base.
 
-1. Add an embedding model in LangBot, select Code Router as the provider
+1. Add an embedding model in LangBot, select AI Router as the provider
    ![添加嵌入模型](/assets/langbot/add_embedding_model.png)
 
 2. Select the embedding model when creating a new knowledge base

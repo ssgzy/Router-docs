@@ -1,6 +1,6 @@
 ---
 title: CC Switch - All-in-One AI CLI Management Tool
-description: Use CC Switch to manage Claude Code, Codex & Gemini CLI provider configs and point them at Code Router. Set your Base URL and API key, then start coding.
+description: Use CC Switch to manage Claude Code, Codex & Gemini CLI provider configs and point them at AI Router. Set your Base URL and API key, then start coding.
 ---
 
 <Callout type="info">
@@ -10,24 +10,24 @@ description: Use CC Switch to manage Claude Code, Codex & Gemini CLI provider co
   multiple AI coding assistants without manually editing config files.
 </Callout>
 
-This page shows how to configure CC Switch so your CLI tools talk to **Code Router**, the unified OpenAI-compatible AI gateway.
+This page shows how to configure CC Switch so your CLI tools talk to **AI Router**, the unified OpenAI-compatible AI gateway.
 
 - GitHub Repository: [https://github.com/farion1231/cc-switch](https://github.com/farion1231/cc-switch)
 - Download: [GitHub Releases](https://github.com/farion1231/cc-switch/releases)
 
-## What you need from Code Router
+## What you need from AI Router
 
-To point any CLI at Code Router you only need two things from your Code Router console:
+To point any CLI at AI Router you only need two things from your AI Router console:
 
 - **Base URL** — `https://ai.sammier.com` (the OpenAI-compatible endpoint is `https://ai.sammier.com/v1`; Anthropic-compatible clients use the same base URL).
-- **API key** — your personal Code Router key, in the form `sk-...`.
+- **API key** — your personal AI Router key, in the form `sk-...`.
 
 <Callout type="info" title="Where the key comes from">
-  Create or copy your key on the token management page of the Code Router console. One key works
+  Create or copy your key on the token management page of the AI Router console. One key works
   across all model groups your token is allowed to use.
 </Callout>
 
-## Configure CC Switch for Code Router
+## Configure CC Switch for AI Router
 
 <Steps>
 
@@ -40,28 +40,28 @@ To point any CLI at Code Router you only need two things from your Code Router c
 </Step>
 
 <Step>
-**Set the API key.** Paste your Code Router key (`sk-...`).
+**Set the API key.** Paste your AI Router key (`sk-...`).
 </Step>
 
 <Step>
-**Pick your models.** Choose the model(s) you want for each tier the CLI exposes. Code Router accepts the model names published in your console's model list. Field reference:
+**Pick your models.** Choose the model(s) you want for each tier the CLI exposes. AI Router accepts the model names published in your console's model list. Field reference:
 
 - **Application** — switch app type at the top (**Claude** / **Codex** / **Gemini**) and select your target.
-- **Name** — a label for this config (e.g. `My Code Router`) so you can identify and switch to it later.
+- **Name** — a label for this config (e.g. `My AI Router`) so you can identify and switch to it later.
 - **Main Model** (required) — the model used by default.
 - **Haiku / Sonnet / Opus / Custom tiers** — optional per-tier model overrides; leave a tier unset to fall back to the main model.
 </Step>
 
 <Step>
-**Save and switch.** Activate the provider in CC Switch, then start your CLI as usual — requests now route through Code Router.
+**Save and switch.** Activate the provider in CC Switch, then start your CLI as usual — requests now route through AI Router.
 </Step>
 
 </Steps>
 
 <Callout type="warn" title="Verify it works">
   Run a simple prompt in your CLI. If you get an authentication error, double-check the Base URL has
-  no trailing slash mismatch and that the key is your Code Router `sk-...` key. If a model is
-  rejected, confirm the model name matches one listed in your Code Router console.
+  no trailing slash mismatch and that the key is your AI Router `sk-...` key. If a model is
+  rejected, confirm the model name matches one listed in your AI Router console.
 </Callout>
 
 ## Manual setup (without CC Switch)
@@ -90,7 +90,7 @@ export ANTHROPIC_API_KEY="sk-..."
 
 </Tabs>
 
-Exact variable names vary by CLI; consult your CLI's documentation for the precise keys it reads, but the values (Base URL + Code Router key) are the same.
+Exact variable names vary by CLI; consult your CLI's documentation for the precise keys it reads, but the values (Base URL + AI Router key) are the same.
 
 ## Key Features
 
@@ -146,6 +146,6 @@ Download the latest web build from [Releases](https://github.com/farion1231/cc-s
 
 ## Related Links
 
-- [Code Router source repository](https://github.com/ssgzy/Router-new-api) — report issues or request features via GitHub Issues.
+- [AI Router source repository](https://github.com/ssgzy/Router-new-api) — report issues or request features via GitHub Issues.
 - [CC Switch GitHub Repository](https://github.com/farion1231/cc-switch)
 - [CC Switch Releases](https://github.com/farion1231/cc-switch/releases)

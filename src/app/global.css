@@ -7,7 +7,7 @@
 @theme {
   --spacing-fd-container: 1436px;
 
-  /* Code Router brand color (blue-violet, matches the logo gradient) */
+  /* AI Router brand color (blue-violet, matches the logo gradient) */
   --color-brand: hsl(258, 80%, 60%);
   --color-brand-foreground: white;
   --color-brand-secondary: hsl(268, 75%, 66%);
@@ -34,7 +34,7 @@
   --color-landing-foreground: #e6e4f7;
   --color-landing-foreground-200: #b8b4e0;
 
-  /* Code Router brand color (blue-violet, dark mode) */
+  /* AI Router brand color (blue-violet, dark mode) */
   --color-brand: hsl(258, 90%, 74%);
   --color-brand-secondary: hsl(268, 85%, 78%);
   --color-brand-secondary-foreground: hsl(258, 60%, 10%);

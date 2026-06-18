@@ -1,63 +1,63 @@
 ---
 title: OpenAI Codex CLI
-description: Configure OpenAI Codex CLI on Windows, macOS, and Linux to use Code Router as an OpenAI-compatible endpoint with a single API key and base URL.
+description: Configure OpenAI Codex CLI on Windows, macOS, and Linux to use AI Router as an OpenAI-compatible endpoint with a single API key and base URL.
 ---
 
 <Callout type="info" title="About this page">
-  This guide shows how to point the OpenAI **Codex CLI** at **Code Router** so your
-  Codex sessions route through your Code Router key and base URL.
+  This guide shows how to point the OpenAI **Codex CLI** at **AI Router** so your
+  Codex sessions route through your AI Router key and base URL.
 
-  Code Router is a unified, OpenAI-compatible AI gateway: one API key plus one base
+  AI Router is a unified, OpenAI-compatible AI gateway: one API key plus one base
   URL lets you reach many model providers, with model groups, token groups, quotas,
   and usage tracking.
 
   - Codex CLI project: [https://github.com/openai/codex](https://github.com/openai/codex)
-  - Code Router source: [https://github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api)
+  - AI Router source: [https://github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api)
 </Callout>
 
 Codex CLI is a terminal-based coding agent that runs locally and edits code, applies
 patches, and runs commands. Because it speaks the OpenAI-compatible protocol, you can
-redirect it from the default OpenAI endpoint to Code Router by changing two settings:
+redirect it from the default OpenAI endpoint to AI Router by changing two settings:
 the **base URL** and the **API key**.
 
 ## What you need
 
 <Cards>
-  <Card title="A Code Router API key" description="Create a key in the Code Router console. It looks like sk-... (key management TBD in your deployment)." />
-  <Card title="The Code Router base URL" description="The OpenAI-compatible endpoint, e.g. https://ai.sammier.com/v1" />
+  <Card title="A AI Router API key" description="Create a key in the AI Router console. It looks like sk-... (key management TBD in your deployment)." />
+  <Card title="The AI Router base URL" description="The OpenAI-compatible endpoint, e.g. https://ai.sammier.com/v1" />
   <Card title="Node.js 18+ (or Homebrew on macOS)" description="Required to install the Codex CLI via npm." />
 </Cards>
 
 <Callout type="warn" title="Use your own base URL">
   `https://ai.sammier.com` is a placeholder. Replace it everywhere below with
-  the address of the Code Router instance you actually use — either your own
+  the address of the AI Router instance you actually use — either your own
   self-hosted deployment or one provided to you. Do not connect API addresses or keys
   from unknown sources to a production environment.
 </Callout>
 
-## Configure Codex CLI for Code Router
+## Configure Codex CLI for AI Router
 
 Codex CLI reads its configuration from `~/.codex/config.toml` and takes the API key
 from an environment variable. The pattern is the same on every platform:
 
-1. Define a custom **model provider** that points `base_url` at your Code Router
+1. Define a custom **model provider** that points `base_url` at your AI Router
    OpenAI-compatible endpoint.
 2. Make that provider the default.
-3. Export your Code Router key as an environment variable.
+3. Export your AI Router key as an environment variable.
 
 <Steps>
   <Step>
     ### Create or edit `~/.codex/config.toml`
 
-    Add a provider block for Code Router and select it as the default. Replace the
-    base URL and model with the ones available on your Code Router instance.
+    Add a provider block for AI Router and select it as the default. Replace the
+    base URL and model with the ones available on your AI Router instance.
 
     ```toml
-    model = "gpt-4o"            # any model your Code Router instance exposes
+    model = "gpt-4o"            # any model your AI Router instance exposes
     model_provider = "code-router"
 
     [model_providers.code-router]
-    name = "Code Router"
+    name = "AI Router"
     base_url = "https://ai.sammier.com/v1"
     env_key = "CODE_ROUTER_API_KEY"
     ```
@@ -68,7 +68,7 @@ from an environment variable. The pattern is the same on every platform:
   <Step>
     ### Export your API key
 
-    Set the environment variable named in `env_key` to your Code Router key.
+    Set the environment variable named in `env_key` to your AI Router key.
 
     <Tabs items={["macOS / Linux", "Windows (PowerShell)"]}>
       <Tab value="macOS / Linux">
@@ -98,14 +98,14 @@ from an environment variable. The pattern is the same on every platform:
     codex
     ```
 
-    Use `/model` inside the session to switch between models your Code Router instance
+    Use `/model` inside the session to switch between models your AI Router instance
     exposes.
   </Step>
 </Steps>
 
 <Callout type="info" title="Which models can I use?">
-  The available model names depend on the model groups configured on your Code Router
-  instance. Check the Code Router console for the list, and use those exact names in
+  The available model names depend on the model groups configured on your AI Router
+  instance. Check the AI Router console for the list, and use those exact names in
   `config.toml` or via the `/model` command. (Specific model catalog and pricing: TBD.)
 </Callout>
 
@@ -187,9 +187,9 @@ return to the configuration section above.
 
 ## How routing works after configuration
 
-Once the base URL points at Code Router, **every** model request from Codex — including
-names that look like vendor-preset models — is sent to your configured Code Router
-endpoint and authenticated with your Code Router key. Code Router then resolves the
+Once the base URL points at AI Router, **every** model request from Codex — including
+names that look like vendor-preset models — is sent to your configured AI Router
+endpoint and authenticated with your AI Router key. AI Router then resolves the
 model to a provider channel and tracks usage against your quota.
 
 <Accordions>
@@ -204,16 +204,16 @@ model to a provider channel and tracks usage against your quota.
   </Accordion>
   <Accordion title="401 / authentication errors">
     Confirm the environment variable named by `env_key` is set in the current shell
-    and that its value is a valid Code Router key (`sk-...`). Re-open the terminal
+    and that its value is a valid AI Router key (`sk-...`). Re-open the terminal
     after setting it.
   </Accordion>
   <Accordion title="Model not found">
-    The model name must match one your Code Router instance exposes. List available
-    models in the Code Router console and update `model` in `config.toml` accordingly.
+    The model name must match one your AI Router instance exposes. List available
+    models in the AI Router console and update `model` in `config.toml` accordingly.
   </Accordion>
 </Accordions>
 
 <Callout type="info" title="Feedback">
-  Found an issue with these docs or with Code Router? Open an issue on the source
+  Found an issue with these docs or with AI Router? Open an issue on the source
   repository: [https://github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api).
 </Callout>

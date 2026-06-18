@@ -1,41 +1,41 @@
 ---
 title: Claude Code
-description: 在 Claude Code(Anthropic 终端编程助手)中接入 Code Router 网关 —— 通过设置 Anthropic 兼容的 Base URL 与 API Key，即可用一套密钥调用多家模型供应商。
+description: 在 Claude Code(Anthropic 终端编程助手)中接入 AI Router 网关 —— 通过设置 Anthropic 兼容的 Base URL 与 API Key，即可用一套密钥调用多家模型供应商。
 ---
 
 <Callout type="info" title="本页说明">
   Claude Code 是 Anthropic 推出的终端编程助手。它通过环境变量读取接入点地址与密钥，因此可以将其指向
-  **Code Router** —— 一个 OpenAI / Anthropic 兼容的统一 AI 网关。配置完成后，你只需一个 Code Router
+  **AI Router** —— 一个 OpenAI / Anthropic 兼容的统一 AI 网关。配置完成后，你只需一个 AI Router
   API Key 和一个 Base URL，即可在 Claude Code 中调用网关后端接入的各家模型。
 
   - Claude Code 官方文档：[https://www.anthropic.com/claude-code](https://www.anthropic.com/claude-code)
-  - Code Router 源码仓库：[https://github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api)
+  - AI Router 源码仓库：[https://github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api)
 </Callout>
 
 ## 工作原理
 
 Claude Code 默认调用 Anthropic 官方接口。它支持通过两个环境变量改写请求目标：
 
-- `ANTHROPIC_BASE_URL` —— Anthropic 兼容接口的基础地址。指向 Code Router 后即由网关接管转发。
-- `ANTHROPIC_AUTH_TOKEN` —— 鉴权令牌。填入你在 Code Router 中创建的 API Key（形如 `sk-...`）。
+- `ANTHROPIC_BASE_URL` —— Anthropic 兼容接口的基础地址。指向 AI Router 后即由网关接管转发。
+- `ANTHROPIC_AUTH_TOKEN` —— 鉴权令牌。填入你在 AI Router 中创建的 API Key（形如 `sk-...`）。
 
 <Callout type="warn" title="重要：改写 Base URL 后的行为">
   设置 `ANTHROPIC_BASE_URL` 后，Claude Code 的全部请求（包括其默认/预设模型）都会改走你配置的接入点，
-  而不再消耗 Anthropic 官方账号额度。用量与计费以 Code Router 一侧的记录为准。
+  而不再消耗 Anthropic 官方账号额度。用量与计费以 AI Router 一侧的记录为准。
 </Callout>
 
 ## 准备工作
 
-在配置 Claude Code 之前，请先在 Code Router 控制台准备好两样东西：
+在配置 Claude Code 之前，请先在 AI Router 控制台准备好两样东西：
 
 <Steps>
   <Step>
-    **获取 Base URL。** 使用你的 Code Router 部署地址。本文档统一以演示占位地址
+    **获取 Base URL。** 使用你的 AI Router 部署地址。本文档统一以演示占位地址
     `https://ai.sammier.com` 表示；OpenAI 兼容端点为 `https://ai.sammier.com/v1`。
     请替换为你实际的部署域名。
   </Step>
   <Step>
-    **创建 API Key。** 在 Code Router 控制台的令牌（Token）管理中新建一个密钥，复制形如 `sk-...`
+    **创建 API Key。** 在 AI Router 控制台的令牌（Token）管理中新建一个密钥，复制形如 `sk-...`
     的字符串。该密钥用于鉴权，并关联到对应的模型分组与配额。
   </Step>
 </Steps>
@@ -85,9 +85,9 @@ claude --version
 
 显示版本号即表示安装成功。
 
-## 接入 Code Router
+## 接入 AI Router
 
-把 Claude Code 的接入点指向 Code Router，只需设置两个环境变量。将下面的占位值替换为你自己的 Base URL 与 API Key。
+把 Claude Code 的接入点指向 AI Router，只需设置两个环境变量。将下面的占位值替换为你自己的 Base URL 与 API Key。
 
 <Tabs items={["macOS / Linux", "Windows (PowerShell)"]}>
   <Tab value="macOS / Linux">
@@ -134,7 +134,7 @@ claude --version
   $env:ANTHROPIC_BASE_URL    # Windows PowerShell
   ```
 
-  应输出你配置的 Code Router Base URL。
+  应输出你配置的 AI Router Base URL。
 </Callout>
 
 ## 开始使用
@@ -155,7 +155,7 @@ claude
 /model
 ```
 
-按回车进入选择列表。可用模型取决于你的 Code Router 部署所接入的供应商及当前 API Key 所属模型分组——请以控制台中的模型列表为准。
+按回车进入选择列表。可用模型取决于你的 AI Router 部署所接入的供应商及当前 API Key 所属模型分组——请以控制台中的模型列表为准。
 
 ## 常见问题
 
@@ -163,11 +163,11 @@ claude
   <Accordion title="环境变量不生效 / 请求仍走官方接口">
     - 确认修改的是当前 shell 实际加载的配置文件（`.zshrc` 或 `.bashrc`）。
     - 重新打开终端，或执行 `source ~/.zshrc`（Windows 则重开 PowerShell）。
-    - 用 `echo $ANTHROPIC_BASE_URL` 核对取值是否为你的 Code Router 地址。
+    - 用 `echo $ANTHROPIC_BASE_URL` 核对取值是否为你的 AI Router 地址。
   </Accordion>
   <Accordion title="鉴权失败 / 401">
-    - 检查 `ANTHROPIC_AUTH_TOKEN` 是否为有效的 Code Router API Key（形如 `sk-...`），是否被复制完整、无多余空格。
-    - 在 Code Router 控制台确认该密钥处于启用状态，且其模型分组包含你要调用的模型。
+    - 检查 `ANTHROPIC_AUTH_TOKEN` 是否为有效的 AI Router API Key（形如 `sk-...`），是否被复制完整、无多余空格。
+    - 在 AI Router 控制台确认该密钥处于启用状态，且其模型分组包含你要调用的模型。
   </Accordion>
   <Accordion title="提示找不到 claude 命令">
     - 安装脚本通常会把可执行文件放在 `~/.local/bin`，确认该目录已加入 `PATH`。

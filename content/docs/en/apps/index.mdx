@@ -1,6 +1,6 @@
 ---
 title: AI Applications
-description: Connect Code Router to popular AI apps and tools using one API key and one base URL.
+description: Connect AI Router to popular AI apps and tools using one API key and one base URL.
 ---
 
 import { Card, Cards } from 'fumadocs-ui/components/card';
@@ -19,7 +19,7 @@ import {
 
 ## Overview
 
-Code Router is an OpenAI-compatible AI gateway: you get a single API key and a single base URL that route requests to many model providers. Because the API surface follows the OpenAI convention, most third-party AI apps and tools can talk to Code Router with no special integration — you simply point them at your Code Router endpoint and paste in a token.
+AI Router is an OpenAI-compatible AI gateway: you get a single API key and a single base URL that route requests to many model providers. Because the API surface follows the OpenAI convention, most third-party AI apps and tools can talk to AI Router with no special integration — you simply point them at your AI Router endpoint and paste in a token.
 
 This page lists applications with dedicated step-by-step guides. Any client that supports a custom OpenAI-compatible base URL should also work even if it isn't listed here.
 
@@ -35,7 +35,7 @@ This page lists applications with dedicated step-by-step guides. Any client that
   <Card
     icon={<Settings />}
     title="CC Switch"
-    description="One-click fill from the Code Router token page; configure Claude, Codex, or Gemini with main and variant models in the popup."
+    description="One-click fill from the AI Router token page; configure Claude, Codex, or Gemini with main and variant models in the popup."
     href="/en/docs/apps/cc-switch"
   />
   <Card
@@ -47,7 +47,7 @@ This page lists applications with dedicated step-by-step guides. Any client that
   <Card
     icon={<Bot />}
     title="DeepChat"
-    description="An open-source, cross-platform multi-model AI client with one-click Code Router provider import via DeepLink."
+    description="An open-source, cross-platform multi-model AI client with one-click AI Router provider import via DeepLink."
     href="/en/docs/apps/deepchat"
   />
   <Card
@@ -59,7 +59,7 @@ This page lists applications with dedicated step-by-step guides. Any client that
   <Card
     icon={<Bot />}
     title="OpenClaw"
-    description="A self-hosted AI assistant platform — install OpenClaw, connect to Code Router, and manage agents across Feishu, Discord, Slack, and more."
+    description="A self-hosted AI assistant platform — install OpenClaw, connect to AI Router, and manage agents across Feishu, Discord, Slack, and more."
     href="/en/docs/apps/openclaw"
   />
   <Card
@@ -108,11 +108,11 @@ This page lists applications with dedicated step-by-step guides. Any client that
 
 ## Integration Guide
 
-Most applications connect to Code Router with three pieces of information:
+Most applications connect to AI Router with three pieces of information:
 
 <Steps>
   <Step>
-    **API base URL** — your Code Router service address. The OpenAI-compatible endpoint is:
+    **API base URL** — your AI Router service address. The OpenAI-compatible endpoint is:
 
     ```
     https://ai.sammier.com/v1
@@ -121,10 +121,10 @@ Most applications connect to Code Router with three pieces of information:
     Some apps expect the full path ending in `/v1`; others expect only the host (`https://ai.sammier.com`) and append the path themselves. If one form fails, try the other.
   </Step>
   <Step>
-    **API key** — a token you generate on the Code Router console's token page. It is sent as a standard bearer credential, for example `Authorization: Bearer <your-token>`.
+    **API key** — a token you generate on the AI Router console's token page. It is sent as a standard bearer credential, for example `Authorization: Bearer <your-token>`.
   </Step>
   <Step>
-    **Model name** — the model (or model group) you want to call. Use the exact model identifier exposed by your Code Router instance.
+    **Model name** — the model (or model group) you want to call. Use the exact model identifier exposed by your AI Router instance.
   </Step>
 </Steps>
 
@@ -150,7 +150,7 @@ curl https://ai.sammier.com/v1/models \
 For app-specific steps (where to paste each field, DeepLink import, etc.), open the relevant guide above.
 
 <Callout type="info">
-  The base URL above is a placeholder for documentation. Replace it with your actual Code Router deployment address. Available models, model groups, and any usage limits depend on your instance configuration (details TBD / 待补).
+  The base URL above is a placeholder for documentation. Replace it with your actual AI Router deployment address. Available models, model groups, and any usage limits depend on your instance configuration (details TBD / 待补).
 </Callout>
 
 <Callout type="info">

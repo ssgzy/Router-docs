@@ -1,17 +1,17 @@
 ---
 title: 订阅计划
-description: Code Router 中按周期购买的套餐,适合有稳定用量需求的用户
+description: AI Router 中按周期购买的套餐,适合有稳定用量需求的用户
 ---
 
-订阅是按计费周期购买的套餐,购买后在有效期内享受套餐内包含的配额或特权,适合有稳定用量需求的用户。在 Code Router 控制台左侧导航点击「订阅」,或直接访问 `/console/subscription`。
+订阅是按计费周期购买的套餐,购买后在有效期内享受套餐内包含的配额或特权,适合有稳定用量需求的用户。在 AI Router 控制台左侧导航点击「订阅」,或直接访问 `/console/subscription`。
 
 <Callout type="warn">
-Code Router 目前为全新演示项目,本页所有价格、配额、计费周期、支付方式均为占位示例,**尚未最终确定**。文中标注「待补 / TBD」的位置以正式上线后的控制台实际显示为准。
+AI Router 目前为全新演示项目,本页所有价格、配额、计费周期、支付方式均为占位示例,**尚未最终确定**。文中标注「待补 / TBD」的位置以正式上线后的控制台实际显示为准。
 </Callout>
 
 ## 订阅与按量计费的区别
 
-Code Router 是 OpenAI 兼容的统一网关,你拿到一个 API Key 和一个 Base URL 即可调用多家模型供应商。计费上通常有两种方式:
+AI Router 是 OpenAI 兼容的统一网关,你拿到一个 API Key 和一个 Base URL 即可调用多家模型供应商。计费上通常有两种方式:
 
 <Cards>
   <Card title="按量计费" description="按实际消耗的 token 从余额中扣费,用多少扣多少,适合用量波动较大的场景。" />
@@ -31,7 +31,7 @@ Code Router 是 OpenAI 兼容的统一网关,你拿到一个 API Key 和一个 B
 - 包含的配额 / 适用的模型分组、令牌分组(配额额度待补 / TBD)
 
 <Callout type="info">
-套餐与配额的对应关系基于 Code Router 的「模型分组(Model Group)」与「令牌分组(Token Group)」机制 —— 一个套餐可限定可调用的模型范围与配额上限。具体分组划分与额度由站点运营方配置,演示环境中以示例数据为准。
+套餐与配额的对应关系基于 AI Router 的「模型分组(Model Group)」与「令牌分组(Token Group)」机制 —— 一个套餐可限定可调用的模型范围与配额上限。具体分组划分与额度由站点运营方配置,演示环境中以示例数据为准。
 </Callout>
 
 ## 购买订阅
@@ -88,6 +88,6 @@ Code Router 是 OpenAI 兼容的统一网关,你拿到一个 API Key 和一个 B
 到期后套餐内的剩余配额是否保留、是否回落到按量计费,取决于站点运营方的策略(待补 / TBD)。建议开启自动续费以避免服务中断。
 </Accordion>
 <Accordion title="价格和支付方式什么时候确定?">
-Code Router 仍处于演示阶段,价格、计费周期与支付方式均未最终敲定。如需反馈或了解进展,可前往源码仓库 <a href="https://github.com/ssgzy/Router-new-api">github.com/ssgzy/Router-new-api</a> 的 Issues 提交问题。
+AI Router 仍处于演示阶段,价格、计费周期与支付方式均未最终敲定。如需反馈或了解进展,可前往源码仓库 <a href="https://github.com/ssgzy/Router-new-api">github.com/ssgzy/Router-new-api</a> 的 Issues 提交问题。
 </Accordion>
 </Accordions>

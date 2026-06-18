@@ -3,7 +3,7 @@ import { i18n } from '@/lib/i18n';
 import Image from 'next/image';
 import type { LinkItemType } from 'fumadocs-ui/layouts/docs';
 
-// Code Router source repository (fork of the upstream project). Placeholder until a
+// AI Router source repository (fork of the upstream project). Placeholder until a
 // dedicated docs repo is published — see report.
 const SOURCE_REPO_URL = 'https://github.com/ssgzy/Router-new-api';
 
@@ -29,7 +29,7 @@ export const linkItems: LinkItemType[] = [
 
 export const logo = (
   <Image
-    alt="Code Router"
+    alt="AI Router"
     src="/assets/code-router-logo.png"
     width={20}
     height={20}
@@ -47,7 +47,7 @@ export function baseOptions(locale: string): BaseLayoutProps {
         <>
           {logo}
           <span className="font-medium in-[header]:text-[15px] [.uwu_&]:hidden">
-            Code Router
+            AI Router
           </span>
         </>
       ),

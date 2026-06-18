@@ -1,6 +1,6 @@
 {
   "title": "Wiki",
-  "description": "Code Router project documentation and basics",
+  "description": "AI Router project documentation and basics",
   "icon": "BookOpen",
   "pages": ["basic-concepts", "project-records"]
 }

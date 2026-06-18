@@ -186,7 +186,7 @@ export function Hero() {
         >
           <Image
             src="/assets/code-router-logo.png"
-            alt="Code Router"
+            alt="AI Router"
             width={288}
             height={288}
             className="size-32 drop-shadow-2xl sm:size-40 md:size-56 lg:size-72"
@@ -196,8 +196,8 @@ export function Hero() {
         </div>
       )}
 
-      {/* Code Router: removed the upstream dashboard screenshot — the hero keeps
-          the brand mark only until a Code Router screenshot is available. */}
+      {/* AI Router: removed the upstream dashboard screenshot — the hero keeps
+          the brand mark only until a AI Router screenshot is available. */}
     </>
   );
 }

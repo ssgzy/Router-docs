@@ -1,6 +1,6 @@
 ---
-title: Code Router 文档
-description: Code Router 是一个兼容 OpenAI 接口的统一 AI 网关 / 中转，让你用一个密钥和一个接入地址调用多家模型供应商。
+title: AI Router 文档
+description: AI Router 是一个兼容 OpenAI 接口的统一 AI 网关 / 中转，让你用一个密钥和一个接入地址调用多家模型供应商。
 ---
 
 import {
@@ -15,10 +15,10 @@ import {
   Rocket,
 } from 'lucide-react';
 
-Code Router 是一个**兼容 OpenAI 接口**的统一 AI 网关（中转）。你只需获取**一个 API 密钥**与**一个统一接入地址**，即可调用多家模型供应商；同时通过模型分组、令牌分组、配额与用量统计，对调用进行集中管理。Code Router 基于开源项目二次开发，源码托管在 [GitHub](https://github.com/ssgzy/Router-new-api)。
+AI Router 是一个**兼容 OpenAI 接口**的统一 AI 网关（中转）。你只需获取**一个 API 密钥**与**一个统一接入地址**，即可调用多家模型供应商；同时通过模型分组、令牌分组、配额与用量统计，对调用进行集中管理。AI Router 基于开源项目二次开发，源码托管在 [GitHub](https://github.com/ssgzy/Router-new-api)。
 
 <Callout type="info">
-  Code Router 目前为全新演示项目，文档中涉及的价格、计费、支付与服务条款等运营信息均为占位说明（待补），请以正式上线后的公告为准。
+  AI Router 目前为全新演示项目，文档中涉及的价格、计费、支付与服务条款等运营信息均为占位说明（待补），请以正式上线后的公告为准。
 </Callout>
 
 ## 接入地址
@@ -33,5 +33,5 @@ https://ai.sammier.com
 https://ai.sammier.com/v1
 ```
 
-将现有 OpenAI SDK 或客户端的 `base_url` 指向上述端点，并使用你在控制台创建的密钥，即可无缝切换到 Code Router。
+将现有 OpenAI SDK 或客户端的 `base_url` 指向上述端点，并使用你在控制台创建的密钥，即可无缝切换到 AI Router。
 

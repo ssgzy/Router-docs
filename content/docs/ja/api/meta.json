@@ -1,6 +1,6 @@
 {
   "title": "APIリファレンス",
-  "description": "Code Router の完全なインターフェースドキュメント",
+  "description": "AI Router の完全なインターフェースドキュメント",
   "icon": "Code",
   "root": true,
   "pages": ["index", "ai-model", "management"]

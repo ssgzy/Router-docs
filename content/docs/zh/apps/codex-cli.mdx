@@ -1,6 +1,6 @@
 ---
 title: OpenAI Codex CLI
-description: OpenAI Codex CLI 安装与配置教程 — 在 Windows、macOS、Linux 上安装终端 AI 编程助手，通过 OpenAI 兼容接口对接 Code Router。
+description: OpenAI Codex CLI 安装与配置教程 — 在 Windows、macOS、Linux 上安装终端 AI 编程助手，通过 OpenAI 兼容接口对接 AI Router。
 ---
 
 <Callout type="info" title="项目介绍">
@@ -8,7 +8,7 @@ description: OpenAI Codex CLI 安装与配置教程 — 在 Windows、macOS、Li
 
   - 项目主页：[https://github.com/openai/codex](https://github.com/openai/codex)
 
-  本页介绍如何把 Codex CLI 指向 **Code Router**（一个 OpenAI 兼容的统一 AI 网关/中转）。配置完成后，你只需一个 Code Router API Key + 一个 Base URL，即可在 Codex CLI 中调用 Code Router 上配置的多家模型。
+  本页介绍如何把 Codex CLI 指向 **AI Router**（一个 OpenAI 兼容的统一 AI 网关/中转）。配置完成后，你只需一个 AI Router API Key + 一个 Base URL，即可在 Codex CLI 中调用 AI Router 上配置的多家模型。
 </Callout>
 
 ## Codex CLI 特性
@@ -23,17 +23,17 @@ description: OpenAI Codex CLI 安装与配置教程 — 在 Windows、macOS、Li
 | 安全约束       | 遵循严格规则（不随意更改无关文件、不执行破坏性命令），敏感操作需要用户批准。                                     |
 | 跨平台         | 支持 Windows（建议配合 WSL2）、macOS、Linux。                                                                    |
 
-## 准备工作：获取 Code Router 接入信息
+## 准备工作：获取 AI Router 接入信息
 
-在配置 Codex CLI 之前，请先从你的 Code Router 控制台拿到以下两项信息：
+在配置 Codex CLI 之前，请先从你的 AI Router 控制台拿到以下两项信息：
 
 <Cards>
-  <Card title="Base URL（接入地址）" description="OpenAI 兼容接口地址，形如 https://ai.sammier.com/v1。请以你自己部署或使用的 Code Router 实例地址为准。" />
-  <Card title="API Key（密钥）" description="形如 sk-... 的 Code Router 密钥。妥善保管，不要提交到代码仓库或公开分享。" />
+  <Card title="Base URL（接入地址）" description="OpenAI 兼容接口地址，形如 https://ai.sammier.com/v1。请以你自己部署或使用的 AI Router 实例地址为准。" />
+  <Card title="API Key（密钥）" description="形如 sk-... 的 AI Router 密钥。妥善保管，不要提交到代码仓库或公开分享。" />
 </Cards>
 
 <Callout type="warn" title="使用前请确认">
-  修改接口地址后，Codex CLI 调用的所有模型（包括其内置预设模型）都会走你配置的接入点。请仅使用你自己部署的 Code Router，或确认服务方具备合法上游授权与合规义务的 Code Router 服务，不要将来源不明的 API 地址或密钥接入生产环境。
+  修改接口地址后，Codex CLI 调用的所有模型（包括其内置预设模型）都会走你配置的接入点。请仅使用你自己部署的 AI Router，或确认服务方具备合法上游授权与合规义务的 AI Router 服务，不要将来源不明的 API 地址或密钥接入生产环境。
 </Callout>
 
 ## 安装 Codex CLI
@@ -171,13 +171,13 @@ description: OpenAI Codex CLI 安装与配置教程 — 在 Windows、macOS、Li
   </Tab>
 </Tabs>
 
-## 配置 Codex CLI 对接 Code Router
+## 配置 Codex CLI 对接 AI Router
 
-Codex CLI 支持自定义 OpenAI 兼容的模型提供方。把提供方的 Base URL 指向 Code Router，密钥使用你的 Code Router API Key 即可。
+Codex CLI 支持自定义 OpenAI 兼容的模型提供方。把提供方的 Base URL 指向 AI Router，密钥使用你的 AI Router API Key 即可。
 
 ### 1. 配置 API Key
 
-Codex CLI 通过环境变量读取密钥。把它设置为你的 Code Router 密钥（占位示例为 `sk-...`，请替换为你自己的真实密钥）。
+Codex CLI 通过环境变量读取密钥。把它设置为你的 AI Router 密钥（占位示例为 `sk-...`，请替换为你自己的真实密钥）。
 
 <Tabs items={["macOS / Linux", "Windows (PowerShell)"]}>
   <Tab value="macOS / Linux">
@@ -203,27 +203,27 @@ Codex CLI 通过环境变量读取密钥。把它设置为你的 Code Router 密
 
 ### 2. 配置模型提供方（Base URL）
 
-编辑 Codex 的配置文件 `~/.codex/config.toml`（不存在则新建），加入一个指向 Code Router 的 OpenAI 兼容提供方：
+编辑 Codex 的配置文件 `~/.codex/config.toml`（不存在则新建），加入一个指向 AI Router 的 OpenAI 兼容提供方：
 
 ```toml
 # ~/.codex/config.toml
 
 # 默认使用的提供方与模型
 model_provider = "code-router"
-model = "gpt-4o"   # 改成你在 Code Router 中实际开通/分组的模型名
+model = "gpt-4o"   # 改成你在 AI Router 中实际开通/分组的模型名
 
 [model_providers.code-router]
-name = "Code Router"
-# Code Router 的 OpenAI 兼容接口地址（以你的实例为准）
+name = "AI Router"
+# AI Router 的 OpenAI 兼容接口地址（以你的实例为准）
 base_url = "https://ai.sammier.com/v1"
 # 从名为 OPENAI_API_KEY 的环境变量读取密钥
 env_key = "OPENAI_API_KEY"
 ```
 
 <Callout type="info" title="字段说明">
-  - `base_url`：填 Code Router 的 OpenAI 兼容地址（`https://ai.sammier.com/v1`）。请替换为你自己部署或使用的实例地址。
+  - `base_url`：填 AI Router 的 OpenAI 兼容地址（`https://ai.sammier.com/v1`）。请替换为你自己部署或使用的实例地址。
   - `env_key`：指定读取密钥的环境变量名，对应上一步设置的 `OPENAI_API_KEY`。
-  - `model`：填你在 Code Router 中可用的模型名（具体可用模型与分组以你的 Code Router 控制台为准）。
+  - `model`：填你在 AI Router 中可用的模型名（具体可用模型与分组以你的 AI Router 控制台为准）。
 </Callout>
 
 <Callout type="info" title="配置截图（占位）">
@@ -247,23 +247,23 @@ codex
 
 启动后可在交互界面中：
 
-- 输入 `/model` 切换模型（需是 Code Router 中可用的模型名）。
+- 输入 `/model` 切换模型（需是 AI Router 中可用的模型名）。
 - 按需设置写入/审批权限：例如允许 Codex 直接修改文件，或要求每次修改手动授权。
 
 ## 常见问题
 
 <Accordions>
   <Accordion title="提示鉴权失败 / 401 Unauthorized">
-    - 确认 `OPENAI_API_KEY` 已正确设置为你的 Code Router 密钥（`echo $OPENAI_API_KEY` 检查）。
+    - 确认 `OPENAI_API_KEY` 已正确设置为你的 AI Router 密钥（`echo $OPENAI_API_KEY` 检查）。
     - 确认 `config.toml` 中 `env_key` 与实际环境变量名一致。
     - 修改环境变量后需重新打开终端。
   </Accordion>
   <Accordion title="提示模型不存在 / 404">
-    检查 `config.toml` 中 `model` 填写的名称是否为 Code Router 中实际开通的模型名（不同实例的可用模型与分组不同，请以控制台为准）。
+    检查 `config.toml` 中 `model` 填写的名称是否为 AI Router 中实际开通的模型名（不同实例的可用模型与分组不同，请以控制台为准）。
   </Accordion>
   <Accordion title="连接超时 / 无法访问接入点">
     - 确认 `base_url` 正确，且结尾为 `/v1`。
-    - 确认网络可以访问你的 Code Router 实例地址。
+    - 确认网络可以访问你的 AI Router 实例地址。
   </Accordion>
   <Accordion title="安装时提示权限错误">
     - 使用 `sudo` 安装：`sudo npm install -g @openai/codex`
@@ -273,4 +273,4 @@ codex
 
 ## 反馈
 
-使用 Code Router 过程中遇到问题，可在源码仓库提交 issue：[https://github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api)
+使用 AI Router 过程中遇到问题，可在源码仓库提交 issue：[https://github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api)

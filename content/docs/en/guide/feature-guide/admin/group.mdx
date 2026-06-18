@@ -1,12 +1,12 @@
 ---
 title: Group Management
-description: Groups isolate channel access and apply billing multipliers for different users in Code Router
+description: Groups isolate channel access and apply billing multipliers for different users in AI Router
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 import { Steps, Step } from 'fumadocs-ui/components/steps';
 
-In Code Router, **groups** isolate channel access and let you apply a billing multiplier per group. Users in a given group can only reach the channels assigned to that group, so you can separate tiers of users, route premium traffic to specific upstreams, or run failover pools.
+In AI Router, **groups** isolate channel access and let you apply a billing multiplier per group. Users in a given group can only reach the channels assigned to that group, so you can separate tiers of users, route premium traffic to specific upstreams, or run failover pools.
 
 Log in with an admin account and open the **Groups** entry under System Settings (or the admin panel) to view, add, or edit groups. The group list shows every configured group name; both users and tokens can be assigned to a group, and channels can be restricted to one or more groups.
 
@@ -19,7 +19,7 @@ A request is matched to a channel by comparing the **token's group** against the
 - **Channel group** — enter the allowed group name(s) in the **Group** field when adding or editing a channel. A channel can belong to several groups.
 
 <Callout type="info">
-  When a token's group is set to `auto`, Code Router automatically selects an available group in priority order. This is useful for cross-group failover: if the preferred group's channels are unavailable, the next eligible group is tried.
+  When a token's group is set to `auto`, AI Router automatically selects an available group in priority order. This is useful for cross-group failover: if the preferred group's channels are unavailable, the next eligible group is tried.
 </Callout>
 
 ## Create and assign a group
@@ -35,13 +35,13 @@ A request is matched to a channel by comparing the **token's group** against the
 **Point tokens at it.** When users create an API key, they select the group the token should use, or set it to `auto` for automatic selection.
 </Step>
 <Step>
-**Verify routing.** Send a request with the token to your Code Router base URL and confirm it lands on the expected channel.
+**Verify routing.** Send a request with the token to your AI Router base URL and confirm it lands on the expected channel.
 </Step>
 </Steps>
 
 ## Billing multipliers
 
-Each group can carry a multiplier that scales the cost of requests routed through it (for example, a discounted internal group or a higher-priced premium group). Code Router multiplies the channel's per-token rate by this value when recording usage.
+Each group can carry a multiplier that scales the cost of requests routed through it (for example, a discounted internal group or a higher-priced premium group). AI Router multiplies the channel's per-token rate by this value when recording usage.
 
 <Callout type="warn">
   Concrete rates and multiplier values for this deployment are not finalized yet (pricing TBD). Configure them deliberately before exposing groups to end users.

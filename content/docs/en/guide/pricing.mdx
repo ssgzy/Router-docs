@@ -1,16 +1,16 @@
 ---
 title: Pricing
-description: How model pricing, quotas, and top-up work in Code Router.
+description: How model pricing, quotas, and top-up work in AI Router.
 ---
 
-The **Pricing** page lists the models Code Router exposes through its
+The **Pricing** page lists the models AI Router exposes through its
 OpenAI-compatible gateway and the billing rate that applies to each one. Because
-Code Router is a relay that fronts many upstream providers behind a single API
+AI Router is a relay that fronts many upstream providers behind a single API
 key and base URL, the rate shown here reflects what *your* deployment charges for
 calling a given model — not any single upstream's list price.
 
 <Callout type="warn">
-  Code Router is a brand-new demo. The numbers, currencies, and payment options
+  AI Router is a brand-new demo. The numbers, currencies, and payment options
   below are **not finalized** — every concrete amount on this page is a
   placeholder marked **(TBD / 待补)**. Do not treat anything here as a committed
   price or available payment method.
@@ -36,7 +36,7 @@ The page renders one row per available model. Typical columns:
 
 ## How rates are expressed
 
-Code Router prices most models **per token**, separating input (prompt) tokens
+AI Router prices most models **per token**, separating input (prompt) tokens
 from output (completion) tokens. Conceptually:
 
 ```text
@@ -54,7 +54,7 @@ scheme applies to each model.
 
 ## Model groups and token groups
 
-Code Router uses **groups** to let one deployment offer different rates or model
+AI Router uses **groups** to let one deployment offer different rates or model
 sets to different users:
 
 <Cards>

@@ -1,6 +1,6 @@
 ---
 title: Project Introduction
-description: An overview of Code Router, a unified, self-hostable, OpenAI-compatible AI gateway for reaching many model providers through one key and one base URL.
+description: An overview of AI Router, a unified, self-hostable, OpenAI-compatible AI gateway for reaching many model providers through one key and one base URL.
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
@@ -8,7 +8,7 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 
 ## Overview
 
-Code Router is a unified, OpenAI-compatible AI gateway (also called a relay). It puts a
+AI Router is a unified, OpenAI-compatible AI gateway (also called a relay). It puts a
 single entry point in front of many upstream model providers, so your applications can
 reach all of them through **one API key and one base URL** instead of juggling a separate
 key, SDK, and endpoint for each vendor.
@@ -27,7 +27,7 @@ https://ai.sammier.com/v1
 ```
 
 <Callout type="info">
-  Code Router is a self-hostable gateway. The base URLs above are placeholders for this
+  AI Router is a self-hostable gateway. The base URLs above are placeholders for this
   demo — replace them with your own deployment's address. (Public hosted endpoint, if any:
   TBD.)
 </Callout>
@@ -44,7 +44,7 @@ https://ai.sammier.com/v1
 ### Core concepts
 
 - **Unified OpenAI-compatible interface.** A single API surface compatible with the OpenAI
-  request/response format. Point your client at the gateway's base URL and use a Code Router
+  request/response format. Point your client at the gateway's base URL and use a AI Router
   API key.
 - **Providers & channels.** Each upstream provider is configured as a channel that holds its
   own connection settings. Provider credentials are configured at the gateway, not embedded
@@ -64,21 +64,21 @@ https://ai.sammier.com/v1
 
 ## Who it's for
 
-Code Router suits anyone who needs to consolidate access to multiple AI model providers
+AI Router suits anyone who needs to consolidate access to multiple AI model providers
 behind one consistent interface — for example personal projects, internal team tooling, or
 private self-hosted deployments. It is intended for legally authorized use of upstream
 provider accounts and services.
 
 ## Built on open source
 
-Code Router is built on a mature, open-source AI-gateway codebase and is self-hostable. The source
+AI Router is built on a mature, open-source AI-gateway codebase and is self-hostable. The source
 for this build lives in the project repository:
 
 <Cards>
   <Card
     title="Source repository"
     href="https://github.com/ssgzy/Router-new-api"
-    description="Code Router source code, license, and issue tracker."
+    description="AI Router source code, license, and issue tracker."
   />
 </Cards>
 
@@ -88,12 +88,12 @@ For licensing terms, refer to the `LICENSE` file in the
 ## Status & feedback
 
 <Callout type="warn">
-  Code Router is an early-stage demo. Operational details such as pricing, payment options,
+  AI Router is an early-stage demo. Operational details such as pricing, payment options,
   availability/uptime, and official support channels are not established yet (all TBD). Do
   not treat any example values in these docs as real commercial terms.
 </Callout>
 
-Code Router is provided "as is," without warranties of any kind. For questions, bug reports,
+AI Router is provided "as is," without warranties of any kind. For questions, bug reports,
 or suggestions, open an issue in the
 [source repository on GitHub](https://github.com/ssgzy/Router-new-api). Other contact methods
 are not available at this time (TBD).

@@ -1,12 +1,12 @@
 ---
 title: 令牌管理
-description: 令牌是调用 Code Router API 的凭证，每个令牌可独立配置权限范围和配额上限
+description: 令牌是调用 AI Router API 的凭证，每个令牌可独立配置权限范围和配额上限
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 import { Steps, Step } from 'fumadocs-ui/components/steps';
 
-令牌（Token）是调用 Code Router API 的凭证。Code Router 提供 OpenAI 兼容接口，你用同一个令牌 + 同一个 Base URL 即可访问平台聚合的多家模型供应商。每个令牌都可以独立配置权限范围、模型限制与配额上限，便于按用途隔离。左侧导航点击「令牌」，或直接访问 `/console/token`。
+令牌（Token）是调用 AI Router API 的凭证。AI Router 提供 OpenAI 兼容接口，你用同一个令牌 + 同一个 Base URL 即可访问平台聚合的多家模型供应商。每个令牌都可以独立配置权限范围、模型限制与配额上限，便于按用途隔离。左侧导航点击「令牌」，或直接访问 `/console/token`。
 
 ![令牌列表页](/assets/guide/feature-guide/token-list.png)
 
@@ -69,7 +69,7 @@ import { Steps, Step } from 'fumadocs-ui/components/steps';
 
 ## 使用令牌调用 API
 
-创建令牌后，将它作为 `Authorization: Bearer <你的令牌 Key>` 传入，并把请求地址指向 Code Router 的 OpenAI 兼容端点：
+创建令牌后，将它作为 `Authorization: Bearer <你的令牌 Key>` 传入，并把请求地址指向 AI Router 的 OpenAI 兼容端点：
 
 - Base URL：`https://ai.sammier.com`
 - OpenAI 兼容端点：`https://ai.sammier.com/v1`

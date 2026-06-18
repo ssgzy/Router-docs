@@ -1,40 +1,40 @@
 ---
 title: FAQ
-description: Frequently asked questions about Code Router — quotas, channels, connecting your client, and deployment.
+description: Frequently asked questions about AI Router — quotas, channels, connecting your client, and deployment.
 ---
 
 import { Accordions, Accordion } from 'fumadocs-ui/components/accordion';
 import { Callout } from 'fumadocs-ui/components/callout';
 
-Code Router is a unified, OpenAI-compatible AI gateway. You get one API key and one base URL to call many model providers, with model groups, token groups, quotas, and usage tracking. The questions below cover the most common topics.
+AI Router is a unified, OpenAI-compatible AI gateway. You get one API key and one base URL to call many model providers, with model groups, token groups, quotas, and usage tracking. The questions below cover the most common topics.
 
 <Callout type="info">
-  Code Router is a brand-new demo. Anything involving prices, payment, contacts, or other operational specifics is still to be determined (TBD) and is noted as such below.
+  AI Router is a brand-new demo. Anything involving prices, payment, contacts, or other operational specifics is still to be determined (TBD) and is noted as such below.
 </Callout>
 
 ## Getting started
 
 <Accordions>
-  <Accordion title="What is Code Router?">
-    Code Router is an OpenAI-compatible AI gateway (a relay/aggregator). Instead of integrating each model provider separately, you point your existing OpenAI-compatible client at Code Router using a single base URL and a single API key, and Code Router routes the request to the appropriate upstream provider channel.
+  <Accordion title="What is AI Router?">
+    AI Router is an OpenAI-compatible AI gateway (a relay/aggregator). Instead of integrating each model provider separately, you point your existing OpenAI-compatible client at AI Router using a single base URL and a single API key, and AI Router routes the request to the appropriate upstream provider channel.
   </Accordion>
 
   <Accordion title="How do I get an API key?">
-    Sign in to the Code Router console, open the token/key management page, and create a new token. The generated key is what you place in your client's `Authorization: Bearer <key>` header. Keep it secret; treat it like a password.
+    Sign in to the AI Router console, open the token/key management page, and create a new token. The generated key is what you place in your client's `Authorization: Bearer <key>` header. Keep it secret; treat it like a password.
   </Accordion>
 
   <Accordion title="What base URL do I use?">
-    Use your Code Router deployment's base URL. For an OpenAI-compatible client, the endpoint is:
+    Use your AI Router deployment's base URL. For an OpenAI-compatible client, the endpoint is:
 
     ```
     https://ai.sammier.com/v1
     ```
 
-    Set this as the API base (sometimes called "base URL", "API host", or "endpoint") in your client, and use your Code Router token as the API key. Most clients append paths such as `/chat/completions` automatically.
+    Set this as the API base (sometimes called "base URL", "API host", or "endpoint") in your client, and use your AI Router token as the API key. Most clients append paths such as `/chat/completions` automatically.
   </Accordion>
 
   <Accordion title="Which endpoints are supported?">
-    Code Router exposes OpenAI-compatible endpoints under `/v1`, including model listing and chat completions (streaming and non-streaming). Exact endpoint coverage depends on what the configured upstream providers support. If your client speaks the OpenAI API, it should work without code changes — only the base URL and key change.
+    AI Router exposes OpenAI-compatible endpoints under `/v1`, including model listing and chat completions (streaming and non-streaming). Exact endpoint coverage depends on what the configured upstream providers support. If your client speaks the OpenAI API, it should work without code changes — only the base URL and key change.
   </Accordion>
 </Accordions>
 
@@ -42,7 +42,7 @@ Code Router is a unified, OpenAI-compatible AI gateway. You get one API key and 
 
 <Accordions>
   <Accordion title="What is quota and how is it calculated?">
-    Quota is the internal unit Code Router uses to meter usage. Consumption for a request is derived from the number of prompt tokens and completion tokens, adjusted by the ratios configured for the model and group. The general shape is:
+    Quota is the internal unit AI Router uses to meter usage. Consumption for a request is derived from the number of prompt tokens and completion tokens, adjusted by the ratios configured for the model and group. The general shape is:
 
     ```
     Quota = Group Ratio × Model Ratio × (Prompt Tokens + Completion Tokens × Completion Ratio)
@@ -102,7 +102,7 @@ Code Router is a unified, OpenAI-compatible AI gateway. You get one API key and 
   <Accordion title="My OpenAI-compatible client shows 'Failed to fetch'">
     Check the following:
 
-    1. Set the base URL to your Code Router endpoint (for example `https://ai.sammier.com/v1`) and avoid leaving a conflicting base URL elsewhere in the client.
+    1. Set the base URL to your AI Router endpoint (for example `https://ai.sammier.com/v1`) and avoid leaving a conflicting base URL elsewhere in the client.
     2. Confirm the API address and API key are entered correctly.
     3. If your site is served over HTTPS, make sure the API endpoint is also HTTPS — browsers block plain HTTP requests made from an HTTPS page.
   </Accordion>

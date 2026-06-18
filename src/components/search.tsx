@@ -44,7 +44,7 @@ function Header() {
             target="_blank"
             rel="noreferrer noopener"
           >
-            Code Router
+            AI Router
           </a>
         </p>
       </div>
@@ -247,7 +247,7 @@ function Input(props: ComponentProps<'textarea'>) {
 
 const roleName: Record<string, string> = {
   user: 'you',
-  assistant: 'Code Router Docs',
+  assistant: 'AI Router Docs',
 };
 
 function Message({

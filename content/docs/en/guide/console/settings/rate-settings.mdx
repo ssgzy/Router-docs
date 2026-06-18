@@ -1,17 +1,17 @@
 ---
 title: Ratio Settings
-description: How Code Router uses model, completion, and group ratios to convert API usage into quota consumption.
+description: How AI Router uses model, completion, and group ratios to convert API usage into quota consumption.
 ---
 
-Ratio settings are a core part of Code Router's internal cost-accounting system. By configuring different ratios you can flexibly control how usage of various models and user groups is converted into quota consumption — useful for internal cost allocation, budget control, or differentiated billing tiers.
+Ratio settings are a core part of AI Router's internal cost-accounting system. By configuring different ratios you can flexibly control how usage of various models and user groups is converted into quota consumption — useful for internal cost allocation, budget control, or differentiated billing tiers.
 
 <Callout type="warn">
-The concrete ratio values, prices, currency amounts, and quota-unit conversions shown below are **illustrative placeholders only**. Code Router is an early demo and none of these numbers are finalized. Treat every value marked **(TBD / 待补)** as a placeholder to be replaced with your own configuration. Do not rely on any figure here as a real price.
+The concrete ratio values, prices, currency amounts, and quota-unit conversions shown below are **illustrative placeholders only**. AI Router is an early demo and none of these numbers are finalized. Treat every value marked **(TBD / 待补)** as a placeholder to be replaced with your own configuration. Do not rely on any figure here as a real price.
 </Callout>
 
 ## Ratio System Overview
 
-Code Router uses a three-tier ratio system to calculate quota consumption:
+AI Router uses a three-tier ratio system to calculate quota consumption:
 
 1. **Model Ratio** — the base billing multiplier for a given model.
 2. **Completion Ratio** — an additional adjustment applied to output tokens.
@@ -19,7 +19,7 @@ Code Router uses a three-tier ratio system to calculate quota consumption:
 
 ### Relationship between Quota and Ratios
 
-In Code Router, ratios are the parameters used to compute quota consumption. **Quota** is the internal accounting unit of the system: all API calls are ultimately converted into quota points and deducted from a user's balance.
+In AI Router, ratios are the parameters used to compute quota consumption. **Quota** is the internal accounting unit of the system: all API calls are ultimately converted into quota points and deducted from a user's balance.
 
 Quota unit conversion:
 
@@ -45,7 +45,7 @@ quota = (input_tokens + output_tokens × completion_ratio) × model_ratio × gro
 quota = model_fixed_price × group_ratio × quota_unit
 ```
 
-#### Audio models (handled automatically by Code Router)
+#### Audio models (handled automatically by AI Router)
 
 ```
 quota = (text_input_tokens
@@ -57,7 +57,7 @@ quota = (text_input_tokens
 
 #### Pre-consumption and post-consumption
 
-Code Router uses a two-phase billing mechanism:
+AI Router uses a two-phase billing mechanism:
 
 1. **Pre-consumption** — before the call, an estimated quota amount is pre-deducted based on the estimated token count.
 2. **Post-consumption** — after the call completes, quota is recalculated from the actual token count.
@@ -76,7 +76,7 @@ Model ratios define the base billing multiplier for each model. A higher ratio m
 ### Illustrative model ratios
 
 <Callout type="warn">
-The table below uses **placeholder values for layout illustration only** — the model names, ratios, and any prices are **not real Code Router rates (pricing TBD / 价格待补)**.
+The table below uses **placeholder values for layout illustration only** — the model names, ratios, and any prices are **not real AI Router rates (pricing TBD / 价格待补)**.
 </Callout>
 
 | Model Name      | Model Ratio | Completion Ratio | Reference Price (Input) | Reference Price (Output) |
@@ -147,7 +147,7 @@ The visual editor provides an intuitive interface for managing ratios, including
 
 ## Models Without Ratio Settings
 
-For models that have no ratio configured, Code Router can:
+For models that have no ratio configured, AI Router can:
 
 1. **Self-use mode** — fall back to a default ratio (**default value TBD / 待补**).
 2. **Billing mode** — return a "ratio or price not configured" error rather than guessing a price.
@@ -155,7 +155,7 @@ For models that have no ratio configured, Code Router can:
 
 ## Upstream Ratio Synchronization
 
-Code Router can help keep local ratios aligned with upstream channels:
+AI Router can help keep local ratios aligned with upstream channels:
 
 - Sync only legally authorized, publicly available price/model metadata from upstream.
 - Batch-update local ratio configurations.
@@ -165,7 +165,7 @@ Code Router can help keep local ratios aligned with upstream channels:
 ## Quota Calculation Examples
 
 <Callout type="warn">
-The numbers in these examples are **made-up inputs to demonstrate the formulas**. They are not real Code Router prices or ratios (价格/费率待补).
+The numbers in these examples are **made-up inputs to demonstrate the formulas**. They are not real AI Router prices or ratios (价格/费率待补).
 </Callout>
 
 ### Example 1 — token-based, standard group

@@ -1,12 +1,12 @@
 ---
 title: Token Management
-description: Tokens are your Code Router API credentials — each token can have its own permission scope and quota limit
+description: Tokens are your AI Router API credentials — each token can have its own permission scope and quota limit
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 import { Steps, Step } from 'fumadocs-ui/components/steps';
 
-In Code Router, a **token** is the API credential you pass as the `Authorization: Bearer ...` header when calling the gateway. Each token can be configured independently with its own permission scope and quota limit, so you can issue separate keys for different apps, environments, or teammates without sharing your account password.
+In AI Router, a **token** is the API credential you pass as the `Authorization: Bearer ...` header when calling the gateway. Each token can be configured independently with its own permission scope and quota limit, so you can issue separate keys for different apps, environments, or teammates without sharing your account password.
 
 Open the token list from **"Tokens"** in the left sidebar, or visit `/console/token` directly.
 
@@ -55,7 +55,7 @@ Click **"Submit"**. The dialog then displays the complete token key. **Copy and 
 
 ## Use a Token
 
-A token is the only secret you need to call Code Router. Point your OpenAI-compatible client at the gateway base URL and pass the token as the API key:
+A token is the only secret you need to call AI Router. Point your OpenAI-compatible client at the gateway base URL and pass the token as the API key:
 
 - **Base URL:** `https://ai.sammier.com`
 - **OpenAI-compatible endpoint:** `https://ai.sammier.com/v1`
