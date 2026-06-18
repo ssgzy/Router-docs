@@ -19,7 +19,7 @@ This page shows how to configure CC Switch so your CLI tools talk to **Code Rout
 
 To point any CLI at Code Router you only need two things from your Code Router console:
 
-- **Base URL** — `https://api.code-router.example` (the OpenAI-compatible endpoint is `https://api.code-router.example/v1`; Anthropic-compatible clients use the same base URL).
+- **Base URL** — `https://ai.sammier.com` (the OpenAI-compatible endpoint is `https://ai.sammier.com/v1`; Anthropic-compatible clients use the same base URL).
 - **API key** — your personal Code Router key, in the form `sk-...`.
 
 <Callout type="info" title="Where the key comes from">
@@ -36,7 +36,7 @@ To point any CLI at Code Router you only need two things from your Code Router c
 </Step>
 
 <Step>
-**Set the Base URL.** Enter `https://api.code-router.example` (use `https://api.code-router.example/v1` if the field expects the OpenAI-compatible `/v1` path).
+**Set the Base URL.** Enter `https://ai.sammier.com` (use `https://ai.sammier.com/v1` if the field expects the OpenAI-compatible `/v1` path).
 </Step>
 
 <Step>
@@ -73,7 +73,7 @@ CC Switch just writes the same settings you could set by hand. For most OpenAI-c
 <Tab value="OpenAI-compatible">
 
 ```shell
-export OPENAI_BASE_URL="https://api.code-router.example/v1"
+export OPENAI_BASE_URL="https://ai.sammier.com/v1"
 export OPENAI_API_KEY="sk-..."
 ```
 
@@ -82,7 +82,7 @@ export OPENAI_API_KEY="sk-..."
 <Tab value="Anthropic-compatible">
 
 ```shell
-export ANTHROPIC_BASE_URL="https://api.code-router.example"
+export ANTHROPIC_BASE_URL="https://ai.sammier.com"
 export ANTHROPIC_API_KEY="sk-..."
 ```
 

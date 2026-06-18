@@ -44,14 +44,14 @@ The token list shows every key on your account along with its name, status, grou
 
 Code Router exposes an OpenAI-compatible API, so any OpenAI SDK or HTTP client works once you point it at the Code Router base URL and pass your token as a Bearer credential.
 
-- **Base URL:** `https://api.code-router.example`
-- **OpenAI-compatible endpoint:** `https://api.code-router.example/v1`
+- **Base URL:** `https://ai.sammier.com`
+- **OpenAI-compatible endpoint:** `https://ai.sammier.com/v1`
 - **Authentication:** `Authorization: Bearer <your-token>`
 
 Example request:
 
 ```bash
-curl https://api.code-router.example/v1/chat/completions \
+curl https://ai.sammier.com/v1/chat/completions \
   -H "Authorization: Bearer $CODE_ROUTER_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -66,7 +66,7 @@ Using the official OpenAI SDKs, set the base URL and API key instead of the Open
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.code-router.example/v1",
+    base_url="https://ai.sammier.com/v1",
     api_key="<your-token>",
 )
 ```
@@ -88,6 +88,6 @@ client = OpenAI(
 | `401 Unauthorized` | Token is wrong, disabled, expired, or missing the `Bearer ` prefix. |
 | `403` / model not allowed | The model is not enabled for this token's group. |
 | Quota / insufficient balance error | The token's quota or the account balance is exhausted (limits are admin-configured — TBD for this demo). |
-| Connection error | Wrong base URL — confirm you are using `https://api.code-router.example/v1`. |
+| Connection error | Wrong base URL — confirm you are using `https://ai.sammier.com/v1`. |
 
 Found a problem with the docs or the gateway? Open an issue on the source repository at [github.com/ssgzy/Router-new-api](https://github.com/ssgzy/Router-new-api).

@@ -57,12 +57,12 @@ Click **"Submit"**. The dialog then displays the complete token key. **Copy and 
 
 A token is the only secret you need to call Code Router. Point your OpenAI-compatible client at the gateway base URL and pass the token as the API key:
 
-- **Base URL:** `https://api.code-router.example`
-- **OpenAI-compatible endpoint:** `https://api.code-router.example/v1`
+- **Base URL:** `https://ai.sammier.com`
+- **OpenAI-compatible endpoint:** `https://ai.sammier.com/v1`
 - **API key:** the token you copied above
 
 ```bash
-curl https://api.code-router.example/v1/chat/completions \
+curl https://ai.sammier.com/v1/chat/completions \
   -H "Authorization: Bearer sk-your-token-here" \
   -H "Content-Type: application/json" \
   -d '{

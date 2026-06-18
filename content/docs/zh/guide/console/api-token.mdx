@@ -9,7 +9,7 @@ import { Steps, Step } from 'fumadocs-ui/components/steps';
 在「API 令牌」页面，你可以查看、创建、编辑和删除令牌。令牌即调用网关时使用的 API 密钥（API Key），它决定了调用方的身份、可用范围与额度限制。
 
 <Callout type="info">
-Code Router 是一个统一的、兼容 OpenAI 接口的 AI 网关：你只需**一个 API 密钥**和**一个 Base URL**，即可调用多家模型供应商。本演示站点统一使用 Base URL `https://api.code-router.example`，OpenAI 兼容端点为 `https://api.code-router.example/v1`。
+Code Router 是一个统一的、兼容 OpenAI 接口的 AI 网关：你只需**一个 API 密钥**和**一个 Base URL**，即可调用多家模型供应商。本演示站点统一使用 Base URL `https://ai.sammier.com`，OpenAI 兼容端点为 `https://ai.sammier.com/v1`。
 </Callout>
 
 ## 查看令牌
@@ -45,7 +45,7 @@ Code Router 是一个统一的、兼容 OpenAI 接口的 AI 网关：你只需**
 <Steps>
 
 <Step>
-将 Base URL 设置为 `https://api.code-router.example/v1`。
+将 Base URL 设置为 `https://ai.sammier.com/v1`。
 </Step>
 
 <Step>
@@ -59,7 +59,7 @@ Code Router 是一个统一的、兼容 OpenAI 接口的 AI 网关：你只需**
 </Steps>
 
 ```bash
-curl https://api.code-router.example/v1/chat/completions \
+curl https://ai.sammier.com/v1/chat/completions \
   -H "Authorization: Bearer <你的密钥>" \
   -H "Content-Type: application/json" \
   -d '{

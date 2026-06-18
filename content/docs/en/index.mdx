@@ -28,7 +28,7 @@ Code Router is built on a popular open-source AI gateway and customized as its o
 Point any OpenAI-compatible client at the gateway by setting two values: the base URL and your Code Router API key.
 
 ```bash
-curl https://api.code-router.example/v1/chat/completions \
+curl https://ai.sammier.com/v1/chat/completions \
   -H "Authorization: Bearer $CODE_ROUTER_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -37,10 +37,10 @@ curl https://api.code-router.example/v1/chat/completions \
   }'
 ```
 
-The OpenAI-compatible endpoint is `https://api.code-router.example/v1`. Most SDKs only require overriding the base URL — for example, set `base_url` in the OpenAI Python SDK or `baseURL` in the Node SDK.
+The OpenAI-compatible endpoint is `https://ai.sammier.com/v1`. Most SDKs only require overriding the base URL — for example, set `base_url` in the OpenAI Python SDK or `baseURL` in the Node SDK.
 
 <Callout type="warn">
-Replace `https://api.code-router.example` with the base URL of your own deployment, and use a model name that exists in your configured model groups.
+Replace `https://ai.sammier.com` with the base URL of your own deployment, and use a model name that exists in your configured model groups.
 </Callout>
 
 ## Browse the Documentation

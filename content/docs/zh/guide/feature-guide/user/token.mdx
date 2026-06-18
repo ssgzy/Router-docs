@@ -71,11 +71,11 @@ import { Steps, Step } from 'fumadocs-ui/components/steps';
 
 创建令牌后，将它作为 `Authorization: Bearer <你的令牌 Key>` 传入，并把请求地址指向 Code Router 的 OpenAI 兼容端点：
 
-- Base URL：`https://api.code-router.example`
-- OpenAI 兼容端点：`https://api.code-router.example/v1`
+- Base URL：`https://ai.sammier.com`
+- OpenAI 兼容端点：`https://ai.sammier.com/v1`
 
 ```bash
-curl https://api.code-router.example/v1/chat/completions \
+curl https://ai.sammier.com/v1/chat/completions \
   -H "Authorization: Bearer <你的令牌 Key>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -85,7 +85,7 @@ curl https://api.code-router.example/v1/chat/completions \
 ```
 
 <Callout type="info">
-  任何兼容 OpenAI 协议的 SDK / 客户端都可使用：把官方 Base URL 改为 `https://api.code-router.example/v1`，并将 API Key 替换为你的令牌 Key 即可。具体可调用的模型名称以「模型」页面或 `GET /v1/models` 返回为准。
+  任何兼容 OpenAI 协议的 SDK / 客户端都可使用：把官方 Base URL 改为 `https://ai.sammier.com/v1`，并将 API Key 替换为你的令牌 Key 即可。具体可调用的模型名称以「模型」页面或 `GET /v1/models` 返回为准。
 </Callout>
 
 ## 编辑令牌

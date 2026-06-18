@@ -54,13 +54,13 @@ import { Steps, Step } from 'fumadocs-ui/components/steps';
 用属于该分组的令牌发起一次调用，确认它只命中了对该分组开放的渠道。基址与端点统一为：
 
 ```bash
-curl https://api.code-router.example/v1/chat/completions \
+curl https://ai.sammier.com/v1/chat/completions \
   -H "Authorization: Bearer sk-your-token" \
   -H "Content-Type: application/json" \
   -d '{"model": "your-model", "messages": [{"role": "user", "content": "ping"}]}'
 ```
 
-OpenAI 兼容端点为 `https://api.code-router.example/v1`。
+OpenAI 兼容端点为 `https://ai.sammier.com/v1`。
 </Step>
 
 </Steps>

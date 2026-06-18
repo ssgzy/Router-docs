@@ -24,7 +24,7 @@ To make Claude Code use Code Router, you set two environment variables before la
 
 | Variable | Value |
 | --- | --- |
-| `ANTHROPIC_BASE_URL` | `https://api.code-router.example` |
+| `ANTHROPIC_BASE_URL` | `https://ai.sammier.com` |
 | `ANTHROPIC_AUTH_TOKEN` | Your Code Router API key (looks like `sk-...`) |
 
 <Callout type="warn" title="Where do these values come from?">
@@ -117,7 +117,7 @@ Set the two environment variables, then launch `claude`.
 Set the variables for your current shell session:
 
 ```bash
-export ANTHROPIC_BASE_URL="https://api.code-router.example"
+export ANTHROPIC_BASE_URL="https://ai.sammier.com"
 export ANTHROPIC_AUTH_TOKEN="sk-..."   # your Code Router API key
 ```
 
@@ -134,14 +134,14 @@ source ~/.bashrc   # or: source ~/.zshrc
 Set the variables for the current session:
 
 ```powershell
-$env:ANTHROPIC_BASE_URL = "https://api.code-router.example"
+$env:ANTHROPIC_BASE_URL = "https://ai.sammier.com"
 $env:ANTHROPIC_AUTH_TOKEN = "sk-..."   # your Code Router API key
 ```
 
 To persist them across sessions:
 
 ```powershell
-[Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://api.code-router.example', 'User')
+[Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://ai.sammier.com', 'User')
 [Environment]::SetEnvironmentVariable('ANTHROPIC_AUTH_TOKEN', 'sk-...', 'User')
 ```
 
@@ -190,7 +190,7 @@ Then start `claude` and send a short prompt. If you get a normal response, routi
 You can also sanity-check the gateway directly with curl against the OpenAI-compatible endpoint:
 
 ```bash
-curl https://api.code-router.example/v1/models \
+curl https://ai.sammier.com/v1/models \
   -H "Authorization: Bearer sk-..."
 ```
 

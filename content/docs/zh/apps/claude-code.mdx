@@ -31,7 +31,7 @@ Claude Code 默认调用 Anthropic 官方接口。它支持通过两个环境变
 <Steps>
   <Step>
     **获取 Base URL。** 使用你的 Code Router 部署地址。本文档统一以演示占位地址
-    `https://api.code-router.example` 表示；OpenAI 兼容端点为 `https://api.code-router.example/v1`。
+    `https://ai.sammier.com` 表示；OpenAI 兼容端点为 `https://ai.sammier.com/v1`。
     请替换为你实际的部署域名。
   </Step>
   <Step>
@@ -94,14 +94,14 @@ claude --version
     临时生效（仅当前终端会话）：
 
     ```bash
-    export ANTHROPIC_BASE_URL="https://api.code-router.example"
+    export ANTHROPIC_BASE_URL="https://ai.sammier.com"
     export ANTHROPIC_AUTH_TOKEN="sk-..."
     ```
 
     持久生效（写入 shell 配置文件，按你的 shell 选择 `.zshrc` 或 `.bashrc`）：
 
     ```bash
-    echo 'export ANTHROPIC_BASE_URL="https://api.code-router.example"' >> ~/.zshrc
+    echo 'export ANTHROPIC_BASE_URL="https://ai.sammier.com"' >> ~/.zshrc
     echo 'export ANTHROPIC_AUTH_TOKEN="sk-..."' >> ~/.zshrc
     source ~/.zshrc
     ```
@@ -110,14 +110,14 @@ claude --version
     临时生效（仅当前 PowerShell 会话）：
 
     ```powershell
-    $env:ANTHROPIC_BASE_URL = "https://api.code-router.example"
+    $env:ANTHROPIC_BASE_URL = "https://ai.sammier.com"
     $env:ANTHROPIC_AUTH_TOKEN = "sk-..."
     ```
 
     持久写入用户环境变量：
 
     ```powershell
-    [Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://api.code-router.example', 'User')
+    [Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://ai.sammier.com', 'User')
     [Environment]::SetEnvironmentVariable('ANTHROPIC_AUTH_TOKEN', 'sk-...', 'User')
     ```
 

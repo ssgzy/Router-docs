@@ -24,12 +24,12 @@ the **base URL** and the **API key**.
 
 <Cards>
   <Card title="A Code Router API key" description="Create a key in the Code Router console. It looks like sk-... (key management TBD in your deployment)." />
-  <Card title="The Code Router base URL" description="The OpenAI-compatible endpoint, e.g. https://api.code-router.example/v1" />
+  <Card title="The Code Router base URL" description="The OpenAI-compatible endpoint, e.g. https://ai.sammier.com/v1" />
   <Card title="Node.js 18+ (or Homebrew on macOS)" description="Required to install the Codex CLI via npm." />
 </Cards>
 
 <Callout type="warn" title="Use your own base URL">
-  `https://api.code-router.example` is a placeholder. Replace it everywhere below with
+  `https://ai.sammier.com` is a placeholder. Replace it everywhere below with
   the address of the Code Router instance you actually use — either your own
   self-hosted deployment or one provided to you. Do not connect API addresses or keys
   from unknown sources to a production environment.
@@ -58,7 +58,7 @@ from an environment variable. The pattern is the same on every platform:
 
     [model_providers.code-router]
     name = "Code Router"
-    base_url = "https://api.code-router.example/v1"
+    base_url = "https://ai.sammier.com/v1"
     env_key = "CODE_ROUTER_API_KEY"
     ```
 
@@ -198,7 +198,7 @@ model to a provider channel and tracks usage against your quota.
     from your machine. A quick check:
 
     ```bash
-    curl https://api.code-router.example/v1/models \
+    curl https://ai.sammier.com/v1/models \
       -H "Authorization: Bearer $CODE_ROUTER_API_KEY"
     ```
   </Accordion>

@@ -18,7 +18,7 @@ This section lists every model your current account is allowed to call. Click a 
 You call these models against the OpenAI-compatible endpoint of your deployment, for example:
 
 ```bash
-curl https://api.code-router.example/v1/chat/completions \
+curl https://ai.sammier.com/v1/chat/completions \
   -H "Authorization: Bearer $CODE_ROUTER_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -53,7 +53,7 @@ A common, safe way to use your key in code is to read it from an environment var
 
 ```bash
 export CODE_ROUTER_API_KEY="sk-..."
-export CODE_ROUTER_BASE_URL="https://api.code-router.example/v1"
+export CODE_ROUTER_BASE_URL="https://ai.sammier.com/v1"
 ```
 
 ## Other Settings

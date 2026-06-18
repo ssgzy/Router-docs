@@ -29,18 +29,18 @@ Any OpenAI-compatible client works. Set the base URL and key, then call the stan
 <Tabs items={["Base URL", "Endpoint"]}>
   <Tab value="Base URL">
     ```
-    https://api.code-router.example
+    https://ai.sammier.com
     ```
   </Tab>
   <Tab value="Endpoint">
     ```
-    https://api.code-router.example/v1
+    https://ai.sammier.com/v1
     ```
   </Tab>
 </Tabs>
 
 ```bash
-curl https://api.code-router.example/v1/chat/completions \
+curl https://ai.sammier.com/v1/chat/completions \
   -H "Authorization: Bearer $CODE_ROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
